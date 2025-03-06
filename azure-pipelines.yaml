@@ -1,0 +1,60 @@
+trigger:
+- uat
+
+resources:
+- repo: self
+
+variables:
+  project: websites
+  region: australiaeast
+  app_name: 'connectified-au'
+  environment: 'uat'
+  azureSubscription: 'scarm-$(app_name)-$(environment)'
+  dockerRegistryServiceConnection: 
+   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    - 'scacr-$(project)-main'
+   ${{ if ne(variables['Build.SourceBranchName'], 'uat') }}:
+    - 'scacr-$(project)-uat'
+  dockerRegistryServiceConnectionProd: 'scacr-$(project)-prod'
+  imageRepository: '$(app_name)'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  #tags
+  imageTag: '$(Build.BuildNumber)'
+  vmImageName: 'ubuntu-latest'
+  resourceGroup: 'rg-ca-$(app_name)-$(environment)-$(region)'
+  containerAppName: '$(app_name)-$(environment)'
+  containerRegistry: "acr$(project)$(environment).azurecr.io"
+
+stages:
+- stage: Build
+  displayName: Build and push docker images to $(containerRegistry)
+  jobs:
+  - job: DockerBuildImage
+    displayName: Build and push docker images
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        Dockerfile: $(dockerfilePath)
+        tags: '$(imageTag)'
+
+- stage: DeployContainerApp
+  dependsOn: [Build]
+  condition: eq(variables['Build.SourceBranchName'], 'uat')
+  displayName: Deploy container app
+  jobs:
+  - job: Deploy
+    displayName: Deploy using image tag
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureContainerApps@1
+      inputs:
+        azureSubscription: $(azureSubscription)
+        imageToDeploy : $(containerRegistry)/$(imageRepository):$(imageTag)
+        containerAppName: '$(containerAppName)'
+        resourceGroup: $(resourceGroup)
