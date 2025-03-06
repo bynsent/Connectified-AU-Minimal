@@ -39,7 +39,7 @@ stages:
 
 - stage: DeployContainerApp
   dependsOn: [Build]
-  condition: and(succeeded(), eq($(Build.SourceBranch), uat))
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'uat'))
   displayName: Deploy container app
   jobs:
   - job: Deploy
