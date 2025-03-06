@@ -10,12 +10,7 @@ variables:
   app_name: 'connectified-au'
   environment: 'uat'
   azureSubscription: 'scarm-$(app_name)-$(environment)'
-  dockerRegistryServiceConnection: 
-   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
-    - 'scacr-$(project)-main'
-   ${{ if ne(variables['Build.SourceBranchName'], 'uat') }}:
-    - 'scacr-$(project)-uat'
-  dockerRegistryServiceConnectionProd: 'scacr-$(project)-prod'
+  dockerRegistryServiceConnection: 'scacr-$(project)-$(environment)'
   imageRepository: '$(app_name)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   #tags
