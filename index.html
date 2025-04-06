@@ -536,11 +536,17 @@
                 1200: { slidesPerView: 4 },
                 992: { slidesPerView: 3 },
                 768: { slidesPerView: 2 },
-                480: { slidesPerView: 1 },
+                0: { slidesPerView: 1 }
             }
+        });
+
+        // Force update after load to respect screen width
+        window.addEventListener('load', function () {
+            swiper.update();
         });
     });
 </script>
+
 
 </body>
 
