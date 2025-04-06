@@ -13465,27 +13465,47 @@ header.main-header {
         flex-wrap: nowrap !important;
         flex-direction: row !important;
     }
-/* Make sure the banner doesn't block the cards */
-.banner-home {
-  position: relative;
-  z-index: 1; /* keep this low */
-}
-
-/* Ensure the Revolution Slider stays behind */
-#rev_slider_279_1_wrapper,
-.rev-slidebg {
-  position: relative;
-  z-index: 1 !important;
-}
-
-/* Bring the offer cards in front of everything */
+/* Base styling for absolute positioning */
 .offer-carousel-container {
   position: absolute;
-  bottom: -100px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 1200px;
-  z-index: 9999 !important; /* force it to the top layer */
 }
 
+/* Mobile-first: Place cards slightly lower and ensure they're on top */
+@media (max-width: 767px) {
+  .offer-carousel-container {
+    bottom: -100px;
+    z-index: 999;
+  }
+
+  .slider-sub-title {
+    top: 80px !important;
+    bottom: auto !important;
+    transform: translateY(0) !important;
+  }
+}
+
+/* Desktop: Bring cards up and ensure they're visible above banner */
+@media (min-width: 768px) {
+  .offer-carousel-container {
+    bottom: -60px;
+    z-index: 10;
+  }
+
+  .banner-home {
+    position: relative;
+    z-index: 1;
+  }
+
+  .rev-slidebg {
+    z-index: 1 !important;
+    position: relative;
+  }
+
+  .slider-sub-title {
+    top: 140px !important;
+  }
+}
