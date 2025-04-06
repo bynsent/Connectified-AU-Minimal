@@ -13427,17 +13427,6 @@ header.main-header {
     .carousel {
         gap: 30px;
     }
-}
-.offer-carousel-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-}
 
 .swiper {
     width: 100%;
@@ -13465,116 +13454,29 @@ header.main-header {
         flex-wrap: nowrap !important;
         flex-direction: row !important;
     }
-/* Swiper & Slider Fixes — Appended to Existing Main CSS */
-
-/* Swiper Carousel */
 .offer-carousel-container {
   position: absolute;
+  bottom: -60px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 1200px;
+  z-index: 200 !important;
 }
 
-.swiper {
-  width: 100%;
-  padding-bottom: 0 !important;
+.swiper.offer-carousel {
+  z-index: 99;
+  position: relative;
 }
 
 .swiper-slide {
   display: flex;
   justify-content: center;
+  min-height: 360px;
 }
 
-.offer-card {
-  width: 90%;
-  max-width: 280px;
-  background: white;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  text-align: center;
-}
-
-.offer-card img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.offer-card h5 {
-  margin-top: 15px;
-  font-size: 1.2rem;
-}
-
-.offer-card p {
-  font-size: 0.9rem;
-  color: #333;
-}
-
-.offer-card a {
-  color: #14acd4;
-  font-weight: bold;
-  display: inline-block;
-  margin-top: 10px;
-  text-decoration: none;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  color: #14acd4;
-}
-
-.swiper-pagination-bullet {
-  background: #14acd4;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 767px) {
-  .offer-carousel-container {
-    bottom: -100px;
-    z-index: 999;
-  }
-
-  .slider-sub-title {
-    top: 80px !important;
-    bottom: auto !important;
-    transform: translateY(0) !important;
-    font-size: 18px !important;
-    line-height: 1.2 !important;
-    letter-spacing: 1px !important;
-    padding: 0 10px !important;
-    max-width: 90% !important;
-    text-align: center !important;
-  }
-
-  .tp-caption {
-    bottom: 20px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    text-align: center !important;
-    width: 90% !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .offer-carousel-container {
-    bottom: -60px;
-    z-index: 50;
-  }
-
-  .banner-home {
-    position: relative;
-    z-index: 1;
-  }
-
-  .rev-slidebg {
-    z-index: 1 !important;
-    position: relative;
-  }
-
-  .slider-sub-title {
-    top: 140px !important;
-    font-size: 30px !important;
-    line-height: 1.4;
-  }
+.banner-home {
+  position: relative;
+  z-index: 1;
+  /* pointer-events: none; */ /* optional */
 }
