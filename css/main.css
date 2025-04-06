@@ -13428,4 +13428,42 @@ header.main-header {
         gap: 30px;
     }
 }
+.offer-carousel-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.swiper {
+    width: 100%;
+    padding-bottom: 0 !important;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
+
+.offer-card {
+    width: 90%;
+    max-width: 280px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Force responsive behaviour at small widths */
+@media (max-width: 767px) {
+    .swiper-wrapper {
+        flex-wrap: nowrap !important;
+        flex-direction: row !important;
+    }
+}
 
