@@ -13466,4 +13466,13 @@ header.main-header {
         flex-direction: row !important;
     }
 }
+.banner-home {
+    position: relative;
+    z-index: 2; /* Keep lower than offer-carousel-container (100) */
+}
+@media (max-width: 768px) {
+    .offer-carousel-container {
+        z-index: 999 !important;
+    }
+}
 
