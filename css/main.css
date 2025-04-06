@@ -13472,13 +13472,6 @@ header.main-header {
 }
 
 }
-@media (max-width: 768px) {
-  .slider-sub-title {
-    top: 100px !important; /* adjust upward from its default position */
-    bottom: auto !important;
-    transform: translateY(0) !important;
-  }
-}
 #rev_slider_279_1_wrapper,
 .rev-slidebg {
   z-index: 1 !important;
