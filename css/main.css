@@ -13465,7 +13465,9 @@ header.main-header {
         flex-wrap: nowrap !important;
         flex-direction: row !important;
     }
-/* Base styling for absolute positioning */
+/* Swiper & Slider Fixes — Appended to Existing Main CSS */
+
+/* Swiper Carousel */
 .offer-carousel-container {
   position: absolute;
   left: 50%;
@@ -13474,7 +13476,59 @@ header.main-header {
   max-width: 1200px;
 }
 
-/* Mobile-first: Place cards slightly lower and ensure they're on top */
+.swiper {
+  width: 100%;
+  padding-bottom: 0 !important;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.offer-card {
+  width: 90%;
+  max-width: 280px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.offer-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.offer-card h5 {
+  margin-top: 15px;
+  font-size: 1.2rem;
+}
+
+.offer-card p {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.offer-card a {
+  color: #14acd4;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #14acd4;
+}
+
+.swiper-pagination-bullet {
+  background: #14acd4;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 767px) {
   .offer-carousel-container {
     bottom: -100px;
@@ -13485,14 +13539,27 @@ header.main-header {
     top: 80px !important;
     bottom: auto !important;
     transform: translateY(0) !important;
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 1px !important;
+    padding: 0 10px !important;
+    max-width: 90% !important;
+    text-align: center !important;
+  }
+
+  .tp-caption {
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    text-align: center !important;
+    width: 90% !important;
   }
 }
 
-/* Desktop: Bring cards up and ensure they're visible above banner */
 @media (min-width: 768px) {
   .offer-carousel-container {
     bottom: -60px;
-    z-index: 10;
+    z-index: 50;
   }
 
   .banner-home {
@@ -13507,5 +13574,7 @@ header.main-header {
 
   .slider-sub-title {
     top: 140px !important;
+    font-size: 30px !important;
+    line-height: 1.4;
   }
 }
