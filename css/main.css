@@ -13479,4 +13479,9 @@ header.main-header {
     transform: translateY(0) !important;
   }
 }
+#rev_slider_279_1_wrapper,
+.rev-slidebg {
+  z-index: 1 !important;
+  position: relative;
+}
 
