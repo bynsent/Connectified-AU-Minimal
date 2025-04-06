@@ -13475,4 +13475,11 @@ header.main-header {
         z-index: 999 !important;
     }
 }
+@media (max-width: 768px) {
+  .slider-sub-title {
+    top: 100px !important; /* adjust upward from its default position */
+    bottom: auto !important;
+    transform: translateY(0) !important;
+  }
+}
 
