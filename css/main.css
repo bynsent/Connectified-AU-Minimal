@@ -49,7 +49,7 @@ Version: 		1.0.0
     transform: translateX(-50%);
     width: 90%;
     max-width: 1200px;
-    z-index: 100; /* Ensure it's above the banner */
+    z-index: 999; /* <--- Ensure it's above the banner and slider text */
 }
 
 .swiper {
@@ -13470,10 +13470,7 @@ header.main-header {
     position: relative;
     z-index: 2; /* Keep lower than offer-carousel-container (100) */
 }
-@media (max-width: 768px) {
-    .offer-carousel-container {
-        z-index: 999 !important;
-    }
+
 }
 @media (max-width: 768px) {
   .slider-sub-title {
