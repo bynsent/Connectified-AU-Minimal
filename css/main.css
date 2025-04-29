@@ -13480,3 +13480,16 @@ header.main-header {
   z-index: 1;
   /* pointer-events: none; */ /* optional */
 }
+
+/* make each card a bit wider, up to 260px */
+.offer-carousel .swiper-slide {
+  width: 260px !important;
+}
+
+/* ensure full-width on small screens */
+@media (max-width: 767px) {
+  .offer-carousel .swiper-slide {
+    width: calc(100% - 20px) !important; /* gutter accounted for */
+  }
+}
+
