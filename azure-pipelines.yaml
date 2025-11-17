@@ -1,55 +1,79 @@
 trigger:
+- develop
 - uat
 
 resources:
 - repo: self
 
+parameters:
+  - name: buildAndDeploy
+    displayName: 'Build and Deploy'
+    type: string
+    default: buildAndDeploy
+    values:
+      - buildAndDeploy
+      - build
+
 variables:
   project: websites
   region: australiaeast
   app_name: 'connectified-au'
-  environment: 'uat'
-  azureSubscription: 'scarm-$(app_name)-$(environment)'
   dockerRegistryServiceConnection: 'scacr-$(project)-$(environment)'
   imageRepository: '$(app_name)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  #tags
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    environment: prod
+  ${{ if eq(variables['Build.SourceBranchName'], 'uat') }}:
+    environment: uat
+  ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+    environment: develop
+  azureSubscription: "scarm-websites-${{ variables.environment }}"
   imageTag: '$(Build.BuildNumber)'
   vmImageName: 'ubuntu-latest'
-  resourceGroup: 'rg-ca-$(app_name)-$(environment)-$(region)'
+  resourceGroup: 'rg-$(project)-$(environment)-$(region)'
   containerAppName: '$(app_name)-$(environment)'
   containerRegistry: "acr$(project)$(environment).azurecr.io"
+  envFile: $(System.DefaultWorkingDirectory)/.env
 
 stages:
 - stage: Build
-  displayName: Build and push docker images to $(containerRegistry)
+  condition: or( ${{ eq(parameters.buildAndDeploy, 'build') }} ,${{ eq(parameters.buildAndDeploy, 'buildAndDeploy') }} )
+  displayName: Build and push docker images
   jobs:
-  - job: DockerBuildImage
-    displayName: Build and push docker images
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        Dockerfile: $(dockerfilePath)
-        tags: '$(imageTag)'
+    - job: DockerBuildImage
+      displayName: Build and push docker images
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: Docker@2
+        inputs:
+          command: buildAndPush
+          repository: $(imageRepository)
+          containerRegistry: $(dockerRegistryServiceConnection)
+          Dockerfile: $(dockerfilePath)
+          tags: '$(imageTag)'
 
-- stage: DeployContainerApp
-  dependsOn: [Build]
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'uat'))
-  displayName: Deploy container app
-  jobs:
-  - job: Deploy
-    displayName: Deploy using image tag
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: AzureContainerApps@1
-      inputs:
-        azureSubscription: $(azureSubscription)
-        imageToDeploy : $(containerRegistry)/$(imageRepository):$(imageTag)
-        containerAppName: '$(containerAppName)'
-        resourceGroup: $(resourceGroup)
+- ${{ if ne(variables['Build.SourceBranchName'],'main') }}:
+  - stage: Deploy
+    condition: and(${{ eq(parameters.buildAndDeploy, 'buildAndDeploy') }} , succeeded())
+    displayName: Deploy Container App
+    jobs:
+    - deployment: DeployContainerApp
+      displayName: Deploy Container App
+      # check if the environment code is prd
+      ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+        environment: prod
+      ${{ if eq(variables['Build.SourceBranchName'], 'uat') }}:
+        environment: uat
+      ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+        environment: dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: AzureContainerApps@1
+              inputs:
+                azureSubscription: $(azureSubscription)
+                imageToDeploy : $(containerRegistry)/$(imageRepository):$(imageTag)
+                containerAppName: '$(containerAppName)'
+                resourceGroup: $(resourceGroup)
