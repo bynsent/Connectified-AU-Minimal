@@ -7,8 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Connectified Australia</title>
     <!-- Font Icons -->
+    <link media="all" rel="stylesheet" href="css/fonts/icomoon/icomoon.css">
+    <link media="all" rel="stylesheet" href="css/fonts/roxine-font-icon/roxine-font.css">
+    <link media="all" rel="stylesheet" href="vendors/font-awesome/css/font-awesome.css">
     <!-- Vendors -->
+    <link media="all" rel="stylesheet" href="vendors/owl-carousel/dist/assets/owl.carousel.min.css">
+    <link media="all" rel="stylesheet" href="vendors/owl-carousel/dist/assets/owl.theme.default.min.css">
     <link media="all" rel="stylesheet" href="vendors/animate/animate.css">
+    <link media="all" rel="stylesheet" href="vendors/rateyo/jquery.rateyo.css">
+    <link media="all" rel="stylesheet" href="vendors/bootstrap-datepicker/css/bootstrap-datepicker.css">
     <link media="all" rel="stylesheet" href="vendors/fancyBox/source/jquery.fancybox.css">
     <link media="all" rel="stylesheet" href="vendors/fancyBox/source/helpers/jquery.fancybox-thumbs.css">
     <!-- Bootstrap 4 -->
@@ -80,6 +87,8 @@
                                                 <ul class="dropdown-menu dropdown-menu-indent-sm no-border-radius">
                                                     <li><a href="wearables.html"> Custom Wearables </a></li>
                                                     <li><a href="watchguardian.html"> Watch Guardian </a></li>
+                                                    <li><a href="watchguardianhealth.html"> Watch Guardian Health</a></li>
+                                                    <li><a href="watchguardianassist.html"> Watch Guardian Assist</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -474,40 +483,47 @@
             <button type="submit"><span class="custom-icon-search"></span></button>
         </div>
     </div>
-    
-    <script src="vendors/jquery/jquery-2.1.4.min.js" defer></script>
-    <script src="vendors/tether/dist/js/tether.min.js" defer></script>
-    <script src="vendors/bootstrap/js/bootstrap.min.js" defer></script>
-    <script src="vendors/stellar/jquery.stellar.min.js" defer></script>
-    <script src="vendors/isotope/javascripts/isotope.pkgd.min.js" defer></script>
-    <script src="vendors/isotope/javascripts/packery-mode.pkgd.js" defer></script>
-    <script src="vendors/owl-carousel/dist/owl.carousel.js" defer></script>
-    <script src="vendors/waypoint/waypoints.min.js" defer></script>
-    <script src="vendors/counter-up/jquery.counterup.min.js" defer></script>
-    <script src="vendors/fancyBox/source/jquery.fancybox.pack.js" defer></script>
-    <script src="vendors/fancyBox/source/helpers/jquery.fancybox-thumbs.js" defer></script>
-    <script src="vendors/image-stretcher-master/image-stretcher.js" defer></script>
-    <script src="vendors/wow/wow.min.js" defer></script>
-    <script src="vendors/rateyo/jquery.rateyo.js" defer></script>
-    <script src="vendors/bootstrap-datepicker/js/bootstrap-datepicker.js" defer></script>
-    <script src="vendors/bootstrap-slider-master/src/js/bootstrap-slider.js" defer></script>
-    <script src="vendors/bootstrap-select/dist/js/bootstrap-select.min.js" defer></script>
-    <script src="js/mega-menu.js" defer></script>
-    <script src="js/jquery.main.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/jquery.themepunch.tools.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/jquery.themepunch.revolution.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.actions.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.carousel.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.kenburn.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.layeranimation.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.migration.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.navigation.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.parallax.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.slideanims.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.video.min.js" defer></script>
-    <script type="text/javascript" src="vendors/rev-slider/revolution-addons/snow/revolution.addon.snow.min.js" defer></script>
-    <script src="js/revolution.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <a href="#" class="section-scroll" id="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+    <!-- jquery library -->
+    <script src="vendors/jquery/jquery-2.1.4.min.js"></script>
+    <!-- external scripts -->
+    <script src="vendors/tether/dist/js/tether.min.js"></script>
+    <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendors/stellar/jquery.stellar.min.js"></script>
+    <script src="vendors/isotope/javascripts/isotope.pkgd.min.js"></script>
+    <script src="vendors/isotope/javascripts/packery-mode.pkgd.js"></script>
+    <script src="vendors/owl-carousel/dist/owl.carousel.js"></script>
+    <script src="vendors/waypoint/waypoints.min.js"></script>
+    <script src="vendors/counter-up/jquery.counterup.min.js"></script>
+    <script src="vendors/fancyBox/source/jquery.fancybox.pack.js"></script>
+    <script src="vendors/fancyBox/source/helpers/jquery.fancybox-thumbs.js"></script>
+    <script src="vendors/image-stretcher-master/image-stretcher.js"></script>
+    <script src="vendors/wow/wow.min.js"></script>
+    <script src="vendors/rateyo/jquery.rateyo.js"></script>
+    <script src="vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="vendors/bootstrap-slider-master/src/js/bootstrap-slider.js"></script>
+    <script src="vendors/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="js/mega-menu.js"></script>
+    <!-- custom jquery script -->
+    <script src="js/jquery.main.js"></script>
+    <!-- REVOLUTION JS FILES -->
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="vendors/rev-slider/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <!-- SNOW ADD ON -->
+    <script type="text/javascript" src="vendors/rev-slider/revolution-addons/snow/revolution.addon.snow.min.js"></script>
+    <!-- revolutions slider script -->
+    <script src="js/revolution.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
