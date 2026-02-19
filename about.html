@@ -2,6 +2,13 @@
 <html lang="en-AU">
 
 <head>
+        <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PC6CBNHP');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -56,9 +63,62 @@
     <link media="all" rel="stylesheet" href="css/main.css">
     <!-- Custom CSS -->
     <link media="all" rel="stylesheet" href="css/custom.css">
+
+    <style>
+    .linkedin-hub-container {
+        position: relative;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 40px;
+    }
+    .li-carousel-viewport {
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+    .li-carousel-wrapper {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+    .li-slide {
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
+    .li-prev, .li-next {
+        position: absolute;
+        top: 55%;
+        transform: translateY(-50%);
+        background: #14acd4; 
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        font-weight: bold;
+    }
+    .li-prev { left: -10px; }
+    .li-next { right: -10px; }
+    .li-prev:hover, .li-next:hover { background: #0b7a97; }
+    
+    @media (max-width: 550px) {
+        .linkedin-hub-container { padding: 0 10px; }
+        .li-slide iframe { width: 100% !important; }
+        .li-prev, .li-next { width: 30px; height: 30px; }
+    }
+</style>
+
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PC6CBNHP"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- main wrapper -->
     <div id="wrapper">
         <div class="page-wrapper">
@@ -335,9 +395,24 @@
                         </div>
                     </div>
                     <!-- social networks -->
-                    <ul class="social-network">
-                        <li><a href="https://ph.linkedin.com/company/connectified-bringing-iot-to-life-inc" target="_blank"><span class="icon-linkedin"></span></a></li>
-                    </ul>
+<div class="linkedin-hub-container">
+    <h3 class="text-center element-heading">Latest from <span style="color: #14acd4;">LinkedIn</span></h3>
+    <div class="li-carousel-viewport">
+        <div class="li-carousel-wrapper" id="liCarouselWrapper">
+            
+            <div class="li-slide">
+                <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7345363266224668672?collapsed=1" height="650" width="504" frameborder="0" allowfullscreen="" title="Connectified Update"></iframe>
+            </div>
+
+            <div class="li-slide">
+                <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7367738128385630210?collapsed=1" height="650" width="504" frameborder="0" allowfullscreen="" title="Connectified Service"></iframe>
+            </div>
+
+        </div>
+    </div>
+    <button class="li-prev" onclick="moveLiSlide(-1)" aria-label="Previous Post">&#10094;</button>
+    <button class="li-next" onclick="moveLiSlide(1)" aria-label="Next Post">&#10095;</button>
+</div>
                 </div>
             </div>
             <div class="footer-bottom text-center">
@@ -402,4 +477,25 @@
     <script type="text/javascript" src="vendors/rev-slider/revolution-addons/snow/revolution.addon.snow.min.js"></script>
         <!-- revolutions slider script -->
     <script src="js/revolution.js"></script>
+
+    <script>
+    let liCurrentIndex = 0;
+    function moveLiSlide(direction) {
+        const wrapper = document.getElementById('liCarouselWrapper');
+        const slides = document.querySelectorAll('.li-slide');
+        if (!wrapper || slides.length === 0) return;
+
+        liCurrentIndex += direction;
+        
+        if (liCurrentIndex >= slides.length) {
+            liCurrentIndex = 0;
+        } else if (liCurrentIndex < 0) {
+            liCurrentIndex = slides.length - 1;
+        }
+        
+        const offset = -liCurrentIndex * 100;
+        wrapper.style.transform = `translateX(${offset}%)`;
+    }
+</script>
+</body>
 </html>
