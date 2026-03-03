@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
+:root {
+  --brand-primary: #14ACD4;
+  --brand-dark: #09566D;
+  --brand-grey: #687177;
+  --brand-background: #0F1A22;
+  
+  --bg-color: var(--brand-background);
+  --text-color: #ffffff;
+  --accent-color: var(--brand-primary);
+  --nav-bg: rgba(15, 26, 34, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --pill-bg: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] {
+  --brand-background: #F8FAFC;
+  --bg-color: var(--brand-background);
+  --text-color: #0F172A;
+  --nav-bg: rgba(248, 250, 252, 0.8);
+  --card-bg: rgba(0, 0, 0, 0.02);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --pill-bg: rgba(0, 0, 0, 0.03);
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 172, 212, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 172, 212, 0.4);
+}
+
+.horizontal-container {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 400vw; /* 4 pillars */
+  height: 100vh;
+  will-change: transform;
+}
+
+.section {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+}
+
+.text-reveal {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
