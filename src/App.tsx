@@ -92,6 +92,7 @@ export default function App() {
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact'>('home');
   const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
+  const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(Date.now());
   const lenisRef = useRef<Lenis | null>(null);
@@ -369,14 +370,27 @@ export default function App() {
           ? (isMenuOpen ? 'bg-[var(--brand-background)] shadow-xl' : (theme === 'dark' ? 'mix-blend-difference' : 'bg-transparent')) 
           : 'bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--border-color)]'
       }`}>
-        <div 
-          className="flex items-center gap-2 cursor-pointer" 
+        <div
+          className="flex items-center cursor-pointer"
           onClick={handleBackToHome}
         >
-          <div className="w-10 h-10 bg-[#14ACD4] rounded-full flex items-center justify-center">
-            <div className="w-6 h-6 bg-[#0F1A22] rounded-sm rotate-45" />
-          </div>
-          <span className={`font-display text-2xl font-bold tracking-tighter uppercase ${theme === 'light' && currentPage === 'home' ? 'text-[#0F1A22]' : 'text-white'}`}>Connectified</span>
+          {!logoLoadFailed ? (
+            <img
+              src="/connectifiedLogoSVG.svg"
+              alt="Connectified"
+              className="h-10 md:h-12 w-auto object-contain"
+              onError={() => setLogoLoadFailed(true)}
+            />
+          ) : (
+            <>
+              <div className="w-10 h-10 bg-[#14ACD4] rounded-full flex items-center justify-center">
+                <div className="w-6 h-6 bg-[#0F1A22] rounded-sm rotate-45" />
+              </div>
+              <span className={`ml-2 font-display text-2xl font-bold tracking-tighter uppercase ${theme === 'light' && currentPage === 'home' ? 'text-[#0F1A22]' : 'text-white'}`}>
+                Connectified
+              </span>
+            </>
+          )}
         </div>
         
         <div className="flex items-center gap-4">
