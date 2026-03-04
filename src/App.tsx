@@ -52,7 +52,7 @@ const PILLARS = [
     subheadline: 'IoT Professional Services — Design, Integration & Deployment · Australia',
     description: 'Building scalable foundations so teams can grow with confidence, clarity and control.',
     color: '#14ACD4',
-    image: 'https://images.unsplash.com/photo-1454165833767-027ffea9e778?auto=format&fit=crop&q=80&w=2070',
+    image: '/images/home/hero-professional.webp',
     cta: 'Explore Services'
   },
   {
@@ -62,7 +62,7 @@ const PILLARS = [
     subheadline: 'Managed IT Services, Support Desk & Cloud Management · Australia',
     description: 'Reliable, human-led support that keeps systems running and people empowered long-term.',
     color: '#14ACD4',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2072',
+    image: '/images/home/hero-managed.webp',
     cta: 'Explore Support'
   }
 ];
