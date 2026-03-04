@@ -42,7 +42,7 @@ const PILLARS = [
     subheadline: 'BPO Solutions — Payroll, HR & Admin Outsourcing · Australia',
     description: 'Streamlining operations through tailored services, smarter workflows and dependable delivery.',
     color: '#14ACD4',
-    image: 'https://images.unsplash.com/photo-1521791136064-7986c2923216?auto=format&fit=crop&q=80&w=2069',
+    image: '/images/home/hero-bpo.webp',
     cta: 'Explore BPO'
   },
   {
