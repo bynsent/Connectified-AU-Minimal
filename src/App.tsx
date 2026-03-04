@@ -376,7 +376,7 @@ export default function App() {
         >
           {!logoLoadFailed ? (
             <img
-              src="/connectifiedLogoSVG.svg"
+              src="/connectifiedLogoSVG-2.svg"
               alt="Connectified"
               className="h-10 md:h-12 w-auto object-contain"
               onError={() => setLogoLoadFailed(true)}

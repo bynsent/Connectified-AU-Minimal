@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1897.59 214.1">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: #14abd4;
+      }
+
+      .cls-2 {
+        font-size: 190.95px;
+      }
+
+      .cls-2, .cls-3 {
+        font-family: UniwarsW00-Regular, UniwarsW00-Regular;
+      }
+
+      .cls-3 {
+        font-size: 190.94px;
+      }
+    </style>
+  </defs>
+  <text class="cls-2" transform="translate(0 160.55)"><tspan x="0" y="0" xml:space="preserve">CONN   </tspan></text>
+  <g>
+    <path class="cls-1" d="M1338.57,98.52v-14.16h-23.24v76.19h23.24v-41.53s0-.01,0-.02v-3.44c0-.12.03-.23.04-.34v-16.29s0-.03,0-.04c-.01-.09-.03-.19-.04-.28,0-.02,0-.05,0-.07Z"/>
+    <polygon class="cls-1" points="1315.34 33.36 1315.34 54.91 1338.57 54.91 1338.57 54.85 1484.38 54.85 1484.38 33.36 1315.34 33.36"/>
+    <rect class="cls-1" x="1338.37" y="84.38" width="145.23" height="21.3"/>
+  </g>
+  <text class="cls-2" transform="translate(1487.12 160.79)"><tspan x="0" y="0">I</tspan></text>
+  <g>
+    <polygon class="cls-1" points="1536.68 32.87 1536.68 54.43 1559.92 54.43 1559.92 54.37 1705.73 54.37 1705.73 32.87 1536.68 32.87"/>
+    <polygon class="cls-1" points="1536.68 87.53 1536.68 109.09 1559.92 109.09 1559.92 109.03 1705.73 109.03 1705.73 87.53 1536.68 87.53"/>
+    <polygon class="cls-1" points="1536.68 139.59 1536.68 161.14 1559.92 161.14 1559.92 161.08 1705.73 161.08 1705.73 139.59 1536.68 139.59"/>
+  </g>
+  <text class="cls-3" transform="translate(1710.66 161.4)"><tspan x="0" y="0">d</tspan></text>
+  <text class="cls-2" transform="translate(917.93 160.11)"><tspan x="0" y="0">CTI</tspan></text>
+  <g>
+    <polygon class="cls-1" points="740.27 34.46 740.27 56.02 763.5 56.02 763.5 55.96 909.31 55.96 909.31 34.46 740.27 34.46"/>
+    <polygon class="cls-1" points="740.27 89.12 740.27 110.68 763.5 110.68 763.5 110.62 909.31 110.62 909.31 89.12 740.27 89.12"/>
+    <polygon class="cls-1" points="740.27 141.18 740.27 162.73 763.5 162.73 763.5 162.67 909.31 162.67 909.31 141.18 740.27 141.18"/>
+  </g>
+</svg>
