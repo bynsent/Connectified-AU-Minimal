@@ -33,7 +33,9 @@ const PILLARS = [
     description: 'Empowering secure, intelligent connectivity across people, systems and environments.',
     color: '#14ACD4',
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070',
-    cta: 'Explore Connectivity'
+    cta: 'Explore Connectivity',
+    secondaryCta: 'Watch Guardian',
+    secondaryCtaPage: 'watch-guardian'
   },
   {
     id: 'bpo',
@@ -83,6 +85,8 @@ import ManagedServicesCaseStudiesPage from './components/ManagedServicesCaseStud
 import ManagedSupportDeskPage from './components/ManagedSupportDeskPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
+import WatchGuardianLandingPage from './components/WatchGuardianLandingPage';
+import BPOLanding from './components/BPOLanding';
 
 export default function App() {
   const [containerElement, setContainerElement] = React.useState<HTMLDivElement | null>(null);
@@ -90,7 +94,7 @@ export default function App() {
   const [progress, setProgress] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact'>('home');
+  const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact' | 'watch-guardian'>('home');
   const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
   const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -109,7 +113,6 @@ export default function App() {
     }
     window.scrollTo(0, 0);
     
-    // Give DOM time to update before refreshing ScrollTrigger
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 100);
@@ -170,7 +173,6 @@ export default function App() {
     { title: "Contact Us", subItems: [], id: 'contact' }
   ];
 
-  // GSAP Horizontal Scroll Logic
   React.useLayoutEffect(() => {
     if (currentPage !== 'home' || !containerElement) return;
 
@@ -182,7 +184,6 @@ export default function App() {
 
       const scrollDistance = (sections.length - 1) * window.innerWidth;
 
-      // Force pixel widths for stability and explicitly set initial state
       gsap.set(containerElement, { 
         clearProps: "all",
         width: sections.length * window.innerWidth 
@@ -222,7 +223,6 @@ export default function App() {
         ease: "none"
       });
 
-      // Refresh after a short delay to ensure layout is settled
       const timer = setTimeout(() => ScrollTrigger.refresh(), 500);
 
       return () => {
@@ -236,7 +236,6 @@ export default function App() {
   }, [currentPage, containerElement]);
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll for all pages
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -251,7 +250,6 @@ export default function App() {
 
     lenis.on('scroll', (e: any) => {
       ScrollTrigger.update();
-      // If user is scrolling manually, reset programmatic flag
       if (Math.abs(e.velocity) > 0.1) {
         isProgrammaticScroll.current = false;
       }
@@ -262,7 +260,6 @@ export default function App() {
     };
   }, []);
 
-  // Timer Effect
   useEffect(() => {
     if (currentPage !== 'home') return;
     
@@ -293,7 +290,6 @@ export default function App() {
 
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Scroll active button into view on mobile
   useEffect(() => {
     if (currentPage !== 'home') return;
     if (navRef.current) {
@@ -313,14 +309,12 @@ export default function App() {
     isProgrammaticScroll.current = false;
     startTimeRef.current = Date.now();
     
-    // Ensure we scroll to top immediately and clear memory
     if (lenisRef.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
     }
     window.scrollTo(0, 0);
     ScrollTrigger.clearScrollMemory();
     
-    // Refresh ScrollTrigger multiple times to ensure it catches the layout
     setTimeout(() => ScrollTrigger.refresh(), 50);
     setTimeout(() => ScrollTrigger.refresh(), 200);
     setTimeout(() => ScrollTrigger.refresh(), 500);
@@ -334,8 +328,6 @@ export default function App() {
     setActiveIndex(idx);
     setProgress(0);
     
-    // The total scroll distance is the scrollWidth minus the viewport width
-    // This matches the ScrollTrigger 'end' distance
     const totalScrollDistance = (PILLARS.length - 1) * window.innerWidth;
     const targetScroll = (idx / (PILLARS.length - 1)) * totalScrollDistance;
     
@@ -357,14 +349,11 @@ export default function App() {
       setCurrentPage('prof-services');
     } else if (PILLARS[activeIndex].id === 'managed') {
       setCurrentPage('managed-services');
-    } else {
-      console.log(`Exploring ${PILLARS[activeIndex].title}`);
     }
   };
 
   return (
     <div className="bg-[var(--bg-color)] text-[var(--text-color)] min-h-screen overflow-x-hidden transition-colors duration-500">
-      {/* Persistent Navigation */}
       <nav className={`fixed top-0 left-0 w-full z-[150] p-4 md:p-8 flex justify-between items-start transition-all duration-500 ${
         currentPage === 'home' 
           ? (isMenuOpen ? 'bg-[var(--brand-background)] shadow-xl' : (theme === 'dark' ? 'mix-blend-difference' : 'bg-transparent')) 
@@ -537,7 +526,6 @@ export default function App() {
             }}
             className="relative"
           >
-            {/* Fixed Content Overlay */}
             <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-12">
               <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
                 <motion.h1 
@@ -561,7 +549,6 @@ export default function App() {
                   {PILLARS[activeIndex].subheadline}
                 </motion.p>
                 
-                {/* Horizontal Pill Navigation */}
                 <div 
                   ref={navRef}
                   className="flex flex-nowrap md:flex-wrap items-center justify-start md:justify-center gap-3 mb-8 w-full overflow-x-auto md:overflow-x-visible no-scrollbar snap-x snap-mandatory"
@@ -594,7 +581,6 @@ export default function App() {
                       )}
                     </div>
                   ))}
-                  {/* Spacer for mobile scroll */}
                   <div className="md:hidden flex-shrink-0 w-6 h-1" />
                 </div>
 
@@ -610,18 +596,30 @@ export default function App() {
                   {PILLARS[activeIndex].description}
                 </motion.p>
 
-                <div className="min-h-[48px] flex items-center justify-center">
+                <div className="min-h-[48px] flex items-center justify-center gap-4">
                   <button 
                     onClick={handleExplore}
                     className="px-6 py-3 md:px-8 md:py-4 bg-[#14ACD4] text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 shadow-[0_0_30px_rgba(20,172,212,0.2)] hover:bg-[#1299bc] transition-colors whitespace-nowrap"
                   >
                     {PILLARS[activeIndex].cta} <ArrowRight className="w-4 h-4" />
                   </button>
+
+                  {(PILLARS[activeIndex] as any).secondaryCta && (
+                    <button 
+                      onClick={() => setCurrentPage((PILLARS[activeIndex] as any).secondaryCtaPage)}
+                      className={`px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 transition-all whitespace-nowrap ${
+                        theme === 'dark'
+                          ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
+                          : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'
+                      }`}
+                    >
+                      {(PILLARS[activeIndex] as any).secondaryCta} <ArrowRight className="w-4 h-4" />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Main Horizontal Container (Backgrounds and Images) */}
             <div 
               key={`home-scroll-${currentPage}`}
               ref={setContainerElement} 
@@ -649,7 +647,6 @@ export default function App() {
                     }`} />
                   </div>
                   
-                  {/* Background Glows */}
                   <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${
                     theme === 'dark' ? 'opacity-20' : 'opacity-10'
                   }`}>
@@ -660,7 +657,6 @@ export default function App() {
               ))}
             </div>
 
-            {/* Progress Bar (Global) */}
             <div className={`fixed bottom-0 left-0 w-full h-1 z-50 transition-colors duration-500 ${
               theme === 'dark' ? 'bg-white/5' : 'bg-black/5'
             }`}>
@@ -855,6 +851,18 @@ export default function App() {
             exit={{ opacity: 0 }}
           >
             <ContactPage 
+              theme={theme}
+              onBack={handleBackToHome} 
+            />
+          </motion.div>
+        ) : currentPage === 'watch-guardian' ? (
+          <motion.div
+            key="watch-guardian"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <WatchGuardianLandingPage 
               theme={theme}
               onBack={handleBackToHome} 
             />
