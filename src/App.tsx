@@ -87,6 +87,11 @@ import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import WatchGuardianLandingPage from './components/WatchGuardianLandingPage';
 import BPOLanding from './components/BPOLanding';
+import WatchGuardianPage from './components/WatchGuardianPage';
+import WatchGuardianHealthPage from './components/WatchGuardianHealthPage';
+import WatchGuardianAssistPage from './components/WatchGuardianAssistPage';
+import WatchArmourPage from './components/WatchArmourPage';
+import QViewPage from './components/QViewPage';
 
 export default function App() {
   const [containerElement, setContainerElement] = React.useState<HTMLDivElement | null>(null);
@@ -94,7 +99,7 @@ export default function App() {
   const [progress, setProgress] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact' | 'watch-guardian'>('home');
+  const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact' | 'watch-guardian' | 'watch-guardian-demo' | 'wg-health' | 'wg-assist' | 'watcharmour' | 'q-view'>('home');
   const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
   const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -701,6 +706,7 @@ export default function App() {
             <WearablesPage 
               theme={theme}
               onBack={handleBackToHome} 
+              onNavigate={(page) => setCurrentPage(page)}
             />
           </motion.div>
         ) : currentPage === 'bpo' ? (
@@ -862,9 +868,74 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
+            <WatchGuardianPage 
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={(page) => setCurrentPage(page)}
+            />
+          </motion.div>
+        ) : currentPage === 'watch-guardian-demo' ? (
+          <motion.div
+            key="watch-guardian-demo"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <WatchGuardianLandingPage 
               theme={theme}
-              onBack={handleBackToHome} 
+              onBack={() => setCurrentPage('watch-guardian')}
+            />
+          </motion.div>
+        ) : currentPage === 'wg-health' ? (
+          <motion.div
+            key="wg-health"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <WatchGuardianHealthPage 
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={(page) => setCurrentPage(page)}
+            />
+          </motion.div>
+        ) : currentPage === 'wg-assist' ? (
+          <motion.div
+            key="wg-assist"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <WatchGuardianAssistPage 
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={(page) => setCurrentPage(page)}
+            />
+          </motion.div>
+        ) : currentPage === 'watcharmour' ? (
+          <motion.div
+            key="watcharmour"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <WatchArmourPage 
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={(page) => setCurrentPage(page)}
+            />
+          </motion.div>
+        ) : currentPage === 'q-view' ? (
+          <motion.div
+            key="q-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <QViewPage 
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={(page) => setCurrentPage(page)}
             />
           </motion.div>
         ) : (
