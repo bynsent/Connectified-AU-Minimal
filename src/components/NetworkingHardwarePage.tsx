@@ -186,12 +186,12 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
   ];
 
   const popularProducts = [
-    { brand: "Teltonika", model: "RUT241", fullTitle: "RUT241 — 4G LTE Router", desc: "Compact industrial 4G LTE router with dual-SIM failover. The go-to device for SMB branch connectivity and IoT deployments across Australia.", specs: ["4G LTE Cat 4", "Dual SIM", "WiFi", "RMS Ready"] },
-    { brand: "Teltonika", model: "RUTX50", fullTitle: "RUTX50 — 5G Router", desc: "Teltonika's flagship 5G router. AWS IoT Core certified with dual-band WiFi 6 and five Gigabit Ethernet ports. Built for next-generation business networks.", specs: ["5G NR", "WiFi 6", "5× GbE", "AWS Certified"] },
-    { brand: "Cradlepoint", model: "E3000 Series", fullTitle: "E3000 — 5G WAN Router", desc: "5G-optimised router for wireless and hybrid WAN at fixed sites. Enterprise-grade with NetCloud management, ideal for branch networks requiring zero downtime.", specs: ["5G", "SD-WAN", "NetCloud", "Zero Trust"] },
-    { brand: "Teltonika", model: "RUTX14", fullTitle: "RUTX14 — LTE-A Cat 12", desc: "The fastest single-modem LTE-A Cat 12 router in the Teltonika range. Dual-SIM, Wave-2 dual-band WiFi and five Gigabit Ethernet ports with automatic failover.", specs: ["LTE-A Cat 12", "Dual SIM", "Wave-2 WiFi", "5× GbE"] },
-    { brand: "Cradlepoint", model: "S700 Series", fullTitle: "S700 — Mission Critical IoT", desc: "Semi-ruggedised router with GNSS/GPS and zero-trust security. Built for mission-critical IoT in harsh environments — emergency services, utilities and infrastructure.", specs: ["GNSS / GPS", "Zero Trust", "Ruggedised", "LTE / 5G"] },
-    { brand: "Milesight", model: "UF51", fullTitle: "UF51 — 5G CPE", desc: "Milesight's 5G CPE with dual-band WiFi. Compact and versatile for smart building, industrial IoT and high-throughput remote monitoring applications.", specs: ["5G", "Dual-Band WiFi", "IoT Ready", "DeviceHub"] }
+    { brand: "Teltonika", model: "RUT241", image: "/images/network/network%20devices/RUT241.png", fullTitle: "RUT241 — 4G LTE Router", desc: "Compact industrial 4G LTE router with dual-SIM failover. The go-to device for SMB branch connectivity and IoT deployments across Australia.", specs: ["4G LTE Cat 4", "Dual SIM", "WiFi", "RMS Ready"] },
+    { brand: "Teltonika", model: "RUTX50", image: "/images/network/network%20devices/RUTX50.png", fullTitle: "RUTX50 — 5G Router", desc: "Teltonika's flagship 5G router. AWS IoT Core certified with dual-band WiFi 6 and five Gigabit Ethernet ports. Built for next-generation business networks.", specs: ["5G NR", "WiFi 6", "5× GbE", "AWS Certified"] },
+    { brand: "Cradlepoint", model: "E3000 Series", image: "/images/network/network%20devices/e3000.png", fullTitle: "E3000 — 5G WAN Router", desc: "5G-optimised router for wireless and hybrid WAN at fixed sites. Enterprise-grade with NetCloud management, ideal for branch networks requiring zero downtime.", specs: ["5G", "SD-WAN", "NetCloud", "Zero Trust"] },
+    { brand: "Teltonika", model: "RUTX14", image: "/images/network/network%20devices/RUTX14.png", fullTitle: "RUTX14 — LTE-A Cat 12", desc: "The fastest single-modem LTE-A Cat 12 router in the Teltonika range. Dual-SIM, Wave-2 dual-band WiFi and five Gigabit Ethernet ports with automatic failover.", specs: ["LTE-A Cat 12", "Dual SIM", "Wave-2 WiFi", "5× GbE"] },
+    { brand: "Cradlepoint", model: "S700 Series", image: "/images/network/network%20devices/S700.png", fullTitle: "S700 — Mission Critical IoT", desc: "Semi-ruggedised router with GNSS/GPS and zero-trust security. Built for mission-critical IoT in harsh environments — emergency services, utilities and infrastructure.", specs: ["GNSS / GPS", "Zero Trust", "Ruggedised", "LTE / 5G"] },
+    { brand: "Milesight", model: "UF51", image: "/images/network/network%20devices/UF51.png", fullTitle: "UF51 — 5G CPE", desc: "Milesight's 5G CPE with dual-band WiFi. Compact and versatile for smart building, industrial IoT and high-throughput remote monitoring applications.", specs: ["5G", "Dual-Band WiFi", "IoT Ready", "DeviceHub"] }
   ];
 
   const whyItems = [
@@ -519,14 +519,24 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.08 }}
                 whileHover={{ y: -4, borderColor: 'rgba(20,172,212,0.25)', boxShadow: '0 0 24px rgba(20,172,212,0.12)' }}
               >
-                {/* Product image — replace ImgPlaceholder with real product photo */}
-                <div className="relative h-40 overflow-hidden">
-                  <ImgPlaceholder
-                    label={`${product.brand} — ${product.model}`}
-                    resolution="800 × 400px · Product photo"
-                    aspect=""
-                    className="h-full w-full rounded-none"
-                  />
+                {/* Product image */}
+                <div className={`relative h-40 overflow-hidden ${
+                  theme === 'dark' ? 'bg-[#161e28]' : 'bg-gray-100'
+                }`}>
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.fullTitle}
+                      className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <ImgPlaceholder
+                      label={`${product.brand} — ${product.model}`}
+                      resolution="800 × 400px · Product photo"
+                      aspect=""
+                      className="h-full w-full rounded-none"
+                    />
+                  )}
                   {/* L-bracket accent */}
                   <div className="absolute top-0 left-0 w-[3px] h-12 bg-[#14ACD4] z-10"
                     style={{ boxShadow: '0 0 10px rgba(20,172,212,0.5)' }} />
