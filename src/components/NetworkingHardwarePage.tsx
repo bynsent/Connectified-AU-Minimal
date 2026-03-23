@@ -152,7 +152,7 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
       name: "Teltonika",
       tagline: "Industrial IoT Routers & Gateways",
       bgImage: null, // Replace with: "/images/brands/teltonika-collage.jpg" — 1200×800px landscape collage (logo + RUT241, RUTX50, RUTX14)
-      logo: "/images/brands/teltonika-logo.png", // 400×200px · transparent bg PNG · wordmark only
+      logo: "/images/network/network%20devices%20logos/teltonikalogo.png",
       desc: "One of the world's leading IoT manufacturers, Teltonika builds industrial-grade routers, gateways, and modems engineered for reliability in demanding environments. From compact 4G LTE routers like the RUT241 to powerful 5G solutions like the RUTX50 — all manageable remotely via Teltonika RMS.",
       products: ["RUT241", "RUTX50", "RUTX14", "RUT956", "RUTX09", "RUT951"],
       link: "https://shop.connectified.com.au/teltonika-3"
@@ -162,7 +162,7 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
       name: "Cradlepoint",
       tagline: "Cloud-Managed Wireless Edge",
       bgImage: null, // Replace with: "/images/brands/cradlepoint-collage.jpg" — 1200×800px landscape collage (logo + E3000, E300, S700)
-      logo: "/images/brands/cradlepoint-logo.png", // 400×200px · transparent bg PNG · wordmark only
+      logo: "/images/network/network%20devices%20logos/cradlepointlogo.png",
       desc: "The global leader in cloud-delivered wireless edge solutions, Cradlepoint unlocks the power of LTE and 5G for organisations of all sizes. Purpose-built for enterprise and government networks — combining ruggedised hardware with NetCloud, their intelligent cloud management platform.",
       products: ["E3000 Series", "E300 Series", "S700 Series", "E102 Series", "NetCloud"],
       link: "https://shop.connectified.com.au/cradlepoint-2"
@@ -172,7 +172,7 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
       name: "Milesight",
       tagline: "IoT Routers, Gateways & Sensors",
       bgImage: null, // Replace with: "/images/brands/milesight-collage.jpg" — 1200×800px landscape collage (logo + UF51, UR75, sensors)
-      logo: "/images/brands/milesight-logo.png", // 400×200px · transparent bg PNG · wordmark only
+      logo: "/images/network/network%20devices%20logos/milesightlogo.png",
       desc: "Milesight delivers a comprehensive IoT ecosystem — from industrial 5G CPE and LTE routers to LoRaWAN gateways and smart sensors. Ideal for smart building, industrial automation, and remote monitoring applications, with centralised management via DeviceHub.",
       products: ["UF51 5G CPE", "UR75", "LoRaWAN GW", "DeviceHub", "IoT Sensors"],
       link: "https://shop.connectified.com.au/milesight-2"
@@ -377,12 +377,7 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
                     style={{ filter: 'grayscale(1) brightness(10)' }}
                   />
                 )}
-                {/* Placeholder hint shown only while logo image is missing */}
-                {!brand.logo && (
-                  <div className="absolute bottom-6 right-6 w-36 h-14 border border-dashed border-[#14ACD4]/15 rounded flex items-center justify-center pointer-events-none">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-[#14ACD4]/25">Logo · 400×200px</span>
-                  </div>
-                )}
+
               </div>
 
               {/* Radial teal glow on hover */}
