@@ -152,27 +152,30 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
       name: "Teltonika",
       tagline: "Industrial IoT Routers & Gateways",
       bgImage: null, // Replace with: "/images/brands/teltonika-collage.jpg" — 1200×800px landscape collage (logo + RUT241, RUTX50, RUTX14)
+      logo: "/images/brands/teltonika-logo.png", // 400×200px · transparent bg PNG · wordmark only
       desc: "One of the world's leading IoT manufacturers, Teltonika builds industrial-grade routers, gateways, and modems engineered for reliability in demanding environments. From compact 4G LTE routers like the RUT241 to powerful 5G solutions like the RUTX50 — all manageable remotely via Teltonika RMS.",
       products: ["RUT241", "RUTX50", "RUTX14", "RUT956", "RUTX09", "RUT951"],
-      link: "/shop/teltonika"
+      link: "https://shop.connectified.com.au/teltonika-3"
     },
     {
       tag: "Enterprise Wireless WAN",
       name: "Cradlepoint",
       tagline: "Cloud-Managed Wireless Edge",
       bgImage: null, // Replace with: "/images/brands/cradlepoint-collage.jpg" — 1200×800px landscape collage (logo + E3000, E300, S700)
+      logo: "/images/brands/cradlepoint-logo.png", // 400×200px · transparent bg PNG · wordmark only
       desc: "The global leader in cloud-delivered wireless edge solutions, Cradlepoint unlocks the power of LTE and 5G for organisations of all sizes. Purpose-built for enterprise and government networks — combining ruggedised hardware with NetCloud, their intelligent cloud management platform.",
       products: ["E3000 Series", "E300 Series", "S700 Series", "E102 Series", "NetCloud"],
-      link: "/shop/cradlepoint"
+      link: "https://shop.connectified.com.au/cradlepoint-2"
     },
     {
       tag: "IoT & Smart Sensing",
       name: "Milesight",
       tagline: "IoT Routers, Gateways & Sensors",
       bgImage: null, // Replace with: "/images/brands/milesight-collage.jpg" — 1200×800px landscape collage (logo + UF51, UR75, sensors)
+      logo: "/images/brands/milesight-logo.png", // 400×200px · transparent bg PNG · wordmark only
       desc: "Milesight delivers a comprehensive IoT ecosystem — from industrial 5G CPE and LTE routers to LoRaWAN gateways and smart sensors. Ideal for smart building, industrial automation, and remote monitoring applications, with centralised management via DeviceHub.",
       products: ["UF51 5G CPE", "UR75", "LoRaWAN GW", "DeviceHub", "IoT Sensors"],
-      link: "/shop/milesight"
+      link: "https://shop.connectified.com.au/milesight-2"
     }
   ];
 
@@ -349,32 +352,36 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
               whileHover={{ y: -4 }}
             >
-              {/* ── Background image layer ── */}
-              {/* When bgImage is set, shows the collage. Falls back to solid colour. */}
-              <div className="absolute inset-0 z-0">
-                {brand.bgImage ? (
+              {/* ── Background layer ── */}
+              <div className={`absolute inset-0 z-0 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
+                {/* Collage image — set bgImage path when ready */}
+                {brand.bgImage && (
                   <>
                     <img
                       src={brand.bgImage}
                       alt={`${brand.name} products`}
                       className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500 scale-105 group-hover:scale-100 transition-transform"
                     />
-                    {/* Dark gradient overlay so text stays readable */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#111820] via-[#111820]/85 to-[#111820]/60" />
                   </>
-                ) : (
-                  <>
-                    {/* Image placeholder — replace bgImage with your collage path */}
-                    <ImgPlaceholder
-                      label={`${brand.name} brand collage`}
-                      resolution="1200 × 800px · Logo + product photos"
-                      aspect=""
-                      className="absolute inset-0 w-full h-full rounded-none opacity-60"
-                    />
-                    <div className={`absolute inset-0 ${
-                      theme === 'dark' ? 'bg-[#111820]/80' : 'bg-gray-50/90'
-                    }`} />
-                  </>
+                )}
+                {/* Faded logo watermark — bottom-right, always shown */}
+                {/* Drop your 400×200px transparent PNG logo here:           */}
+                {/* /images/brands/{name}-logo.png                           */}
+                {brand.logo && (
+                  <img
+                    src={brand.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute bottom-6 right-6 w-36 object-contain opacity-[0.07] group-hover:opacity-[0.12] transition-opacity duration-500 pointer-events-none select-none"
+                    style={{ filter: 'grayscale(1) brightness(10)' }}
+                  />
+                )}
+                {/* Placeholder hint shown only while logo image is missing */}
+                {!brand.logo && (
+                  <div className="absolute bottom-6 right-6 w-36 h-14 border border-dashed border-[#14ACD4]/15 rounded flex items-center justify-center pointer-events-none">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-[#14ACD4]/25">Logo · 400×200px</span>
+                  </div>
                 )}
               </div>
 
@@ -414,9 +421,14 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
                 ))}
               </div>
 
-              <div className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[#14ACD4] flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+              <a
+                href={brand.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[#14ACD4] flex items-center gap-1.5 group-hover:gap-2.5 transition-all mt-auto"
+              >
                 Shop {brand.name} <ChevronRight className="w-3 h-3" />
-              </div>
+              </a>
 
               </div>{/* end z-10 content */}
 
