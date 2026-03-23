@@ -207,7 +207,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=2070"
+            src="public/images/wearables/wearables.png"
             alt="Safety Wearables"
             className={`w-full h-full object-cover scale-105 transition-opacity duration-500 ${
               theme === 'dark' ? 'opacity-40' : 'opacity-45'

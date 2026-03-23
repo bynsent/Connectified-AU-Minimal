@@ -1,0 +1,51 @@
+# robots.txt — connectified.com.au
+# Controls which pages search engines and AI crawlers can access
+
+# ── All crawlers ──────────────────────────────────────────────
+User-agent: *
+Allow: /
+
+# Block campaign landing pages (noindex pages should also be blocked here)
+Disallow: /watch-guardian-demo
+Disallow: /bpo-demo
+
+# ── Sitemap location ──────────────────────────────────────────
+Sitemap: https://connectified.com.au/sitemap.xml
+
+# ── AI / LLM crawlers ─────────────────────────────────────────
+# These crawlers train large language models. We ALLOW them so
+# Connectified content is cited by ChatGPT, Perplexity, Gemini etc.
+# (This is the GEO strategy — be findable in AI search)
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
