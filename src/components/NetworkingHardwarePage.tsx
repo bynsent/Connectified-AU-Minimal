@@ -306,9 +306,9 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.38 }}
           >
-            <button className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-all">
+            <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-all">
               Browse All Hardware <ChevronRight className="w-4 h-4" />
-            </button>
+            </a>
             <button
               onClick={onBack}
               className={`inline-flex items-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
@@ -820,12 +820,12 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
             </p>
           </FadeUp>
           <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#080e14] text-[#14ACD4] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0d1822] transition-colors">
+            <a href="mailto:admin@connectified.com.au" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#080e14] text-[#14ACD4] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0d1822] transition-colors">
               Talk to Our Team <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#080e14]/30 text-[#080e14] font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#080e14]/70 transition-colors">
+            </a>
+            <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#080e14]/30 text-[#080e14] font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#080e14]/70 transition-colors">
               Browse the Shop
-            </button>
+            </a>
           </FadeUp>
         </div>
       </div>

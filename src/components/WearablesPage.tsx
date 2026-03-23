@@ -267,7 +267,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             <button className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
               Find Your Solution <ArrowRight className="w-4 h-4" />
             </button>
-            <button onClick={onBack}
+            <button onClick={() => onNavigate('contact')}
               className={`inline-flex items-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
                 theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
               }`}>
@@ -570,7 +570,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             <p className={`text-[14px] font-light leading-relaxed mb-10 ${theme === 'dark' ? 'text-[#eef2f7]/45' : 'text-[#0b1118]/45'}`}>
               Connectified is a Samsung One Partner — validated against Knox's defence-grade security framework, the same platform used by governments and Fortune 500 companies. Your Watch Guardian fleet is encrypted, locked down and fully managed from deployment to decommission.
             </p>
-            <button className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors">
               Book a Platform Demo <ArrowRight className="w-4 h-4" />
             </button>
           </FadeUp>
@@ -641,7 +641,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             </p>
           </FadeUp>
           <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
               Talk to Our Team <ArrowRight className="w-4 h-4" />
             </button>
             <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">

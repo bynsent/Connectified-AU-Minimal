@@ -164,7 +164,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
 
           <motion.div className="flex flex-wrap gap-4 items-center mb-14"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
-            <button onClick={() => onNavigate('watch-guardian')}
+            <button onClick={() => onNavigate('contact')}
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors">
               Request a Demo <ArrowRight className="w-4 h-4" />
             </button>
@@ -400,7 +400,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
             </p>
           </FadeUp>
           <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => onNavigate('watch-guardian')}
+            <button onClick={() => onNavigate('contact')}
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
               Request a Demo <ArrowRight className="w-4 h-4" />
             </button>
