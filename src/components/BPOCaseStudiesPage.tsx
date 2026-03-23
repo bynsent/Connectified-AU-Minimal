@@ -261,7 +261,7 @@ export default function BPOCaseStudiesPage({ onBack, theme }: BPOCaseStudiesPage
                 </p>
               </div>
               <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto">
-                <button className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
+                <button onClick={() => window.location.href="mailto:admin@connectified.com.au"} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
                   Get a Free Quote <ArrowRight className="w-4 h-4" />
                 </button>
                 <button onClick={onBack} className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>

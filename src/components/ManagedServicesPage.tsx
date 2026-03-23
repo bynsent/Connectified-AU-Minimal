@@ -328,7 +328,7 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
             Tell us what you're managing today. We'll scope a managed service and show you what full operational ownership looks like.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={() => onNavigate('managed-cases')}

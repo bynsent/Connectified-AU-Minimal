@@ -131,7 +131,7 @@ export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServ
               Full-service accounting operations handled by dedicated financial specialists in Clark, Philippines — delivering accurate books, real-time reporting and compliance management for Australian businesses, all managed from Seaford, Victoria.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-wrap gap-4 items-center mb-12">
-              <button className="inline-flex items-center gap-2 px-7 py-3 text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:-translate-y-0.5 transition-colors" style={{ backgroundColor: ACCENT }}>
+              <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-7 py-3 text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:-translate-y-0.5 transition-colors" style={{ backgroundColor: ACCENT }}>
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>
               <button onClick={() => onNavigate('bpo-cases')} className={`inline-flex items-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#f5a623] hover:text-[#f5a623]' : 'border-black/15 text-black hover:border-[#f5a623] hover:text-[#f5a623]'}`}>
@@ -277,7 +277,7 @@ export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServ
               <p className={`text-[15px] font-light leading-relaxed max-w-[480px] ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>Tell us your current accounting setup and what's not working. We'll scope a solution, show you what's possible, and give you a cost estimate — no obligation.</p>
             </FadeUp>
             <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto">
-              <button className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap" style={{ backgroundColor: ACCENT }}>
+              <button onClick={() => onNavigate('contact')} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap" style={{ backgroundColor: ACCENT }}>
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>
               <button onClick={() => onNavigate('bpo-cases')} className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#f5a623] hover:text-[#f5a623]' : 'border-black/15 text-black hover:border-[#f5a623] hover:text-[#f5a623]'}`}>

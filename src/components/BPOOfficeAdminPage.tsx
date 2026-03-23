@@ -132,7 +132,7 @@ export default function BPOOfficeAdminPage({ onBack, onNavigate, theme }: BPOSer
               Free your Australian team from the daily grind of administrative work. Connectified provides dedicated office administration staff in Clark, Philippines — onboarded to your systems, managed to your KPIs, and accountable to your Australian point of contact.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-wrap gap-4 items-center mb-12">
-              <button className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
+              <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>
               <button onClick={() => onNavigate('bpo-cases')} className={`inline-flex items-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
@@ -268,7 +268,7 @@ export default function BPOOfficeAdminPage({ onBack, onNavigate, theme }: BPOSer
               <p className={`text-[15px] font-light leading-relaxed max-w-[480px] ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>Tell us what administrative work is slowing you down. We'll scope a solution, give you a cost estimate, and walk you through what a dedicated admin team would look like for your business.</p>
             </FadeUp>
             <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto">
-              <button className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
+              <button onClick={() => onNavigate('contact')} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>
               <button onClick={() => onNavigate('bpo-cases')} className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>

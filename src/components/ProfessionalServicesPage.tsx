@@ -354,7 +354,7 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
             Whether you have a fully formed brief or just an early-stage idea — we can help you work out what's possible and what it would take to build it.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={() => onNavigate('prof-cases')}

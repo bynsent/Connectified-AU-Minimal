@@ -143,9 +143,10 @@ const projects = [
 interface ManagedServicesCaseStudiesPageProps {
   theme: 'dark' | 'light';
   onBack: () => void;
+  onNavigate: (page: string) => void;
 }
 
-const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPageProps> = ({ theme, onBack }) => {
+const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPageProps> = ({ theme, onBack, onNavigate }) => {
   const [activeFilter, setActiveFilter] = React.useState('all');
   const filteredProjects = activeFilter === 'all' ? projects : projects.filter(p => p.category.includes(activeFilter));
 
@@ -289,7 +290,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
                 </p>
               </div>
               <div className="flex flex-col gap-4 w-full md:w-auto relative z-10">
-                <button className="px-10 py-5 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
+                <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
                   Start a Conversation →
                 </button>
                 <button onClick={onBack}

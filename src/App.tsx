@@ -35,7 +35,7 @@ const PILLARS = [
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070',
     cta: 'Explore Connectivity',
     secondaryCta: 'Watch Guardian',
-    secondaryCtaPage: 'watch-guardian'
+    secondaryCtaPage: 'wg-landing'
   },
   {
     id: 'bpo',
@@ -85,13 +85,49 @@ import ManagedServicesCaseStudiesPage from './components/ManagedServicesCaseStud
 import ManagedSupportDeskPage from './components/ManagedSupportDeskPage';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
+// Campaign / landing pages (noindex, not in nav)
 import WatchGuardianLandingPage from './components/WatchGuardianLandingPage';
 import BPOLanding from './components/BPOLanding';
+// Wearable product detail pages
 import WatchGuardianPage from './components/WatchGuardianPage';
 import WatchGuardianHealthPage from './components/WatchGuardianHealthPage';
 import WatchGuardianAssistPage from './components/WatchGuardianAssistPage';
 import WatchArmourPage from './components/WatchArmourPage';
 import QViewPage from './components/QViewPage';
+
+// ─── Page type ────────────────────────────────────────────────────
+// Add new product page IDs here when adding new pages.
+type PageId =
+  | 'home'
+  | 'devices'
+  | 'networking-hardware'
+  | 'wearables'
+  // Wearable product detail pages
+  | 'watch-guardian'
+  | 'wg-health'
+  | 'wg-assist'
+  | 'watcharmour'
+  | 'q-view'
+  // Campaign landing pages (not in nav)
+  | 'wg-landing'
+  | 'bpo-landing'
+  // BPO
+  | 'bpo'
+  | 'bpo-cases'
+  | 'bpo-admin'
+  | 'bpo-hr'
+  | 'bpo-accounting'
+  | 'bpo-it'
+  // Professional Services
+  | 'prof-services'
+  | 'prof-cases'
+  // Managed Services
+  | 'managed-services'
+  | 'managed-cases'
+  | 'managed-support'
+  // Company
+  | 'about'
+  | 'contact';
 
 export default function App() {
   const [containerElement, setContainerElement] = React.useState<HTMLDivElement | null>(null);
@@ -99,7 +135,7 @@ export default function App() {
   const [progress, setProgress] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState<'home' | 'devices' | 'networking-hardware' | 'wearables' | 'bpo' | 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'prof-services' | 'prof-cases' | 'managed-services' | 'managed-cases' | 'managed-support' | 'about' | 'contact' | 'watch-guardian' | 'watch-guardian-demo' | 'wg-health' | 'wg-assist' | 'watcharmour' | 'q-view'>('home');
+  const [currentPage, setCurrentPage] = React.useState<PageId>('home');
   const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
   const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -107,6 +143,9 @@ export default function App() {
   const lenisRef = useRef<Lenis | null>(null);
   const isProgrammaticScroll = useRef(false);
   const AUTO_PLAY_DURATION = 5000;
+
+  // Helper so child components can navigate by string without casting
+  const navigate = (page: string) => setCurrentPage(page as PageId);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -117,11 +156,7 @@ export default function App() {
       lenisRef.current.scrollTo(0, { immediate: true });
     }
     window.scrollTo(0, 0);
-    
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
-    
+    const timer = setTimeout(() => { ScrollTrigger.refresh(); }, 100);
     return () => clearTimeout(timer);
   }, [currentPage]);
 
@@ -210,7 +245,6 @@ export default function App() {
           onUpdate: (self) => {
             if (isProgrammaticScroll.current) return;
             const index = Math.round(self.progress * (sections.length - 1));
-            
             setActiveIndex(prev => {
               if (prev !== index) {
                 startTimeRef.current = Date.now();
@@ -229,15 +263,10 @@ export default function App() {
       });
 
       const timer = setTimeout(() => ScrollTrigger.refresh(), 500);
-
-      return () => {
-        clearTimeout(timer);
-      };
+      return () => { clearTimeout(timer); };
     });
 
-    return () => {
-      mm.revert();
-    };
+    return () => { mm.revert(); };
   }, [currentPage, containerElement]);
 
   useEffect(() => {
@@ -260,9 +289,7 @@ export default function App() {
       }
     });
 
-    return () => {
-      lenis.destroy();
-    };
+    return () => { lenis.destroy(); };
   }, []);
 
   useEffect(() => {
@@ -272,10 +299,8 @@ export default function App() {
       startTimeRef.current = Date.now();
       timerRef.current = setInterval(() => {
         if (isProgrammaticScroll.current) return;
-        
         const elapsed = Date.now() - startTimeRef.current;
         const newProgress = (elapsed / AUTO_PLAY_DURATION) * 100;
-        
         if (newProgress >= 100) {
           setProgress(0);
           const nextIndex = (activeIndex + 1) % PILLARS.length;
@@ -287,10 +312,7 @@ export default function App() {
     };
 
     startTimer();
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [activeIndex, currentPage]);
 
   const navRef = useRef<HTMLDivElement>(null);
@@ -313,13 +335,9 @@ export default function App() {
     setProgress(0);
     isProgrammaticScroll.current = false;
     startTimeRef.current = Date.now();
-    
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    }
+    if (lenisRef.current) { lenisRef.current.scrollTo(0, { immediate: true }); }
     window.scrollTo(0, 0);
     ScrollTrigger.clearScrollMemory();
-    
     setTimeout(() => ScrollTrigger.refresh(), 50);
     setTimeout(() => ScrollTrigger.refresh(), 200);
     setTimeout(() => ScrollTrigger.refresh(), 500);
@@ -328,14 +346,11 @@ export default function App() {
 
   const scrollToSection = (idx: number) => {
     if (!lenisRef.current || !containerElement) return;
-    
     isProgrammaticScroll.current = true;
     setActiveIndex(idx);
     setProgress(0);
-    
     const totalScrollDistance = (PILLARS.length - 1) * window.innerWidth;
     const targetScroll = (idx / (PILLARS.length - 1)) * totalScrollDistance;
-    
     lenisRef.current.scrollTo(targetScroll, {
       duration: 1.2,
       onComplete: () => {
@@ -357,17 +372,23 @@ export default function App() {
     }
   };
 
+  // ─── Shared motion wrapper for page transitions ───────────────
+  const PageWrap: React.FC<{ pageKey: string; children: React.ReactNode }> = ({ pageKey, children }) => (
+    <motion.div key={pageKey} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      {children}
+    </motion.div>
+  );
+
   return (
     <div className="bg-[var(--bg-color)] text-[var(--text-color)] min-h-screen overflow-x-hidden transition-colors duration-500">
+
+      {/* ── NAV ─────────────────────────────────────────────────── */}
       <nav className={`fixed top-0 left-0 w-full z-[150] p-4 md:p-8 flex justify-between items-start transition-all duration-500 ${
         currentPage === 'home' 
           ? (isMenuOpen ? 'bg-[var(--brand-background)] shadow-xl' : (theme === 'dark' ? 'mix-blend-difference' : 'bg-transparent')) 
           : 'bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--border-color)]'
       }`}>
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={handleBackToHome}
-        >
+        <div className="flex items-center cursor-pointer" onClick={handleBackToHome}>
           {!logoLoadFailed ? (
             <img
               src="/connectifiedLogoSVG-2.svg"
@@ -418,9 +439,7 @@ export default function App() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   className={`absolute top-full right-0 mt-4 w-72 border rounded-2xl shadow-2xl z-50 p-3 pb-4 max-h-[calc(100vh-160px)] overflow-y-auto max-w-[calc(100vw-2rem)] ${
-                    theme === 'dark'
-                      ? 'bg-[#0F1A22] border-white/20'
-                      : 'bg-white border-black/20'
+                    theme === 'dark' ? 'bg-[#0F1A22] border-white/20' : 'bg-white border-black/20'
                   }`}
                 >
                   <div className="flex flex-col gap-0.5">
@@ -458,15 +477,7 @@ export default function App() {
                                       setIsBpoServicesOpen(!isBpoServicesOpen);
                                       return;
                                     }
-                                    if (sub.id === 'networking-hardware') setCurrentPage('networking-hardware');
-                                    else if (sub.id === 'wearables') setCurrentPage('wearables');
-                                    else if (sub.id === 'bpo') setCurrentPage('bpo');
-                                    else if (sub.id === 'bpo-cases') setCurrentPage('bpo-cases');
-                                    else if (sub.id === 'prof-services') setCurrentPage('prof-services');
-                                    else if (sub.id === 'prof-cases') setCurrentPage('prof-cases');
-                                    else if (sub.id === 'managed-services') setCurrentPage('managed-services');
-                                    else if (sub.id === 'managed-support') setCurrentPage('managed-support');
-                                    else if (sub.id === 'managed-cases') setCurrentPage('managed-cases');
+                                    navigate(sub.id);
                                     setIsMenuOpen(false);
                                   }}
                                   className={`w-full text-left px-4 py-1 rounded-lg transition-colors text-[9px] uppercase tracking-wider flex items-center justify-between ${
@@ -490,14 +501,9 @@ export default function App() {
                                     {sub.nested.map((nested: any, nIdx: number) => (
                                       <button
                                         key={nIdx}
-                                        onClick={() => {
-                                          setCurrentPage(nested.id);
-                                          setIsMenuOpen(false);
-                                        }}
+                                        onClick={() => { navigate(nested.id); setIsMenuOpen(false); }}
                                         className={`w-full text-left px-4 py-0.5 text-[8px] uppercase tracking-[0.1em] transition-colors ${
-                                          theme === 'dark' 
-                                            ? 'text-white/20 hover:text-white' 
-                                            : 'text-black/20 hover:text-black'
+                                          theme === 'dark' ? 'text-white/20 hover:text-white' : 'text-black/20 hover:text-black'
                                         }`}
                                       >
                                         {nested.label}
@@ -519,16 +525,17 @@ export default function App() {
         </div>
       </nav>
 
+      {/* ── PAGE ROUTER ─────────────────────────────────────────── */}
       <AnimatePresence mode="wait">
-        {currentPage === 'home' ? (
+
+        {/* HOME */}
+        {currentPage === 'home' && (
           <motion.div 
             key="home"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onAnimationComplete={() => {
-              setTimeout(() => ScrollTrigger.refresh(), 500);
-            }}
+            onAnimationComplete={() => { setTimeout(() => ScrollTrigger.refresh(), 500); }}
             className="relative"
           >
             <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-12">
@@ -611,8 +618,8 @@ export default function App() {
 
                   {(PILLARS[activeIndex] as any).secondaryCta && (
                     <button 
-                      onClick={() => setCurrentPage((PILLARS[activeIndex] as any).secondaryCtaPage)}
-                      className={`px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 transition-all whitespace-nowrap ${
+                      onClick={() => navigate((PILLARS[activeIndex] as any).secondaryCtaPage)}
+                      className={`px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 transition-colors whitespace-nowrap ${
                         theme === 'dark'
                           ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
                           : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'
@@ -651,7 +658,6 @@ export default function App() {
                       theme === 'dark' ? 'bg-[#0F1A22]/40' : 'bg-white/5'
                     }`} />
                   </div>
-                  
                   <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${
                     theme === 'dark' ? 'opacity-20' : 'opacity-10'
                   }`}>
@@ -671,286 +677,169 @@ export default function App() {
               />
             </div>
           </motion.div>
-        ) : currentPage === 'devices' ? (
-          <motion.div
-            key="devices"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <DevicesPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'networking-hardware' ? (
-          <motion.div
-            key="networking-hardware"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <NetworkingHardwarePage 
-              theme={theme}
-              onBack={handleBackToHome} 
-            />
-          </motion.div>
-        ) : currentPage === 'wearables' ? (
-          <motion.div
-            key="wearables"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WearablesPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'bpo' ? (
-          <motion.div
-            key="bpo"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'bpo-cases' ? (
-          <motion.div
-            key="bpo-cases"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOCaseStudiesPage 
-              theme={theme}
-              onBack={() => setCurrentPage('bpo')} 
-            />
-          </motion.div>
-        ) : currentPage === 'bpo-admin' ? (
-          <motion.div
-            key="bpo-admin"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOOfficeAdminPage 
-              theme={theme}
-              onBack={() => setCurrentPage('bpo')} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'bpo-hr' ? (
-          <motion.div
-            key="bpo-hr"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOPayrollHRPage 
-              theme={theme}
-              onBack={() => setCurrentPage('bpo')} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'bpo-accounting' ? (
-          <motion.div
-            key="bpo-accounting"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOAccountingPage 
-              theme={theme}
-              onBack={() => setCurrentPage('bpo')} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'bpo-it' ? (
-          <motion.div
-            key="bpo-it"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <BPOITDevPage 
-              theme={theme}
-              onBack={() => setCurrentPage('bpo')} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'prof-services' ? (
-          <motion.div
-            key="prof-services"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ProfessionalServicesPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'prof-cases' ? (
-          <motion.div
-            key="prof-cases"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ProfessionalServicesCaseStudiesPage 
-              theme={theme}
-              onBack={() => setCurrentPage('prof-services')} 
-            />
-          </motion.div>
-        ) : currentPage === 'managed-services' ? (
-          <motion.div
-            key="managed-services"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ManagedServicesPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'managed-support' ? (
-          <motion.div
-            key="managed-support"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ManagedSupportDeskPage 
-              theme={theme}
-              onBack={() => setCurrentPage('managed-services')} 
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'about' ? (
-          <motion.div
-            key="about"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <AboutPage 
-              theme={theme}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'contact' ? (
-          <motion.div
-            key="contact"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ContactPage 
-              theme={theme}
-              onBack={handleBackToHome} 
-            />
-          </motion.div>
-        ) : currentPage === 'watch-guardian' ? (
-          <motion.div
-            key="watch-guardian"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WatchGuardianPage 
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'watch-guardian-demo' ? (
-          <motion.div
-            key="watch-guardian-demo"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WatchGuardianLandingPage 
-              theme={theme}
-              onBack={() => setCurrentPage('watch-guardian')}
-            />
-          </motion.div>
-        ) : currentPage === 'wg-health' ? (
-          <motion.div
-            key="wg-health"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WatchGuardianHealthPage 
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'wg-assist' ? (
-          <motion.div
-            key="wg-assist"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WatchGuardianAssistPage 
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'watcharmour' ? (
-          <motion.div
-            key="watcharmour"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <WatchArmourPage 
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : currentPage === 'q-view' ? (
-          <motion.div
-            key="q-view"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <QViewPage 
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={(page) => setCurrentPage(page)}
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="managed-cases"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <ManagedServicesCaseStudiesPage 
-              theme={theme}
-              onBack={() => setCurrentPage('managed-services')} 
-            />
-          </motion.div>
         )}
+
+        {/* DEVICES HUB */}
+        {currentPage === 'devices' && (
+          <PageWrap pageKey="devices">
+            <DevicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* NETWORKING HARDWARE */}
+        {currentPage === 'networking-hardware' && (
+          <PageWrap pageKey="networking-hardware">
+            <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} />
+          </PageWrap>
+        )}
+
+        {/* WEARABLES HUB */}
+        {currentPage === 'wearables' && (
+          <PageWrap pageKey="wearables">
+            <WearablesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* WEARABLE PRODUCT PAGES */}
+        {currentPage === 'watch-guardian' && (
+          <PageWrap pageKey="watch-guardian">
+            <WatchGuardianPage
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={navigate}
+            />
+          </PageWrap>
+        )}
+        {currentPage === 'watch-guardian-demo' && (
+          <PageWrap pageKey="watch-guardian-demo">
+            <WatchGuardianLandingPage
+              theme={theme}
+              onBack={handleBackToHome}
+            />
+          </PageWrap>
+        )}
+        {currentPage === 'wg-health' && (
+          <PageWrap pageKey="wg-health">
+            <WatchGuardianHealthPage
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={navigate}
+            />
+          </PageWrap>
+        )}
+        {currentPage === 'wg-assist' && (
+          <PageWrap pageKey="wg-assist">
+            <WatchGuardianAssistPage
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={navigate}
+            />
+          </PageWrap>
+        )}
+        {currentPage === 'watcharmour' && (
+          <PageWrap pageKey="watcharmour">
+            <WatchArmourPage
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={navigate}
+            />
+          </PageWrap>
+        )}
+        {currentPage === 'q-view' && (
+          <PageWrap pageKey="q-view">
+            <QViewPage
+              theme={theme}
+              onBack={() => setCurrentPage('wearables')}
+              onNavigate={navigate}
+            />
+          </PageWrap>
+        )}
+
+        {/* CAMPAIGN LANDING PAGES (noindex — not in nav) */}
+        {currentPage === 'wg-landing' && (
+          <PageWrap pageKey="wg-landing">
+            <WatchGuardianLandingPage theme={theme} onBack={() => setCurrentPage('wearables')} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-landing' && (
+          <PageWrap pageKey="bpo-landing">
+            <BPOLanding theme={theme} onBack={() => setCurrentPage('bpo')} />
+          </PageWrap>
+        )}
+
+        {/* BPO */}
+        {currentPage === 'bpo' && (
+          <PageWrap pageKey="bpo">
+            <BPOPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-cases' && (
+          <PageWrap pageKey="bpo-cases">
+            <BPOCaseStudiesPage theme={theme} onBack={() => setCurrentPage('bpo')} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-admin' && (
+          <PageWrap pageKey="bpo-admin">
+            <BPOOfficeAdminPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-hr' && (
+          <PageWrap pageKey="bpo-hr">
+            <BPOPayrollHRPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-accounting' && (
+          <PageWrap pageKey="bpo-accounting">
+            <BPOAccountingPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'bpo-it' && (
+          <PageWrap pageKey="bpo-it">
+            <BPOITDevPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* PROFESSIONAL SERVICES */}
+        {currentPage === 'prof-services' && (
+          <PageWrap pageKey="prof-services">
+            <ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'prof-cases' && (
+          <PageWrap pageKey="prof-cases">
+            <ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => setCurrentPage('prof-services')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* MANAGED SERVICES */}
+        {currentPage === 'managed-services' && (
+          <PageWrap pageKey="managed-services">
+            <ManagedServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'managed-support' && (
+          <PageWrap pageKey="managed-support">
+            <ManagedSupportDeskPage theme={theme} onBack={() => setCurrentPage('managed-services')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'managed-cases' && (
+          <PageWrap pageKey="managed-cases">
+            <ManagedServicesCaseStudiesPage theme={theme} onBack={() => setCurrentPage('managed-services')} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* COMPANY */}
+        {currentPage === 'about' && (
+          <PageWrap pageKey="about">
+            <AboutPage theme={theme} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'contact' && (
+          <PageWrap pageKey="contact">
+            <ContactPage theme={theme} onBack={handleBackToHome} />
+          </PageWrap>
+        )}
+
       </AnimatePresence>
     </div>
   );

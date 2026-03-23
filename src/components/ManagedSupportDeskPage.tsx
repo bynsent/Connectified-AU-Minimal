@@ -357,7 +357,7 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
               </p>
             </div>
             <div className="flex flex-col gap-4 w-full md:w-auto">
-              <button className="px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
+              <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
                 Get a Free Quote →
               </button>
               <button onClick={() => onNavigate('managed-cases')}

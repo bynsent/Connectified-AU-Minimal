@@ -137,9 +137,10 @@ const allFilters = [
 interface CaseStudyPageProps {
   theme: 'dark' | 'light';
   onBack: () => void;
+  onNavigate: (page: string) => void;
 }
 
-const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ theme, onBack }) => {
+const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ theme, onBack, onNavigate }) => {
   const [filter, setFilter] = React.useState('all');
   const filters = allFilters.map(f => ({ ...f, count: f.id === 'all' ? projects.length : projects.filter(p => p.cat.includes(f.id)).length }));
   const filteredProjects = projects.filter(p => filter === 'all' || p.cat.includes(filter));
@@ -286,7 +287,7 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
             Whether you have a fully formed brief or just an early-stage idea — we can help you work out what's technically possible, what it would cost to build, and how to get started.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={onBack}
