@@ -212,7 +212,6 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             className={`w-full h-full object-cover scale-105 transition-opacity duration-500 ${
               theme === 'dark' ? 'opacity-40' : 'opacity-45'
             }`}
-            referrerPolicy="no-referrer"
           />
           {/* Treatment A — teal gradient */}
           <div className="absolute inset-0"
