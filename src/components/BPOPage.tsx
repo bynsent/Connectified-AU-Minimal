@@ -325,11 +325,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
         <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <ImgPlaceholder
-              label="BPO Hero"
-              resolution="2070×1380px"
-              className="w-full h-full rounded-none border-0"
-            />
+            <img src="/images/bpo/hero-bpo.webp" label="BPO Hero" className="w-full h-full rounded-none border-0"/>
             <div
               className={`absolute inset-0 bg-gradient-to-b transition-colors duration-500 ${
                 theme === 'dark'

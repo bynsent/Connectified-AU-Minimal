@@ -131,7 +131,7 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
       <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Replace with: <img src="/images/managed-services-hero.jpg" alt="Data Monitoring" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.45 }} /> */}
-          <ImgPlaceholder label="Hero Image" hint="Recommended: 2070×1380px — data centre / monitoring ops" className="w-full h-full rounded-none border-0" />
+          <img src="/images/managedservices/managedservices.png" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} />
           <div className={`absolute inset-0 bg-gradient-to-t transition-colors duration-500 ${theme === 'dark' ? 'from-[#0b1118] via-[#0b1118]/60 to-transparent' : 'from-white/80 via-white/40 to-transparent'}`} />
         </div>
 
@@ -301,7 +301,7 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
           </FadeUp>
 
           {/* Replace with: <img src="/images/managed-team.jpg" alt="Connectified team at work" className="w-full rounded-2xl mb-12 object-cover" style={{ height: '320px' }} /> */}
-          <ImgPlaceholder label="Team / Operations Photo" hint="Recommended: 1400×500px — team at work, NOC, or office" className="w-full h-[220px] mb-12" />
+          <img src="/images/managedservices/managedteam.png" alt="Connectified team at work" className="w-full rounded-2xl mb-12 object-cover" style={{ height: '320px' }} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {whyItems.map((item, idx) => (

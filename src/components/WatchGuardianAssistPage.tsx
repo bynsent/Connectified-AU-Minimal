@@ -77,7 +77,13 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <ImgPlaceholder label="Watch Guardian Assist — Hero" resolution="2070 × 1380px · Resident wearing device, aged care facility" className="absolute inset-0 w-full h-full rounded-none" />
+          <img
+  src="/images/watchguardianassist/watchguardianassist.png"
+  alt="Watch Guardian workplace safety platform"
+  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+    theme === 'dark' ? 'opacity-40' : 'opacity-45'
+  }`}
+/>
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${ACCENT}18 0%, transparent 55%)` }} />
           <div className={`absolute inset-0 bg-gradient-to-b ${dk ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'}`} />
           <div className="grid-overlay" />
@@ -187,7 +193,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <FadeUp delay={0.12}>
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <ImgPlaceholder label="Watch Guardian Assist — Product Shot" resolution="1200 × 900px · Resident wearing device, relaxed setting" className="absolute inset-0 w-full h-full rounded-none" />
+              <img src="/images/watchguardianassist/assist1200x900.png" className="absolute inset-0 w-full h-full rounded-none" />
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
             </div>

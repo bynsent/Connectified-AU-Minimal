@@ -131,7 +131,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
 
               {/* ── Image placeholder: office/team photo ── */}
               {/* Replace with: <img src="/images/contact-office.jpg" alt="Connectified office" className="w-full rounded-2xl mb-10 object-cover" style={{ aspectRatio: '16/9' }} /> */}
-              <ImgPlaceholder
+              <img src="/images/about/connectifiedoffice.png"
                 label="Office / Team Photo"
                 hint="Recommended: 1200×675px — 16:9"
                 aspect="16/9"

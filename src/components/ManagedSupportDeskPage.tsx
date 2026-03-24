@@ -137,7 +137,7 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
         <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             {/* Replace with: <img src="/images/support-desk-hero.jpg" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} /> */}
-            <ImgPlaceholder label="Hero Image" hint="Recommended: 2084×1390px — support team / headsets / collaboration" className="w-full h-full rounded-none border-0" />
+            <img src="/images/managedservices/supportdesk.png" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} />
             <div className={`absolute inset-0 bg-gradient-to-t ${theme === 'dark' ? 'from-[#0F1A22] via-[#0F1A22]/60 to-transparent' : 'from-[#F8FAFC] via-[#F8FAFC]/60 to-transparent'}`} />
           </div>
 
@@ -277,7 +277,11 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
                   <h3 className="text-3xl md:text-4xl font-bold uppercase tracking-tighter mb-8">Scaled for Australia's Largest Smart Water Rollout</h3>
 
                   {/* Replace with: <img src="/images/smart-water-project.jpg" alt="Smart water meter project" className="w-full rounded-xl mb-8 object-cover" style={{ height: '200px' }} /> */}
-                  <ImgPlaceholder label="Project Photo" hint="Recommended: 800×300px — site, meters, or field ops" className="w-full h-[180px] mb-8" />
+                  <img
+                    src="/images/managedservices/supportdesk800x300.png"
+                    alt="Managed Support Desk — Connectified"
+                    className="w-full h-[180px] object-cover rounded-xl mb-8"
+                  />
 
                   <p className={`text-base leading-relaxed mb-6 ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>
                     Connectified was engaged to manage the support operations for a regional council smart water meter rollout — collaborating with Australia's largest communications network provider and leading smart utility platforms.

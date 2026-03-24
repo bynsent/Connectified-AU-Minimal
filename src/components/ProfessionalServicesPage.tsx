@@ -104,10 +104,10 @@ const engagementStyles = [
 ];
 
 const projectTeasers = [
-  { id: 'work-safety', type: 'Client Project', title: 'Australian Work Safety Company', desc: 'Real-time IoT platform for tracking and managing electrical equipment compliance and safety tags across construction, mining and manufacturing industries.', services: ['IoT Project Management', 'Web Development', 'Real-time Monitoring'], own: false, imgHint: '600×260px — industrial site, safety tags, or compliance dashboard' },
-  { id: 'watch-guardian-build', type: 'Connectified-Built Product', title: 'WatchArmour & Watch Guardian Platform', desc: "Design, architecture and development of Connectified's own wearable safety ecosystem — from initial concept through to the Samsung Galaxy Watch integration.", services: ['IoT Design & Architecture', 'Web & Mobile Development', 'Samsung Knox Integration'], own: true, imgHint: '600×260px — smartwatch, wearable device, or safety alert UI' },
-  { id: 'wireless-integration-board', type: 'Connectified-Built Product', title: 'Wireless Integration Board', desc: 'Custom hardware development enabling wearable safety devices to transmit alarms directly to monitoring stations and security systems via local WiFi.', services: ['IoT Project Management', 'Hardware Development', 'Security System Integration'], own: true, imgHint: '600×260px — PCB hardware, circuit board, or integration diagram' },
-  { id: 'healthcare-integration', type: 'Client Project', title: 'Australian Healthcare Technology Provider', desc: 'End-to-end integration of personal safety devices into the DirectWireless Private Network — enabling real-time alarm transmission for healthcare response.', services: ['IoT Design & Architecture', 'Security System Integration', 'Hardware Development'], own: false, imgHint: '600×260px — healthcare setting, alarm system, or network diagram' },
+  { id: 'work-safety', image: '/images/profservices/safety600x260.png', type: 'Client Project', title: 'Australian Work Safety Company', desc: 'Real-time IoT platform for tracking and managing electrical equipment compliance and safety tags across construction, mining and manufacturing industries.', services: ['IoT Project Management', 'Web Development', 'Real-time Monitoring'], own: false, imgHint: '600×260px — industrial site, safety tags, or compliance dashboard' },
+  { id: 'watch-guardian-build', image: '/images/profservices/wearables600x260.png', type: 'Connectified-Built Product', title: 'WatchArmour & Watch Guardian Platform', desc: "Design, architecture and development of Connectified's own wearable safety ecosystem — from initial concept through to the Samsung Galaxy Watch integration.", services: ['IoT Design & Architecture', 'Web & Mobile Development', 'Samsung Knox Integration'], own: true, imgHint: '600×260px — smartwatch, wearable device, or safety alert UI' },
+  { id: 'wireless-integration-board', image: '/images/profservices/wrb600x260.png', type: 'Connectified-Built Product', title: 'Wireless Integration Board', desc: 'Custom hardware development enabling wearable safety devices to transmit alarms directly to monitoring stations and security systems via local WiFi.', services: ['IoT Project Management', 'Hardware Development', 'Security System Integration'], own: true, imgHint: '600×260px — PCB hardware, circuit board, or integration diagram' },
+  { id: 'healthcare-integration', image: '/images/profservices/directwireless600x260.png', type: 'Client Project', title: 'Australian Healthcare Technology Provider', desc: 'End-to-end integration of personal safety devices into the DirectWireless Private Network — enabling real-time alarm transmission for healthcare response.', services: ['IoT Design & Architecture', 'Security System Integration', 'Hardware Development'], own: false, imgHint: '600×260px — healthcare setting, alarm system, or network diagram' },
 ];
 
 const whyItems = [
@@ -135,7 +135,13 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
       <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Replace with: <img src="/images/prof-services-hero.jpg" alt="IoT Technology" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.45 }} /> */}
-          <ImgPlaceholder label="Hero Image" hint="Recommended: 2070×1380px — IoT hardware, circuit boards, or connected devices" className="w-full h-full rounded-none border-0" />
+          <img
+  src="/images/profservices/profservice-hero.png"
+  alt="IoT Professional Services"
+  className={`w-full h-full object-cover transition-opacity duration-500 ${
+    theme === 'dark' ? 'opacity-40' : 'opacity-45'
+  }`}
+/>
           <div className={`absolute inset-0 bg-gradient-to-t transition-colors duration-500 ${theme === 'dark' ? 'from-[#0b1118] via-[#0b1118]/60 to-transparent' : 'from-white/80 via-white/40 to-transparent'}`} />
         </div>
 
@@ -292,7 +298,15 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
                   <p className={`text-sm leading-relaxed mb-5 ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>{proj.desc}</p>
 
                   {/* Replace with: <img src={`/images/proj-${proj.id}.jpg`} alt={proj.title} className="w-full rounded-xl object-cover mb-5" style={{ height: '160px' }} /> */}
-                  <ImgPlaceholder label="Project Photo" hint={proj.imgHint} className="w-full h-[140px] mb-5" />
+                  {proj.image ? (
+                    <img
+                      src={proj.image}
+                      alt={proj.title}
+                      className="w-full h-[140px] object-cover rounded-xl mb-5"
+                    />
+                  ) : (
+                    <ImgPlaceholder label="Project Photo" hint={proj.imgHint} className="w-full h-[140px] mb-5" />
+                  )}
 
                   <div className="flex flex-wrap gap-2 mb-5">
                     {proj.services.map((s, idx) => (
@@ -327,7 +341,7 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
           </FadeUp>
 
           {/* Replace with: <img src="/images/prof-team.jpg" alt="Connectified team" className="w-full rounded-2xl mb-12 object-cover" style={{ height: '280px' }} /> */}
-          <ImgPlaceholder label="Team / Lab Photo" hint="Recommended: 1400×440px — dev lab, team meeting, or hardware prototyping" className="w-full h-[220px] mb-12" />
+          <img src="/images/profservices/profservicesbanner.png" label="Team / Lab Photo" hint="Recommended: 1400×440px — dev lab, team meeting, or hardware prototyping" className="w-full h-[220px] mb-12" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {whyItems.map((item, idx) => (

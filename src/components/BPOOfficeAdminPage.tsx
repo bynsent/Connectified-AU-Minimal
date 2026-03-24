@@ -102,7 +102,7 @@ export default function BPOOfficeAdminPage({ onBack, onNavigate, theme }: BPOSer
         {/* ── Hero ── */}
         <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <ImgPlaceholder label="Office Admin Hero" resolution="2069×1380px" className="w-full h-full rounded-none border-0" />
+            <img src="/images/bpo/officeadmin.png" label="BPO Hero" resolution="2069×1380px" className="w-full h-full rounded-none border-0" />
             <div className={`absolute inset-0 bg-gradient-to-b ${theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/72 to-[#0b1118]' : 'from-white/20 via-white/72 to-white'}`} />
             <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 59px, #14ACD4 59px, #14ACD4 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, #14ACD4 59px, #14ACD4 60px)` }} />
           </div>

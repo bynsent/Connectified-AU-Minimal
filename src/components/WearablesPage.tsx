@@ -106,8 +106,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       eyebrow: "Flagship Platform · Workplace Safety",
       desc: "The flagship Watch Guardian platform integrates Samsung Galaxy Watch with a centralised web portal, wireless relay board, and security system automation — delivering real-time emergency response for banks, hospitals, corporate offices and high-risk workplaces. The most comprehensive wearable safety solution in the range.",
       spotlight: true, accent: '#14ACD4',
-      // Replace with: "/images/wearables/watch-guardian-hero.jpg" — 1600×900px product hero
-      bgImage: null as string | null,
+      bgImage: '/images/wearables/guardiancard.png' as string | null,
       compare: [
         { label: "Trigger", val: "Watch + Button" },
         { label: "Tracking", val: "GPS · WiFi · LTE" },
@@ -122,7 +121,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       eyebrow: "Healthcare",
       desc: "Designed for healthcare workers — nurses, clinicians and allied health staff — who need discreet duress capability in fast-moving, high-risk clinical settings. Watch Guardian Health keeps staff protected without disrupting patient care routines.",
       accent: '#2ecc8e',
-      bgImage: null as string | null, // Replace: "/images/wearables/wg-health-product.jpg" — 800×800px
+      bgImage: '/images/wearables/healthcard.png' as string | null,
       features: ["Discreet duress alerts for clinical staff", "Real-time location within hospital facilities", "Push-to-talk group comms", "Samsung Knox enterprise security", "Fleet management via web portal"],
       industries: ["Hospitals", "Clinics", "Allied Health"]
     },
@@ -132,7 +131,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       eyebrow: "Aged Care",
       desc: "Purpose-built for aged care facilities, assisted living, and in-home care. Watch Guardian Assist balances resident dignity with robust safety — medication reminders, safe zone monitoring, welfare checks, and tiered duress alerts all on a single Samsung wearable.",
       accent: '#9b7fe8',
-      bgImage: null as string | null, // Replace: "/images/wearables/wg-assist-product.jpg" — 800×800px
+      bgImage: '/images/wearables/assistcard.png' as string | null,
       features: ["Medication reminders & dose confirmation", "Safe zone monitoring with exit alerts", "Scheduled automated welfare checks", "Tiered duress: Green → Amber → Red", "History & care logs for compliance"],
       industries: ["Aged Care Facilities", "Assisted Living", "Home Care"]
     },
@@ -142,7 +141,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       eyebrow: "Workplace Safety · Connectified Smartwatch",
       desc: "Connectified's own proprietary smartwatch safety device, built for environments where silent, instant alerts matter most. WatchArmour combines escalating alert levels — Green to Red — with live audio recording and listen-in capability, giving responders real-time situational awareness the moment an incident occurs.",
       accent: '#e85d26',
-      bgImage: null as string | null, // Replace: "/images/wearables/watcharmour-product.jpg" — 800×800px
+      bgImage: '/images/wearables/armourcard.png' as string | null,
       features: ["Escalating alerts — Green, Amber, Red", "Instant audio recording & live listen-in", "GPS, WiFi & LTE tracking", "Touchscreen or button-triggered alerts", "Fall detection with automatic alert"],
       industries: ["Banking & Retail", "Hospitals", "Lone Workers"]
     },
@@ -152,7 +151,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       eyebrow: "Personal Safety · Connectified Pendant Device",
       desc: "Connectified's own purpose-built pendant safety device — the most accessible entry point into the wearable safety ecosystem. Q-View strips away complexity: one button, immediate emergency alert, fall detection and two-way communication. Designed for individuals, lone workers and small businesses who need reliable protection without enterprise overhead.",
       accent: '#f5c842',
-      bgImage: null as string | null, // Replace: "/images/wearables/q-view-product.jpg" — 800×800px
+      bgImage: '/images/wearables/qviewcard.png' as string | null,
       features: ["One-button emergency alert activation", "Fall detection & inactivity monitoring", "Two-way comms with monitoring team", "Auto-answer for immediate verification"],
       industries: ["Personal Use", "SMB", "Vulnerable Individuals", "Lone Workers"]
     }
@@ -207,7 +206,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="public/images/wearables/wearables.png"
+            src="/images/wearables/wearables.png"
             alt="Safety Wearables"
             className={`w-full h-full object-cover scale-105 transition-opacity duration-500 ${
               theme === 'dark' ? 'opacity-40' : 'opacity-45'
@@ -362,7 +361,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                         {product.bgImage ? (
                           <>
                             <img src={product.bgImage} alt={product.name}
-                              className="w-full h-full object-cover opacity-60 group-hover:opacity-75 transition-opacity scale-105 group-hover:scale-100 transition-transform duration-500" />
+                              className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${product.accent}22 0%, rgba(11,17,24,0.7) 100%)` }} />
                           </>
                         ) : (
@@ -420,7 +419,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                       <div className="relative h-40 rounded-xl overflow-hidden mb-6">
                         {product.bgImage ? (
                           <>
-                            <img src={product.bgImage} alt={product.name} className="w-full h-full object-cover opacity-60" />
+                            <img src={product.bgImage} alt={product.name} className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" />
                             <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${product.accent}22 0%, rgba(11,17,24,0.6) 100%)` }} />
                           </>
                         ) : (

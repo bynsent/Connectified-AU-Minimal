@@ -165,7 +165,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ theme, onNavigate }) => {
         {/* Background image — Treatment A: teal gradient overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070"
+            src="/images/about/connectifiedoffice.png"
             alt="Connectified Office"
             className={`w-full h-full object-cover transition-opacity duration-700 ${
               theme === 'dark' ? 'opacity-35' : 'opacity-50'
@@ -209,7 +209,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ theme, onNavigate }) => {
             </div>
 
             <h1 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-[0.9] mb-6">
-              Inside<br /><span className="text-[#14ACD4]">Connecti-</span><br />fied.
+              Inside<br /><span className="text-[#14ACD4]">Connectified.</span>
             </h1>
             <p className={`text-lg max-w-2xl mb-10 leading-relaxed ${
               theme === 'dark' ? 'text-white/60' : 'text-black/60'

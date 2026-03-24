@@ -77,7 +77,13 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <ImgPlaceholder label="Q-View — Hero Image" resolution="2070 × 1380px · Pendant device, lifestyle/personal use context" className="absolute inset-0 w-full h-full rounded-none" />
+          <img
+  src="/images/qview/qview.png"
+  alt="Q-View personal safety device"
+  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+    theme === 'dark' ? 'opacity-40' : 'opacity-45'
+  }`}
+/>
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${ACCENT}14 0%, transparent 55%)` }} />
           <div className={`absolute inset-0 bg-gradient-to-b ${dk ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'}`} />
           <div className="grid-overlay" />

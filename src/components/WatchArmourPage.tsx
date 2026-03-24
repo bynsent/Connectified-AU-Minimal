@@ -77,7 +77,13 @@ export default function WatchArmourPage({ theme, onBack, onNavigate }: Props) {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <ImgPlaceholder label="WatchArmour — Hero" resolution="2070 × 1380px · Watch on wrist, bank/retail environment" className="absolute inset-0 w-full h-full rounded-none" />
+          <img
+  src="/images/watcharmour/watcharmour.png"
+  alt="WatchArmour workplace safety platform"
+  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+    theme === 'dark' ? 'opacity-40' : 'opacity-45'
+  }`}
+/>
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${ACCENT}18 0%, transparent 55%)` }} />
           <div className={`absolute inset-0 bg-gradient-to-b ${dk ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'}`} />
           <div className="grid-overlay" />
@@ -187,7 +193,7 @@ export default function WatchArmourPage({ theme, onBack, onNavigate }: Props) {
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <FadeUp>
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <ImgPlaceholder label="WatchArmour — Product Shot" resolution="1200 × 900px · Smartwatch, dark studio" className="absolute inset-0 w-full h-full rounded-none" />
+              <img src="/images/watcharmour/armour1200x900.png" className="absolute inset-0 w-full h-full rounded-none" />
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
             </div>

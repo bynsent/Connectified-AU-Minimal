@@ -71,7 +71,7 @@ const filters = [
 
 const projects = [
   {
-    id: 'smart-water', category: ['utilities', 'support'],
+    id: 'smart-water', image: '/images/managedservices/managedwater800x330.png', category: ['utilities', 'support'],
     tag: 'Support Desk Solution', date: 'Started August 2022',
     industry: 'Water Utilities · Local Government',
     title: "Australia's Largest Smart Water Meter Monitoring Service",
@@ -85,7 +85,7 @@ const projects = [
     imgLabel: 'Project Photo', imgHint: '800×330px — smart meters, water infrastructure, or field crew',
   },
   {
-    id: 'telco-devices', category: ['telco'],
+    id: 'telco-devices', image: '/images/managedservices/managedtelco800x330.png', category: ['telco'],
     tag: 'Device Management & FOTA', date: 'Started August 2022',
     industry: 'Telecommunications',
     title: 'Top Australian Telecommunications Company',
@@ -98,7 +98,7 @@ const projects = [
     imgLabel: 'Project Photo', imgHint: '800×330px — connected devices, telco hardware, or network rack',
   },
   {
-    id: 'security-devops', category: ['security', 'devops'],
+    id: 'security-devops', image: '/images/managedservices/manageddevops800x330.png', category: ['security', 'devops'],
     tag: 'DevOps & Software Development Support', date: 'Started August 2022',
     industry: 'Security · Software',
     title: 'Top Australian Security Company',
@@ -111,7 +111,7 @@ const projects = [
     imgLabel: 'Project Photo', imgHint: '800×330px — code review, CI/CD dashboard, or Azure DevOps',
   },
   {
-    id: 'electric-security', category: ['security', 'devops'],
+    id: 'electric-security', image: '/images/managedservices/iotsecurity800x330.png', category: ['security', 'devops'],
     tag: 'IoT Connectivity & API Integration', date: 'Started August 2022',
     industry: 'Electric Security · IoT',
     title: 'Leading Australian Electric Security Company',
@@ -124,7 +124,7 @@ const projects = [
     imgLabel: 'Project Photo', imgHint: '800×330px — IoT devices, security panel, or mobile app UI',
   },
   {
-    id: 'security-platform', category: ['security', 'devops', 'telco'],
+    id: 'security-platform', image: '/images/managedservices/locksystem800x330.png', category: ['security', 'devops', 'telco'],
     tag: 'Cybersecurity & CI/CD Automation', date: 'Started August 2022',
     industry: 'Security · Telecommunications',
     title: 'Leading Australian Security Company',
@@ -233,7 +233,15 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
 
                   {/* Per-project image placeholder */}
                   {/* Replace with: <img src={`/images/cs-${proj.id}.jpg`} alt={proj.title} className="w-full rounded-xl object-cover" style={{ height: '220px' }} /> */}
-                  <ImgPlaceholder label={proj.imgLabel} hint={proj.imgHint} className="w-full h-[180px]" />
+                  {proj.image ? (
+                    <img
+                      src={proj.image}
+                      alt={proj.title}
+                      className="w-full h-[180px] object-cover rounded-xl"
+                    />
+                  ) : (
+                    <ImgPlaceholder label={proj.imgLabel} hint={proj.imgHint} className="w-full h-[180px]" />
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2">

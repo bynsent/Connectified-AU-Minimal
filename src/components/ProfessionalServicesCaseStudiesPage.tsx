@@ -66,7 +66,7 @@ function FadeUp({ children, delay = 0, className = '' }: {
 
 const projects = [
   {
-    id: 'work-safety', cat: ['client', 'safety'],
+    id: 'work-safety', image: '/images/profservices/safety900x300.png', cat: ['client', 'safety'],
     type: 'Client Project', date: 'Started July 2024',
     industry: 'Work Safety · Industrial',
     title: 'A Leading Australian Work Safety Company',
@@ -80,7 +80,7 @@ const projects = [
     imgHint: '900×300px — industrial site, safety tags, compliance dashboard, or construction environment',
   },
   {
-    id: 'watch-guardian-build', cat: ['own', 'safety', 'hardware'],
+    id: 'watch-guardian-build', image: '/images/profservices/wearables900x300.png', cat: ['own', 'safety', 'hardware'],
     type: 'Connectified-Built Product',
     industry: 'Workplace Safety · Wearables',
     title: 'WatchArmour & Watch Guardian Platform',
@@ -94,7 +94,7 @@ const projects = [
     imgHint: '900×300px — Samsung Galaxy Watch, wearable device, or safety alert UI on a smartwatch',
   },
   {
-    id: 'wireless-integration-board', cat: ['own', 'safety', 'hardware'],
+    id: 'wireless-integration-board', image: '/images/profservices/wrb900x300.png', cat: ['own', 'safety', 'hardware'],
     type: 'Connectified-Built Product',
     industry: 'Security Integration · Hardware',
     title: 'Wireless Integration Board (WIB)',
@@ -108,7 +108,7 @@ const projects = [
     imgHint: '900×300px — PCB hardware, circuit board, integration diagram, or the WIB device itself',
   },
   {
-    id: 'healthcare-integration', cat: ['client', 'safety', 'healthcare', 'hardware'],
+    id: 'healthcare-integration', image: '/images/profservices/directwireless900x300.png', cat: ['client', 'safety', 'healthcare', 'hardware'],
     type: 'Client Project',
     industry: 'Healthcare · Emergency Response',
     title: 'Australian Healthcare Technology Provider',
@@ -227,7 +227,15 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
                       <p className={`text-lg mb-8 leading-relaxed ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>{project.desc}</p>
 
                       {/* Replace with: <img src={`/images/cs-${project.id}.jpg`} alt={project.title} className="w-full rounded-2xl object-cover mb-10" style={{ height: '240px' }} /> */}
-                      <ImgPlaceholder label="Project Photo" hint={project.imgHint} className="w-full h-[200px] mb-10" />
+                      {project.image ? (
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-[200px] object-cover rounded-xl mb-10"
+                        />
+                      ) : (
+                        <ImgPlaceholder label="Project Photo" hint={project.imgHint} className="w-full h-[200px] mb-10" />
+                      )}
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div>

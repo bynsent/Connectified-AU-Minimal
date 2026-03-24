@@ -97,7 +97,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
 
   const faqs = [
     { q: "What is Watch Guardian and how does it work?", a: "Watch Guardian is a wearable safety platform built on Samsung Galaxy Watch with Knox enterprise security. Staff press a button on the watch to trigger an immediate alert that routes to your monitoring centre, security team or building management. The alert includes the worker's live location and opens a two-way audio channel so responders can assess the situation in real time." },
-    { q: "Can Watch Guardian integrate with our existing security systems?", a: "Yes. Watch Guardian integrates with existing security infrastructure via REST API, XML and the Wireless Integration Board (WIB) — a relay device that connects the Watch Guardian system to door locks, alarm panels, CCTV and third-party monitoring platforms. This enables automated building responses triggered by a duress event." },
+    { q: "Can Watch Guardian integrate with our existing security systems?", a: "Yes. Watch Guardian integrates with existing security infrastructure via REST API, XML and the Wireless Relay Board (WRB) — a relay device that connects the Watch Guardian system to door locks, alarm panels, CCTV and third-party monitoring platforms. This enables automated building responses triggered by a duress event." },
     { q: "What Samsung Galaxy Watch models does Watch Guardian run on?", a: "Watch Guardian runs on Samsung Galaxy Watch 6, Watch 7 and Watch 7 Ultra. All models include GPS, LTE, IP68 water resistance and Samsung Knox security. The exact model recommended depends on your battery, form factor and durability requirements." },
     { q: "How does the fleet management portal work?", a: "The Watch Guardian web portal gives administrators real-time visibility of every device in the fleet — live locations, alert history, device status and user assignments. You can manage user roles, configure alert routing, push settings changes and remotely lock or wipe devices from a single dashboard." },
     { q: "What happens when a worker presses the duress button?", a: "An alert fires immediately, routing to your designated monitoring centre, security team or nominated responders via the web portal, app and SMS. The worker's location is pinned in real time and a two-way audio channel opens so responders can hear what's happening and communicate back. Alert escalation follows the Green → Amber → Red hierarchy you configure." },
@@ -115,11 +115,13 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
       <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Hero image placeholder — replace with product/lifestyle photo */}
-          <ImgPlaceholder
-            label="Watch Guardian — Hero Image"
-            resolution="2070 × 1380px · Watch on wrist, workplace environment"
-            className="absolute inset-0 w-full h-full rounded-none"
-          />
+<img
+  src="/images/watchguardian/watchguardian.png"
+  alt="Watch Guardian workplace safety platform"
+  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+    theme === 'dark' ? 'opacity-40' : 'opacity-45'
+  }`}
+/>
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(20,172,212,0.12) 0%, transparent 55%)' }} />
           <div className={`absolute inset-0 bg-gradient-to-b ${
             theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'
@@ -237,11 +239,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
           <FadeUp>
             {/* Product image — replace with real photo */}
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <ImgPlaceholder
-                label="Watch Guardian — Product Shot"
-                resolution="1200 × 900px · Watch on wrist, dark studio"
-                className="absolute inset-0 w-full h-full rounded-none"
-              />
+              <img src="/images/watchguardian/guardian1200x900.png" className="absolute inset-0 w-full h-full rounded-none"/>
               {/* L-bracket */}
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
@@ -334,7 +332,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
               Connects to Your<br />Existing Infrastructure.
             </h2>
             <p className={`text-[14.5px] font-light leading-relaxed mb-8 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
-              The Wireless Integration Board (WIB) — designed and built by Connectified — connects Watch Guardian to your existing security systems via WiFi. A single duress event can automatically trigger door locks, alarm panels, CCTV recording and third-party monitoring platforms simultaneously.
+              The Wireless Relay Board (WRB) — designed and built by Connectified — connects Watch Guardian to your existing security systems via WiFi. A single duress event can automatically trigger door locks, alarm panels, CCTV recording and third-party monitoring platforms simultaneously.
             </p>
             <div className="flex flex-col gap-3">
               {[
@@ -353,11 +351,7 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
           </FadeUp>
           <FadeUp delay={0.12}>
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <ImgPlaceholder
-                label="Wireless Integration Board (WIB)"
-                resolution="1200 × 900px · WIB device + wiring diagram"
-                className="absolute inset-0 w-full h-full rounded-none"
-              />
+              <img src="/images/watchguardian/wrb1200x900.png" className="absolute inset-0 w-full h-full rounded-none"/>
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
             </div>
