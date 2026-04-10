@@ -414,3 +414,16 @@ body {
   position: absolute; inset: 0; pointer-events: none;
   background: radial-gradient(ellipse at 65% 30%, rgba(20,172,212,0.09) 0%, transparent 55%);
 }
+
+/* ── Global cursor pointer ───────────────────────────────── */
+/* Ensures all interactive elements show pointer cursor,
+   fixing QA finding across all pages. */
+button,
+a,
+[role="button"],
+[tabindex]:not([tabindex="-1"]),
+label[for],
+select,
+summary {
+  cursor: pointer;
+}

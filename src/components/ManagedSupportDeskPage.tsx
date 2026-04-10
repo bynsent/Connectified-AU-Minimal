@@ -160,7 +160,7 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
                 A responsive, professional support desk isn't just about answering tickets — it's the front line of your customer experience. Connectified builds and manages dedicated support teams that represent your brand.
               </p>
               <div className="flex flex-wrap gap-4 mb-16">
-                <button className="px-8 py-4 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
+                <button onClick={() => onNavigate('contact')} className="px-8 py-4 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
                   Build Your Support Team →
                 </button>
                 <button onClick={() => onNavigate('managed-cases')}

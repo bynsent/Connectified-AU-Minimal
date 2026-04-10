@@ -300,7 +300,7 @@ const faqs = [
 
 interface BPOPageProps {
   onBack: () => void;
-  onNavigate: (page: 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it') => void;
+  onNavigate: (page: 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'contact') => void;
   theme: 'dark' | 'light';
 }
 
@@ -350,7 +350,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
             >
-              <span>Connectified</span>
+              <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
               <span className="opacity-20">/</span>
               <span className="text-[#14ACD4]">BPO Services</span>
             </motion.div>
@@ -407,11 +407,11 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               transition={{ duration: 0.6, delay: 0.35 }}
               className="flex flex-wrap gap-4 items-center mb-12"
             >
-              <button className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
+              <button onClick={() => { const el = document.getElementById('services'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
                 Explore Our Services <ArrowRight className="w-4 h-4" />
               </button>
               <button
-                onClick={onBack}
+                onClick={() => onNavigate('contact')}
                 className={`inline-flex items-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
                   theme === 'dark'
                     ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]'
@@ -713,10 +713,10 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               Tell us what you need to outsource — we'll scope a solution and give you a quote, no obligation.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
+              <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>
-              <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
+              <button onClick={() => { const el = document.getElementById('services'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
                 Explore Services
               </button>
             </div>

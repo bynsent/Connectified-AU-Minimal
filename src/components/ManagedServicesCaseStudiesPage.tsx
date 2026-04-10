@@ -148,6 +148,18 @@ interface ManagedServicesCaseStudiesPageProps {
 
 const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPageProps> = ({ theme, onBack, onNavigate }) => {
   const [activeFilter, setActiveFilter] = React.useState('all');
+
+  // Scroll to a specific project section if a target was stored before navigating here
+  React.useEffect(() => {
+    const target = sessionStorage.getItem('managed-cases-scroll');
+    if (target) {
+      sessionStorage.removeItem('managed-cases-scroll');
+      setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    }
+  }, []);
   const filteredProjects = activeFilter === 'all' ? projects : projects.filter(p => p.category.includes(activeFilter));
 
   return (
@@ -207,7 +219,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
         <div className="max-w-6xl mx-auto space-y-12">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((proj, i) => (
-              <motion.article key={proj.id} layout
+              <motion.article key={proj.id} id={proj.id} layout
                 initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}

@@ -111,6 +111,8 @@ type PageId =
   // Campaign landing pages (not in nav)
   | 'wg-landing'
   | 'bpo-landing'
+  | 'watch-guardian-demo'
+  | 'bpo-demo'
   // BPO
   | 'bpo'
   | 'bpo-cases'
@@ -237,7 +239,7 @@ export default function App() {
         scrollTrigger: {
           trigger: containerElement,
           pin: true,
-          scrub: 1,
+          scrub: 0.6,
           snap: 1 / (sections.length - 1),
           start: "top top",
           end: () => `+=${scrollDistance}`,
@@ -347,13 +349,15 @@ export default function App() {
   const scrollToSection = (idx: number) => {
     if (!lenisRef.current || !containerElement) return;
     isProgrammaticScroll.current = true;
-    setActiveIndex(idx);
     setProgress(0);
+    // Don't update activeIndex until scroll completes — prevents
+    // the UI text flashing to the new slide before GSAP has moved there
     const totalScrollDistance = (PILLARS.length - 1) * window.innerWidth;
     const targetScroll = (idx / (PILLARS.length - 1)) * totalScrollDistance;
     lenisRef.current.scrollTo(targetScroll, {
       duration: 1.2,
       onComplete: () => {
+        setActiveIndex(idx);
         isProgrammaticScroll.current = false;
         startTimeRef.current = Date.now();
       }
@@ -454,6 +458,7 @@ export default function App() {
                             onClick={() => {
                               if (item.id === 'about') setCurrentPage('about');
                               else if (item.id === 'contact') setCurrentPage('contact');
+                              else if (item.id === 'shop') { window.open('https://shop.connectified.com.au', '_blank'); }
                               setIsMenuOpen(false);
                             }}
                             className={`w-full text-left px-4 py-1.5 rounded-xl transition-colors ${
@@ -556,7 +561,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.05 }}
-                  className="text-[#14ACD4] font-display text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-8 max-w-2xl mx-auto"
+                  className="text-[#14ACD4] font-display text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-8 max-w-lg mx-auto text-center min-h-[2.5em]"
                 >
                   {PILLARS[activeIndex].subheadline}
                 </motion.p>
@@ -579,18 +584,7 @@ export default function App() {
                       >
                         {pillar.title}
                       </button>
-                      {idx === activeIndex && (
-                        <div className={`absolute -bottom-4 left-0 w-full h-1 rounded-full overflow-hidden transition-colors duration-500 ${
-                          theme === 'dark' ? 'bg-white/10' : 'bg-black/10'
-                        }`}>
-                          <motion.div 
-                            className="h-full bg-[#14ACD4]"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${progress}%` }}
-                            transition={{ duration: 0.1, ease: "linear" }}
-                          />
-                        </div>
-                      )}
+
                     </div>
                   ))}
                   <div className="md:hidden flex-shrink-0 w-6 h-1" />
@@ -668,14 +662,7 @@ export default function App() {
               ))}
             </div>
 
-            <div className={`fixed bottom-0 left-0 w-full h-1 z-50 transition-colors duration-500 ${
-              theme === 'dark' ? 'bg-white/5' : 'bg-black/5'
-            }`}>
-              <motion.div 
-                className="h-full bg-[#14ACD4]"
-                style={{ width: `${((activeIndex + 1) / PILLARS.length) * 100}%` }}
-              />
-            </div>
+
           </motion.div>
         )}
 
@@ -689,7 +676,7 @@ export default function App() {
         {/* NETWORKING HARDWARE */}
         {currentPage === 'networking-hardware' && (
           <PageWrap pageKey="networking-hardware">
-            <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} />
+            <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
           </PageWrap>
         )}
 
@@ -775,7 +762,7 @@ export default function App() {
         )}
         {currentPage === 'bpo-cases' && (
           <PageWrap pageKey="bpo-cases">
-            <BPOCaseStudiesPage theme={theme} onBack={() => setCurrentPage('bpo')} />
+            <BPOCaseStudiesPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
           </PageWrap>
         )}
         {currentPage === 'bpo-admin' && (

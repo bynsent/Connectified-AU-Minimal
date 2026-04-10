@@ -451,7 +451,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ theme, onNavigate }) => {
                   <div className="flex items-start gap-3">
                     <MapPin className="w-4 h-4 text-[#14ACD4] mt-1 flex-shrink-0" />
                     <span className={`text-sm ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>
-                      Pavilion 10, Berthaphil, Clark, Angeles, 2009 Pampanga, Philippines
+                      Pavilion 7, Berthaphil, Clark, Angeles, 2009 Pampanga, Philippines
                     </span>
                   </div>
                   <div className="flex items-center gap-3">

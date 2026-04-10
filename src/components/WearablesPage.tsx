@@ -228,8 +228,8 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
           <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}>
-            <span>Connectified</span><span className="opacity-20">/</span>
-            <span>Devices & Connectivity</span><span className="opacity-20">/</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span><span className="opacity-20">/</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Devices & Connectivity</span><span className="opacity-20">/</span>
             <span className="text-[#14ACD4]">Wearables & Watch Guardian</span>
           </motion.div>
 
@@ -262,7 +262,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
           <motion.div className="flex flex-wrap gap-4 items-center mb-12"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.42 }}>
-            <button className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
+            <button onClick={() => { const el = document.getElementById('products-grid'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
               Find Your Solution <ArrowRight className="w-4 h-4" />
             </button>
             <button onClick={() => onNavigate('contact')}
@@ -338,7 +338,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       </div>
 
       {/* ── PRODUCTS GRID ───────────────────────────────────────── */}
-      <section className="py-16 px-6 md:px-10">
+      <section id="products-grid" className="py-16 px-6 md:px-10">
         <div className="max-w-[1100px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <AnimatePresence mode="popLayout">
@@ -642,7 +642,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
               Talk to Our Team <ArrowRight className="w-4 h-4" />
             </button>
-            <button className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
+            <button onClick={() => { const el = document.getElementById('products-grid'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
               View All Products
             </button>
           </FadeUp>

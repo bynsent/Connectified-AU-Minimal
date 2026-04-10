@@ -285,7 +285,7 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
             {projectTeasers.map((proj, i) => (
               <motion.button key={proj.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.55, ease: 'easeOut', delay: i * 0.1 }}
-                onClick={() => onNavigate('prof-cases')}
+                onClick={() => { sessionStorage.setItem('prof-cases-scroll', proj.id); onNavigate('prof-cases'); }}
                 className={`group text-left rounded-2xl overflow-hidden border transition-colors ${theme === 'dark' ? 'bg-[#111820] border-white/5 hover:border-[#14ACD4]/30' : 'bg-gray-50 border-black/5 hover:border-[#14ACD4]/30'}`}>
                 <div className="h-1 w-full" style={{ backgroundColor: proj.own ? '#f5a623' : '#14ACD4' }} />
                 <div className="p-8">

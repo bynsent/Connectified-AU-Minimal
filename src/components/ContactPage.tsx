@@ -177,7 +177,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
               <div className="text-2xl mb-3">🇵🇭</div>
               <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-widest mb-1">Philippines — Ops</div>
               <div className={`text-xs leading-relaxed ${theme === 'dark' ? 'text-white/40' : 'text-black/40'}`}>
-                Pavilion 10, Berthaphil<br />Clark, Angeles, Pampanga 2009
+                Pavilion 7, Berthaphil<br />Clark, Angeles, Pampanga 2009
               </div>
             </div>
 
@@ -276,12 +276,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
 
                   <div className="space-y-2">
                     <label className="text-[10px] font-bold uppercase tracking-widest text-[#687177]" htmlFor="timeline">Timeline</label>
-                    <select id="timeline" name="timeline" value={formData.timeline} onChange={handleInputChange} className={`${inputClass} appearance-none`}>
-                      <option value="" disabled>How soon are you looking to move?</option>
-                      <option value="ASAP">As soon as possible</option>
-                      <option value="1-3 months">1–3 months</option>
-                      <option value="3-6 months">3–6 months</option>
-                      <option value="Exploring">Just exploring options for now</option>
+                    <select id="timeline" name="timeline" value={formData.timeline} onChange={handleInputChange} className={`${inputClass} appearance-none ${theme === 'dark' ? '!bg-[#1a2a38] !text-white' : ''}`}>
+                      <option value="" disabled className="bg-[#1a2a38] text-white">How soon are you looking to move?</option>
+                      <option value="ASAP" className="bg-[#1a2a38] text-white">As soon as possible</option>
+                      <option value="1-3 months" className="bg-[#1a2a38] text-white">1–3 months</option>
+                      <option value="3-6 months" className="bg-[#1a2a38] text-white">3–6 months</option>
+                      <option value="Exploring" className="bg-[#1a2a38] text-white">Just exploring options for now</option>
                     </select>
                   </div>
 

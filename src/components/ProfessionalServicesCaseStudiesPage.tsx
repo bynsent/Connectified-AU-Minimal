@@ -142,6 +142,19 @@ interface CaseStudyPageProps {
 
 const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ theme, onBack, onNavigate }) => {
   const [filter, setFilter] = React.useState('all');
+
+  // Scroll to a specific project section if a target was stored before navigating here
+  React.useEffect(() => {
+    const target = sessionStorage.getItem('prof-cases-scroll');
+    if (target) {
+      sessionStorage.removeItem('prof-cases-scroll');
+      // Wait for page render + animation before scrolling
+      setTimeout(() => {
+        const el = document.getElementById(target);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 400);
+    }
+  }, []);
   const filters = allFilters.map(f => ({ ...f, count: f.id === 'all' ? projects.length : projects.filter(p => p.cat.includes(f.id)).length }));
   const filteredProjects = projects.filter(p => filter === 'all' || p.cat.includes(filter));
 
@@ -205,7 +218,7 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
         <div className="max-w-6xl mx-auto flex flex-col gap-12">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, i) => (
-              <motion.article layout key={project.id}
+              <motion.article layout key={project.id} id={project.id}
                 initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.45, delay: i * 0.08 }}

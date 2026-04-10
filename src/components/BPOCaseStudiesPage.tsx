@@ -32,7 +32,7 @@ function FadeUp({ children, delay = 0, className = '' }: { key?: React.Key; chil
 
 type Category = 'all' | 'security' | 'telco' | 'admin' | 'ops';
 
-interface BPOCaseStudiesPageProps { onBack: () => void; theme: 'dark' | 'light'; }
+interface BPOCaseStudiesPageProps { onBack: () => void; theme: 'dark' | 'light'; onNavigate: (page: string) => void; }
 
 const caseStudies = [
   {
@@ -97,7 +97,7 @@ const caseStudies = [
   },
 ];
 
-export default function BPOCaseStudiesPage({ onBack, theme }: BPOCaseStudiesPageProps) {
+export default function BPOCaseStudiesPage({ onBack, theme, onNavigate }: BPOCaseStudiesPageProps) {
   const [activeCategory, setActiveCategory] = React.useState<Category>('all');
   const filteredStudies = caseStudies.filter(cs => activeCategory === 'all' || cs.cats.includes(activeCategory));
 
@@ -115,7 +115,7 @@ export default function BPOCaseStudiesPage({ onBack, theme }: BPOCaseStudiesPage
         <div className="relative z-10 max-w-[1100px] mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5">
-            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={onBack}>Connectified</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
             <span className="opacity-20">/</span>
             <span className="text-[#14ACD4]">BPO Case Studies</span>
           </motion.div>
@@ -261,7 +261,7 @@ export default function BPOCaseStudiesPage({ onBack, theme }: BPOCaseStudiesPage
                 </p>
               </div>
               <div className="flex flex-col gap-3 shrink-0 w-full md:w-auto">
-                <button onClick={() => window.location.href="mailto:admin@connectified.com.au"} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
+                <button onClick={() => onNavigate('contact')} className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors whitespace-nowrap">
                   Get a Free Quote <ArrowRight className="w-4 h-4" />
                 </button>
                 <button onClick={onBack} className={`inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors whitespace-nowrap ${theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>

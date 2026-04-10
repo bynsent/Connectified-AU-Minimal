@@ -142,9 +142,10 @@ const FadeUp: React.FC<{ children: React.ReactNode; delay?: number; className?: 
 interface NetworkingHardwarePageProps {
   onBack: () => void;
   theme: 'dark' | 'light';
+  onNavigate: (page: string) => void;
 }
 
-export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHardwarePageProps) {
+export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: NetworkingHardwarePageProps) {
 
   const brandCards = [
     {
@@ -266,9 +267,9 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <span>Connectified</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
             <span className="opacity-20">/</span>
-            <span>Devices & Connectivity</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Devices & Connectivity</span>
             <span className="opacity-20">/</span>
             <span className="text-[#14ACD4]">Networking Hardware</span>
           </motion.div>
@@ -313,7 +314,7 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
               Browse All Hardware <ChevronRight className="w-4 h-4" />
             </a>
             <button
-              onClick={onBack}
+              onClick={() => onNavigate('contact')}
               className={`inline-flex items-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
                 theme === 'dark'
                   ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]'
@@ -580,13 +581,13 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
           </div>
 
           <FadeUp delay={0.1} className="text-center mt-10">
-            <button className={`inline-flex items-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
+            <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
               theme === 'dark'
                 ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]'
                 : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
             }`}>
               View All Networking Hardware <ChevronRight className="w-4 h-4" />
-            </button>
+            </a>
           </FadeUp>
         </div>
       </section>
@@ -837,9 +838,9 @@ export default function NetworkingHardwarePage({ onBack, theme }: NetworkingHard
             </p>
           </FadeUp>
           <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <a href="mailto:admin@connectified.com.au" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#080e14] text-[#14ACD4] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0d1822] transition-colors">
+            <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#080e14] text-[#14ACD4] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0d1822] transition-colors">
               Talk to Our Team <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
             <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#080e14]/30 text-[#080e14] font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#080e14]/70 transition-colors">
               Browse the Shop
             </a>

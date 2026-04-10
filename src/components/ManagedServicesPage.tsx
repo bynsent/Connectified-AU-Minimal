@@ -264,7 +264,7 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
             {projectTeasers.map((proj, i) => (
               <motion.button key={proj.id} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} transition={{ duration: 0.55, ease: 'easeOut', delay: i * 0.1 }}
-                onClick={() => onNavigate('managed-cases')}
+                onClick={() => { sessionStorage.setItem('managed-cases-scroll', proj.id); onNavigate('managed-cases'); }}
                 className={`w-full group text-left p-8 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-8 transition-colors ${theme === 'dark' ? 'bg-[#0b1118] border-white/5 hover:border-[#14ACD4]/30' : 'bg-white border-black/5 hover:border-[#14ACD4]/30'}`}>
                 <div className="max-w-2xl">
                   <div className="inline-block px-2 py-0.5 rounded bg-[#14ACD4]/10 border border-[#14ACD4]/20 text-[#14ACD4] text-[8px] font-bold uppercase tracking-widest mb-4">{proj.tag}</div>
