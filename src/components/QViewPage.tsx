@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Bell, Mic, Activity, Phone, Wifi, User } from 'lucide-react';
+import SEO from './SEO';
 
 const ACCENT = '#f5c842';
 const ACCENT_BG = 'rgba(245,200,66,0.1)';
@@ -71,11 +72,17 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
   const dk = theme === 'dark';
 
   return (
+    <>
+      <SEO
+        title="Q-View — Personal Safety Pendant Device | Connectified"
+        description="Simple, reliable personal safety pendant. One-button SOS, fall detection and two-way audio. No smartphone required. For lone workers, elderly individuals and small business."
+        path="/q-view"
+      />
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
       className={`relative w-full overflow-hidden font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-12 md:pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
   src="/images/qview/qview.png"
@@ -91,7 +98,7 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
         <CWatermark className="watermark-c-hero hidden lg:block" />
 
         <div className="relative z-10 max-w-[1100px]">
-          <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+          <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
             <span className="opacity-20">/</span>
@@ -100,19 +107,19 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
             <span style={{ color: ACCENT }}>Q-View</span>
           </motion.div>
 
-          <motion.div className="inline-flex items-center gap-2 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] mb-5"
+          <motion.div className="inline-flex items-center gap-2 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] mb-5"
             style={{ background: ACCENT_BG, border: `1px solid ${ACCENT_BORDER}`, color: ACCENT }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}>
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: ACCENT }} />
             Connectified Pendant Device · Personal Safety · No Enterprise Overhead
           </motion.div>
 
-          <motion.h1 className="font-display text-[clamp(56px,8vw,108px)] leading-[0.92] font-black tracking-tighter uppercase mb-4"
+          <motion.h1 className="font-display text-[clamp(48px,8vw,108px)] leading-[0.92] font-black tracking-tighter uppercase mb-4"
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.22 }}>
             Q<span style={{ color: ACCENT }}>-</span>View
           </motion.h1>
 
-          <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] mb-7"
+          <motion.p className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] mb-7"
             style={{ color: `${ACCENT}99` }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
             Simple, Reliable Personal Safety — One Button · Fall Detection · Two-Way Audio
@@ -123,10 +130,10 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
             The simplest way into the Connectified safety ecosystem. Q-View is a purpose-built pendant device — one button, immediate alert, fall detection and two-way communication. No smartphone dependency, no enterprise setup, no complexity. Just reliable protection that works when you need it.
           </motion.p>
 
-          <motion.div className="flex flex-wrap gap-4 items-center mb-14"
+          <motion.div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12 md:mb-14"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
             <button onClick={() => onNavigate('contact')}
-              className="inline-flex items-center gap-2 px-7 py-3.5 font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors text-[#080e14]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors text-[#080e14]"
               style={{ background: ACCENT }}>
               Get in Touch <ArrowRight className="w-4 h-4" />
             </button>
@@ -266,5 +273,6 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
       </div>
 
     </motion.div>
+    </>
   );
 }

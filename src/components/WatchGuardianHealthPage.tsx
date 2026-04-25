@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ChevronRight, Shield, MapPin, Bell, Mic, Heart, Lock } from 'lucide-react';
+import SEO from './SEO';
 
 const ACCENT = '#2ecc8e';
 const ACCENT_BG = 'rgba(46,204,142,0.1)';
 const ACCENT_BORDER = 'rgba(46,204,142,0.22)';
 
-const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
+const CWatermark: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className = '' }) => (
   <svg className={`watermark-c ${className}`} viewBox="0 0 100 100" fill="none" aria-hidden="true">
     <path d="M78 28C72 18 62 12 50 12C30 12 14 28 14 50C14 72 30 88 50 88C62 88 72 82 78 72"
       stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
@@ -72,11 +73,17 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
   const dk = theme === 'dark';
 
   return (
+    <>
+      <SEO
+        title="Watch Guardian Health — Healthcare Staff Safety Wearable | Connectified"
+        description="Wearable safety device for nurses and clinical staff. Silent duress alerts, real-time hospital zone tracking and Samsung Knox security. ACQSC compliant."
+        path="/wg-health"
+      />
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
       className={`relative w-full overflow-hidden font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-12 md:pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
   src="/images/watchguardianhealth/watchguardianhealth.png"
@@ -92,7 +99,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
         <CWatermark className="watermark-c-hero hidden lg:block" style={{ color: ACCENT } as any} />
 
         <div className="relative z-10 max-w-[1100px]">
-          <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+          <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
             <span className="opacity-20">/</span>
@@ -101,7 +108,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
             <span style={{ color: ACCENT }}>Watch Guardian Health</span>
           </motion.div>
 
-          <motion.div className="inline-flex items-center gap-2 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] mb-5"
+          <motion.div className="inline-flex items-center gap-2 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] mb-5"
             style={{ background: ACCENT_BG, border: `1px solid ${ACCENT_BORDER}`, color: ACCENT }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}>
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: ACCENT }} />
@@ -113,7 +120,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
             Watch Guardian<br /><span style={{ color: ACCENT }}>Health</span>
           </motion.h1>
 
-          <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] mb-7"
+          <motion.p className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] mb-7"
             style={{ color: `${ACCENT}99` }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
             Staff Safety for Healthcare Environments — Silent Duress · Zone Tracking · Clinical Alert Routing
@@ -124,7 +131,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
             Designed for nurses, clinicians and allied health staff who face increasing rates of workplace aggression. Watch Guardian Health provides discreet, instant duress capability without disrupting patient care — with clinical-grade alert routing and Samsung Knox security that meets healthcare privacy requirements.
           </motion.p>
 
-          <motion.div className="flex flex-wrap gap-4 items-center mb-14"
+          <motion.div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12 md:mb-14"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
             <button onClick={() => onNavigate('contact')}
               className="inline-flex items-center gap-2 px-7 py-3.5 font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors"
@@ -267,5 +274,6 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
       </div>
 
     </motion.div>
+    </>
   );
 }

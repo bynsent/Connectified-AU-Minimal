@@ -4,6 +4,7 @@ import {
   ArrowLeft, Cpu, Network, ShieldCheck, Zap, Globe,
   Server, Radio, ShoppingCart, MessageSquare, ChevronRight, ArrowRight
 } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── C Watermark ──────────────────────────────────────────────────
 const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -219,7 +220,13 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
   ];
 
   return (
-    <motion.div
+    <>
+      <SEO
+        title="Networking Hardware — Teltonika, Cradlepoint & Milesight | Connectified"
+        description="Authorised Australian supplier of industrial 4G/5G routers, IoT gateways and LTE devices. Teltonika, Cradlepoint and Milesight in-stock from Seaford, Victoria."
+        path="/networking-hardware"
+      />
+      <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -262,7 +269,7 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
 
           {/* Breadcrumb */}
           <motion.div
-            className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -275,7 +282,7 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
           </motion.div>
 
           <motion.h1
-            className="font-display text-[clamp(52px,7vw,96px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
+            className="font-display text-[clamp(36px,7vw,96px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.18 }}
@@ -285,7 +292,7 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
           </motion.h1>
 
           <motion.p
-            className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#14ACD4]/65 mb-7"
+            className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] text-[#14ACD4]/65 mb-7"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.26 }}
@@ -305,17 +312,17 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
           </motion.p>
 
           <motion.div
-            className="flex flex-wrap gap-4 items-center"
+            className="flex flex-col sm:flex-row flex-wrap gap-3 items-start"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.38 }}
           >
-            <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-all">
+            <a href="https://shop.connectified.com.au" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-sans text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-all">
               Browse All Hardware <ChevronRight className="w-4 h-4" />
             </a>
             <button
               onClick={() => onNavigate('contact')}
-              className={`inline-flex items-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
+              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-transparent border font-sans text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-all ${
                 theme === 'dark'
                   ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]'
                   : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
@@ -327,7 +334,7 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
 
           {/* Stat counters */}
           <motion.div
-            className="flex flex-wrap gap-10 mt-14 pt-8 border-t border-white/10"
+            className="flex flex-wrap gap-6 md:gap-10 mt-14 pt-8 border-t border-white/10"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.46 }}
@@ -849,5 +856,6 @@ export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: Ne
       </div>
 
     </motion.div>
+    </>
   );
 }

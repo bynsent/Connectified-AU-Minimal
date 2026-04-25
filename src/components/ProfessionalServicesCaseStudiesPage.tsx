@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Building2, Watch, Radio, Stethoscope } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -159,10 +160,16 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
   const filteredProjects = projects.filter(p => filter === 'all' || p.cat.includes(filter));
 
   return (
+    <>
+      <SEO
+        title="IoT Professional Services Case Studies | Connectified"
+        description="IoT project case studies — safety compliance platforms, Watch Guardian healthcare integration, DirectWireless and more. See Connectified's delivered IoT solutions."
+        path="/prof-cases"
+      />
     <div className={`font-sans ${theme === 'dark' ? 'bg-[#0b1118] text-white' : 'bg-white text-[#0b1118]'}`}>
 
       {/* ── Page Header ── */}
-      <section className="relative pt-32 md:pt-40 pb-20 px-6 md:px-12 border-b border-white/5 overflow-hidden">
+      <section className="relative pt-32 md:pt-40 pb-12 md:pb-20 px-6 md:px-12 border-b border-white/5 overflow-hidden">
         <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[15vw] font-bold opacity-[0.02] pointer-events-none select-none whitespace-nowrap">
           PROJECTS
         </div>
@@ -176,12 +183,12 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
-            className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-[0.9] mb-6">
+            className="text-[clamp(36px,7vw,96px)] font-bold tracking-tighter uppercase leading-[0.9] mb-6">
             IoT Built.<br /><span className="text-[#14ACD4]">Problems Solved.</span>
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[#14ACD4] text-xs font-bold uppercase tracking-[0.2em] mb-8">
+            className="text-[#14ACD4] text-[9px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mb-6 md:mb-8">
             IoT Projects — Safety, Healthcare & Wearable Platforms · Australia
           </motion.p>
 
@@ -191,7 +198,7 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-            className={`grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
+            className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-8 md:pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
             <StatCounter num="4" label="Completed projects" theme={theme} />
             <StatCounter num="3" suffix="+" label="Industries served" theme={theme} />
             <StatCounter num="2" label="Connectified-built platforms" theme={theme} />
@@ -214,8 +221,8 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
       </div>
 
       {/* ── Projects ── */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col gap-12">
+      <section className="py-12 md:py-24 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col gap-8 md:gap-12">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, i) => (
               <motion.article layout key={project.id} id={project.id}
@@ -298,27 +305,28 @@ const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ the
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative bg-[#14ACD4] py-24 px-6 text-center overflow-hidden">
+      <section className="relative bg-[#14ACD4] py-14 md:py-24 px-6 text-center overflow-hidden">
         <CWatermark className="absolute right-8 bottom-0 w-64 opacity-10" />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
+          <h2 className="text-[clamp(28px,6vw,80px)] font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
             Have an IoT Challenge?
           </h2>
           <p className="text-lg text-[#0b1118]/60 mb-10 max-w-2xl mx-auto">
             Whether you have a fully formed brief or just an early-stage idea — we can help you work out what's technically possible, what it would cost to build, and how to get started.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+            <button onClick={() => onNavigate('contact')} className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={onBack}
-              className="px-10 py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
+              className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
               Back to Professional Services
             </button>
           </div>
         </div>
       </section>
     </div>
+    </>
   );
 };
 

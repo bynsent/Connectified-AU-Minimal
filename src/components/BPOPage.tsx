@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, ArrowRight, ChevronDown } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -307,6 +308,11 @@ interface BPOPageProps {
 export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
   return (
     <>
+      <SEO
+        title="BPO Services — Dedicated Offshore Teams | Connectified"
+        description="Dedicated BPO teams in Clark, Philippines for office administration, payroll and HR, accounting and IT development. Australian-managed, up to 60% cost reduction."
+        path="/bpo"
+      />
       {/* JSON-LD FAQPage schema */}
       <script
         type="application/ld+json"
@@ -323,9 +329,9 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
         }`}
       >
         {/* ── Hero ─────────────────────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
+        <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/images/bpo/hero-bpo.webp" label="BPO Hero" className="w-full h-full rounded-none border-0"/>
+            <img src="/images/bpo/hero-bpo.webp" alt="BPO Services" className="absolute inset-0 w-full h-full object-cover object-center" />
             <div
               className={`absolute inset-0 bg-gradient-to-b transition-colors duration-500 ${
                 theme === 'dark'
@@ -348,7 +354,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+              className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             >
               <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
               <span className="opacity-20">/</span>
@@ -360,7 +366,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#14ACD4] mb-5"
+              className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] text-[#14ACD4] mb-5"
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[#14ACD4] animate-pulse" />
               Business Process Outsourcing · Seaford, Victoria · Australia
@@ -371,7 +377,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="font-display text-[clamp(48px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
+              className="font-display text-[clamp(36px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
             >
               Outsource.<br />
               <span className="text-[#14ACD4]">Optimise.</span><br />
@@ -383,7 +389,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#14ACD4]/60 mb-7"
+              className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] text-[#14ACD4]/60 mb-7"
             >
               BPO Solutions Australia — Office Admin, Payroll, HR, Accounting & IT Development · Philippines-Based Team
             </motion.p>
@@ -405,9 +411,9 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35 }}
-              className="flex flex-wrap gap-4 items-center mb-12"
+              className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12"
             >
-              <button onClick={() => { const el = document.getElementById('services'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
+              <button onClick={() => { const el = document.getElementById('services'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
                 Explore Our Services <ArrowRight className="w-4 h-4" />
               </button>
               <button
@@ -427,7 +433,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-10 pt-8 border-t border-white/10"
+              className="flex flex-wrap gap-6 md:gap-10 pt-8 border-t border-white/10"
             >
               <StatCounter num="60" suffix="%" label="Cost reduction achieved" theme={theme} />
               <StatCounter num="24" suffix="/7" label="Operations capability" theme={theme} />

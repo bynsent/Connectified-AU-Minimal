@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Bell, MapPin, Clock, Heart, Shield, FileText } from 'lucide-react';
+import SEO from './SEO';
 
 const ACCENT = '#9b7fe8';
 const ACCENT_BG = 'rgba(155,127,232,0.1)';
@@ -71,11 +72,17 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
   const dk = theme === 'dark';
 
   return (
+    <>
+      <SEO
+        title="Watch Guardian Assist — Aged Care & NDIS Safety Wearable | Connectified"
+        description="Purpose-built wearable for aged care and NDIS environments. Medication reminders, geofence monitoring, wellness tracking and duress alerts. ACQSC compliant."
+        path="/wg-assist"
+      />
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
       className={`relative w-full overflow-hidden font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}>
 
       {/* HERO */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-12 md:pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
   src="/images/watchguardianassist/watchguardianassist.png"
@@ -91,7 +98,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
         <CWatermark className="watermark-c-hero hidden lg:block" />
 
         <div className="relative z-10 max-w-[1100px]">
-          <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+          <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
             <span className="opacity-20">/</span>
@@ -100,7 +107,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
             <span style={{ color: ACCENT }}>Watch Guardian Assist</span>
           </motion.div>
 
-          <motion.div className="inline-flex items-center gap-2 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] mb-5"
+          <motion.div className="inline-flex items-center gap-2 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] mb-5"
             style={{ background: ACCENT_BG, border: `1px solid ${ACCENT_BORDER}`, color: ACCENT }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}>
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: ACCENT }} />
@@ -112,7 +119,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
             Watch Guardian<br /><span style={{ color: ACCENT }}>Assist</span>
           </motion.h1>
 
-          <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] mb-7"
+          <motion.p className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] mb-7"
             style={{ color: `${ACCENT}99` }}
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
             Connected Care for Aged & Assisted Living — Independence Without Compromise
@@ -123,7 +130,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
             Watch Guardian Assist balances resident dignity with robust safety — medication reminders, safe zone monitoring, wellness tracking and tiered duress alerts, all on a Samsung Galaxy Watch that residents are comfortable wearing. Designed from the ground up for Australian aged care and NDIS environments.
           </motion.p>
 
-          <motion.div className="flex flex-wrap gap-4 items-center mb-14"
+          <motion.div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12 md:mb-14"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
             <button onClick={() => onNavigate('contact')}
               className="inline-flex items-center gap-2 px-7 py-3.5 font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors"
@@ -268,5 +275,6 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
       </div>
 
     </motion.div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Filter, Droplets, Radio, Shield, Code2, Headphones } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -163,10 +164,16 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
   const filteredProjects = activeFilter === 'all' ? projects : projects.filter(p => p.category.includes(activeFilter));
 
   return (
+    <>
+      <SEO
+        title="Managed Services Case Studies — Smart Water, Security & More | Connectified"
+        description="Managed services case studies — Australia's largest smart water meter support operation, security monitoring, telecommunications and DevOps. Real outcomes from Connectified."
+        path="/managed-cases"
+      />
     <div className={`font-sans ${theme === 'dark' ? 'bg-[#0b1118] text-white' : 'bg-white text-[#0b1118]'}`}>
 
       {/* ── Header ── */}
-      <section className="relative pt-32 md:pt-40 pb-20 px-6 md:px-12 overflow-hidden">
+      <section className="relative pt-32 md:pt-40 pb-12 md:pb-20 px-6 md:px-12 overflow-hidden">
         <div className="absolute top-0 right-0 text-[20vw] font-bold text-[#14ACD4]/5 leading-none select-none pointer-events-none translate-x-1/4 -translate-y-1/4">
           PROJECTS
         </div>
@@ -180,7 +187,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
-            className="text-5xl md:text-7xl font-bold tracking-tighter uppercase leading-[0.95] mb-8">
+            className="text-[clamp(32px,6vw,80px)] font-bold tracking-tighter uppercase leading-[0.95] mb-6 md:mb-8">
             Managed at Scale.<br /><span className="text-[#14ACD4]">Delivered Right.</span>
           </motion.h1>
 
@@ -215,7 +222,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
       </div>
 
       {/* ── Projects ── */}
-      <section className="py-20 px-6">
+      <section className="py-10 md:py-20 px-6">
         <div className="max-w-6xl mx-auto space-y-12">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((proj, i) => (
@@ -288,7 +295,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
 
           {/* Coming soon placeholder */}
           <FadeUp>
-            <div className="border-2 border-dashed border-white/5 rounded-2xl p-16 text-center">
+            <div className="border-2 border-dashed border-white/5 rounded-2xl p-8 md:p-16 text-center">
               <div className="w-12 h-12 rounded-full bg-[#14ACD4]/10 flex items-center justify-center text-[#14ACD4] mx-auto mb-6">
                 <Filter className="w-6 h-6" />
               </div>
@@ -301,20 +308,20 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
 
           {/* Bottom CTA */}
           <FadeUp delay={0.1}>
-            <div className={`relative p-12 rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden ${theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-gray-50 border-black/5'}`}>
+            <div className={`relative p-8 md:p-12 rounded-2xl md:rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 overflow-hidden ${theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-gray-50 border-black/5'}`}>
               <CWatermark className="absolute right-6 bottom-0 w-44 opacity-[0.06]" />
               <div className="max-w-xl relative z-10">
-                <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-6">Ready to Hand Over the Operational Burden?</h2>
+                <h2 className="text-2xl md:text-5xl font-bold uppercase tracking-tighter mb-4 md:mb-6">Ready to Hand Over the Operational Burden?</h2>
                 <p className={`text-lg ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>
                   Whether it's device fleet management, network operations, DevOps support or a managed support desk — tell us what you're trying to get off your plate.
                 </p>
               </div>
               <div className="flex flex-col gap-4 w-full md:w-auto relative z-10">
-                <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
+                <button onClick={() => onNavigate('contact')} className="w-full md:w-auto px-8 md:px-10 py-4 md:py-5 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
                   Start a Conversation →
                 </button>
                 <button onClick={onBack}
-                  className={`px-10 py-5 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4]'}`}>
+                  className={`w-full md:w-auto px-8 md:px-10 py-4 md:py-5 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4]'}`}>
                   Back to Overview
                 </button>
               </div>
@@ -323,6 +330,7 @@ const ManagedServicesCaseStudiesPage: React.FC<ManagedServicesCaseStudiesPagePro
         </div>
       </section>
     </div>
+    </>
   );
 };
 

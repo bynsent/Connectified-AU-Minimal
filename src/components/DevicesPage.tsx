@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Wifi, Watch, Shield, Zap, Globe } from 'lucide-react';
 import gsap from 'gsap';
+import SEO from './SEO';
 import Lenis from 'lenis';
 
 interface DevicesPageProps {
   onBack: () => void;
-  onNavigate: (page: 'home' | 'devices' | 'networking-hardware' | 'wearables') => void;
+  onNavigate: (page: 'home' | 'devices' | 'networking-hardware' | 'wearables' | 'contact') => void;
   theme: 'dark' | 'light';
 }
 
@@ -26,6 +27,12 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
   }, []);
 
   return (
+    <>
+      <SEO
+        title="Devices & Connectivity — IoT Hardware & Safety Wearables | Connectified"
+        description="Enterprise networking hardware and safety wearables from Connectified. Teltonika, Cradlepoint, Milesight routers and Watch Guardian safety wearables. Australian supplier."
+        path="/devices"
+      />
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -33,7 +40,7 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="relative w-full bg-[var(--bg-color)] text-[var(--text-color)] pt-32 md:pt-40 transition-colors duration-500"
     >
-      <main className="max-w-7xl mx-auto px-8 py-24 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24 relative z-10">
         {/* Background Glows */}
         <div className={`absolute inset-0 overflow-hidden pointer-events-none -z-10 transition-opacity duration-500 ${
           theme === 'dark' ? 'opacity-30' : 'opacity-10'
@@ -54,11 +61,11 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
         </button>
 
         {/* Hero Section */}
-        <section className="mb-32">
+        <section className="mb-16 md:mb-32">
           <span className="text-[#14ACD4] text-xs uppercase tracking-[0.4em] font-bold mb-6 block reveal-text">
             Pillar 01 / Devices & Connectivity
           </span>
-          <h1 className="font-display text-[8vw] leading-[0.85] font-bold tracking-tighter uppercase mb-12 reveal-text">
+          <h1 className="font-display text-[clamp(36px,8vw,96px)] leading-[0.85] font-bold tracking-tighter uppercase mb-8 md:mb-12 reveal-text">
             The Future <br />
             <span className={`${theme === 'dark' ? 'text-white/40' : 'text-black/20'} italic font-serif font-normal`}>Connected</span>
           </h1>
@@ -70,7 +77,7 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
         </section>
 
         {/* Categories Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-16 md:mb-32">
           <div 
             className="group cursor-pointer reveal-text"
             onClick={() => onNavigate('networking-hardware')}
@@ -87,7 +94,7 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
               } to-transparent opacity-80`} />
               <div className="absolute bottom-8 left-8">
                 <Wifi className="w-12 h-12 text-[#14ACD4] mb-4" />
-                <h3 className="text-3xl font-display font-bold uppercase">Networking</h3>
+                <h3 className="text-2xl md:text-3xl font-display font-bold uppercase">Networking</h3>
               </div>
             </div>
             <p className={`${theme === 'dark' ? 'text-white/60' : 'text-black/60'} text-sm leading-relaxed max-w-md`}>
@@ -111,7 +118,7 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
               } to-transparent opacity-80`} />
               <div className="absolute bottom-8 left-8">
                 <Watch className="w-12 h-12 text-[#14ACD4] mb-4" />
-                <h3 className="text-3xl font-display font-bold uppercase">Wearables</h3>
+                <h3 className="text-2xl md:text-3xl font-display font-bold uppercase">Wearables</h3>
               </div>
             </div>
             <p className={`${theme === 'dark' ? 'text-white/60' : 'text-black/60'} text-sm leading-relaxed max-w-md`}>
@@ -121,7 +128,7 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
         </section>
 
         {/* Features Section */}
-        <section className="border-t border-[var(--border-color)] pt-24 mb-32">
+        <section className="border-t border-[var(--border-color)] pt-12 md:pt-24 mb-16 md:mb-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="reveal-text">
               <Shield className="w-8 h-8 text-[#14ACD4] mb-6" />
@@ -148,18 +155,19 @@ export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPagePr
         </section>
 
         {/* Footer CTA */}
-        <section className={`text-center py-24 rounded-[3rem] transition-colors duration-500 ${
+        <section className={`text-center py-12 md:py-24 rounded-[2rem] md:rounded-[3rem] transition-colors duration-500 ${
           theme === 'dark' ? 'bg-white/5' : 'bg-black/5'
         }`}>
-          <h2 className="font-display text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-12">
+          <h2 className="font-display text-[clamp(36px,8vw,80px)] font-bold uppercase tracking-tighter mb-8 md:mb-12">
             Ready to <br />
             <span className="text-[#14ACD4]">Connect?</span>
           </h2>
-          <button className="px-12 py-6 bg-[#14ACD4] text-white font-bold uppercase tracking-widest rounded-full hover:scale-105 transition-transform shadow-xl">
+          <button onClick={() => onNavigate('contact')} className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 bg-[#14ACD4] text-white font-bold uppercase tracking-widest rounded-full hover:scale-105 transition-transform shadow-xl">
             Contact Our Team
           </button>
         </section>
       </main>
     </motion.div>
+    </>
   );
 }

@@ -543,14 +543,14 @@ export default function App() {
             onAnimationComplete={() => { setTimeout(() => ScrollTrigger.refresh(), 500); }}
             className="relative"
           >
-            <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-12">
+            <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
               <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
                 <motion.h1 
                   key={`headline-${activeIndex}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="font-display text-[7.5vw] leading-[0.8] font-bold tracking-tighter uppercase mb-4 flex items-baseline justify-center"
+                  className="font-display text-[clamp(32px,7.5vw,96px)] leading-[0.85] font-bold tracking-tighter uppercase mb-4 flex items-baseline justify-center"
                 >
                   {PILLARS[activeIndex].headline}
                   <span className="w-[0.15em] h-[0.15em] bg-[#14ACD4] rounded-full ml-2 mb-[0.1em]" />
@@ -561,7 +561,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.05 }}
-                  className="text-[#14ACD4] font-display text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] mb-8 max-w-lg mx-auto text-center min-h-[2.5em]"
+                  className="text-[#14ACD4] font-display text-[9px] md:text-xs font-bold uppercase tracking-[0.12em] md:tracking-[0.2em] mb-8 max-w-lg mx-auto text-center min-h-[2.5em] px-4"
                 >
                   {PILLARS[activeIndex].subheadline}
                 </motion.p>
@@ -574,7 +574,7 @@ export default function App() {
                     <div key={pillar.id} className="relative group flex-shrink-0 snap-center">
                       <button
                         onClick={() => scrollToSection(idx)}
-                        className={`px-6 py-3 md:px-8 md:py-4 rounded-full border text-[10px] uppercase tracking-[0.15em] font-bold transition-all duration-500 ${
+                        className={`px-4 py-2.5 md:px-8 md:py-4 rounded-full border text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.15em] font-bold transition-all duration-500 ${
                           idx === activeIndex 
                             ? 'bg-[#14ACD4] border-[#14ACD4] text-white' 
                             : theme === 'dark'
@@ -595,17 +595,17 @@ export default function App() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 }}
-                  className={`font-sans text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed font-medium ${
+                  className={`font-sans text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed font-medium px-2 ${
                     theme === 'dark' ? 'text-white/80' : 'text-black/80'
                   }`}
                 >
                   {PILLARS[activeIndex].description}
                 </motion.p>
 
-                <div className="min-h-[48px] flex items-center justify-center gap-4">
+                <div className="min-h-[48px] flex flex-col sm:flex-row items-center justify-center gap-3">
                   <button 
                     onClick={handleExplore}
-                    className="px-6 py-3 md:px-8 md:py-4 bg-[#14ACD4] text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 shadow-[0_0_30px_rgba(20,172,212,0.2)] hover:bg-[#1299bc] transition-colors whitespace-nowrap"
+                    className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 bg-[#14ACD4] text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(20,172,212,0.2)] hover:bg-[#1299bc] transition-colors"
                   >
                     {PILLARS[activeIndex].cta} <ArrowRight className="w-4 h-4" />
                   </button>
@@ -613,7 +613,7 @@ export default function App() {
                   {(PILLARS[activeIndex] as any).secondaryCta && (
                     <button 
                       onClick={() => navigate((PILLARS[activeIndex] as any).secondaryCtaPage)}
-                      className={`px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center gap-3 transition-colors whitespace-nowrap ${
+                      className={`w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 transition-colors ${
                         theme === 'dark'
                           ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
                           : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'

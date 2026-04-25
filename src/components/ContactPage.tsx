@@ -47,6 +47,9 @@ function ImgPlaceholder({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
+const MONDAY_BOARD_ID = 5027978324;
+
 interface ContactPageProps {
   theme: 'dark' | 'light';
   onBack: () => void;
@@ -55,6 +58,8 @@ interface ContactPageProps {
 const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
   const [selectedService, setSelectedService] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -79,13 +84,78 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
     'General Enquiry',
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedService) {
       alert('Please select a service area');
       return;
     }
-    setTimeout(() => setIsSubmitted(true), 1000);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    // Email format validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
+      setSubmitError('Please enter a valid email address.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const itemName = `${formData.firstName} ${formData.lastName}`;
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const phoneNumeric = formData.phone.replace(/[^\d+]/g, '');
+
+    const columnValues = JSON.stringify({
+      status:              { label: 'New' },
+      date_mm2mscyv:       { date: today },
+      text_mm2mz8bt:       selectedService,
+      text_mm2m5d5:        formData.jobTitle,
+      text_mm2mf7yg:       formData.company,
+      text_mm2myr13:       formData.email,
+      numeric_mm2me53n:    phoneNumeric,
+      text_mm2mhdp3:       formData.message,
+      text_mm2mp8zj:       formData.timeline,
+    });
+
+    const query = `
+      mutation {
+        create_item(
+          board_id: ${MONDAY_BOARD_ID},
+          item_name: ${JSON.stringify(itemName)},
+          column_values: ${JSON.stringify(columnValues)}
+        ) {
+          id
+        }
+      }
+    `;
+
+    try {
+      const res = await fetch('https://api.monday.com/v2', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': MONDAY_API_TOKEN,
+          'API-Version': '2024-01',
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      const data = await res.json();
+
+      if (data.errors || !data.data?.create_item?.id) {
+        console.error('Monday API error:', data.errors);
+        setSubmitError('Something went wrong. Please try again or email us directly at admin@connectified.com.au');
+        setIsSubmitting(false);
+        return;
+      }
+
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Submit error:', err);
+      setSubmitError('Something went wrong. Please try again or email us directly at admin@connectified.com.au');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -131,11 +201,10 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
 
               {/* ── Image placeholder: office/team photo ── */}
               {/* Replace with: <img src="/images/contact-office.jpg" alt="Connectified office" className="w-full rounded-2xl mb-10 object-cover" style={{ aspectRatio: '16/9' }} /> */}
-              <img src="/images/about/connectifiedoffice.png"
-                label="Office / Team Photo"
-                hint="Recommended: 1200×675px — 16:9"
-                aspect="16/9"
-                className="w-full mb-10"
+              <img
+                src="/images/about/connectifiedoffice.png"
+                alt="Connectified office"
+                className="w-full rounded-2xl mb-10 object-cover"
               />
 
               <div className="bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded-2xl p-6 flex items-center gap-4 mb-10 max-w-md">
@@ -259,11 +328,42 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-[#687177]" htmlFor="email">Email Address <span className="text-[#14ACD4]">*</span></label>
-                      <input required type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="jane@acme.com.au" className={inputClass} />
+                      <input
+                        required
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="jane@acme.com.au"
+                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                        className={`${inputClass} ${
+                          formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)
+                            ? 'border-red-400 focus:border-red-400'
+                            : formData.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)
+                              ? 'border-green-400 focus:border-green-400'
+                              : ''
+                        }`}
+                      />
+                      {formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email) && (
+                        <p className="text-[10px] text-red-400 font-medium">Please enter a valid email address (e.g. jane@acme.com.au)</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold uppercase tracking-widest text-[#687177]" htmlFor="phone">Phone Number</label>
-                      <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="+61 4XX XXX XXX" className={inputClass} />
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={(e) => {
+                          // Allow digits, +, spaces, hyphens, parentheses only
+                          const cleaned = e.target.value.replace(/[^\d+\s\-()]/g, '');
+                          setFormData(prev => ({ ...prev, phone: cleaned }));
+                        }}
+                        placeholder="+61 4XX XXX XXX"
+                        className={inputClass}
+                      />
                     </div>
                   </div>
 
@@ -287,14 +387,29 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
 
                   <div className="pt-4 flex flex-col sm:flex-row items-center gap-6">
                     <button type="submit"
-                      className="w-full sm:w-auto px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors flex items-center justify-center gap-3">
-                      Send Enquiry <Send className="w-4 h-4" />
+                      disabled={isSubmitting}
+                      className="w-full sm:w-auto px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed">
+                      {isSubmitting ? (
+                        <>
+                          <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                          </svg>
+                          Sending...
+                        </>
+                      ) : (
+                        <>Send Enquiry <Send className="w-4 h-4" /></>
+                      )}
                     </button>
                     <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#687177]">
                       <Clock className="w-3 h-3" />
                       We'll respond within one business day.
                     </div>
                   </div>
+
+                  {submitError && (
+                    <p className="text-sm text-red-400 mt-4">{submitError}</p>
+                  )}
                 </form>
               </motion.div>
             ) : (

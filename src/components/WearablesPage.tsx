@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import { ArrowLeft, ChevronRight, ArrowRight, Shield, Heart, User, Briefcase, Home, Activity } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Types ────────────────────────────────────────────────────────
 type Category = 'all' | 'workplace' | 'healthcare' | 'agedcare' | 'personal';
@@ -194,7 +195,13 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
   ];
 
   return (
-    <motion.div
+    <>
+      <SEO
+        title="Safety Wearables — Watch Guardian, WatchArmour & Q-View | Connectified"
+        description="Australian-designed wearable safety devices. Watch Guardian, WatchArmour, Watch Guardian Health, Watch Guardian Assist and Q-View pendant. Workplace, healthcare and aged care."
+        path="/wearables"
+      />
+      <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
       className={`relative w-full overflow-hidden font-sans ${
@@ -203,7 +210,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
     >
 
       {/* ── HERO ────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/wearables/wearables.png"
@@ -225,7 +232,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
 
         <div className="relative z-10 max-w-[1100px]">
           {/* Breadcrumb */}
-          <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+          <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}>
             <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span><span className="opacity-20">/</span>
@@ -233,20 +240,20 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             <span className="text-[#14ACD4]">Wearables & Watch Guardian</span>
           </motion.div>
 
-          <motion.div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#14ACD4] mb-5"
+          <motion.div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] text-[#14ACD4] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.16 }}>
             <div className="glow-dot" />
             Australian-Designed Safety Wearables · Seaford, VIC
           </motion.div>
 
-          <motion.h1 className="font-display text-[clamp(48px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
+          <motion.h1 className="font-display text-[clamp(36px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2"
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.22 }}>
             Safety <br /><span className="text-[#14ACD4]">Wearables</span>
           </motion.h1>
 
-          <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#14ACD4]/60 mb-7"
+          <motion.p className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.08em] md:tracking-[0.18em] text-[#14ACD4]/60 mb-7"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}>
             Personal Safety Wearables Australia — Workplace, Healthcare, Aged Care & Personal Use · Seaford, VIC
@@ -259,14 +266,14 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
             Five purpose-built wearable safety solutions — from discreet workplace duress alerts to aged care monitoring and personal SOS devices. The Watch Guardian series runs on Samsung Galaxy Watch with Knox enterprise security. WatchArmour and Q-View are Connectified's own proprietary smartwatch and pendant designs.
           </motion.p>
 
-          <motion.div className="flex flex-wrap gap-4 items-center mb-12"
+          <motion.div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.42 }}>
-            <button onClick={() => { const el = document.getElementById('products-grid'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
+            <button onClick={() => { const el = document.getElementById('products-grid'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
               Find Your Solution <ArrowRight className="w-4 h-4" />
             </button>
             <button onClick={() => onNavigate('contact')}
-              className={`inline-flex items-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
+              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 bg-transparent border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
                 theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
               }`}>
               Book a Demo
@@ -274,7 +281,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
           </motion.div>
 
           {/* Hero stats */}
-          <motion.div className="flex flex-wrap gap-10 pt-8 border-t border-white/10"
+          <motion.div className="flex flex-wrap gap-6 md:gap-10 pt-8 border-t border-white/10"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.48 }}>
             <StatCounter num="5" suffix="" label="Safety products" theme={theme} />
@@ -294,7 +301,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
               { label: "Connectified Smartwatch", color: "#e85d26" },
               { label: "Connectified Pendant", color: "#f5c842" }
             ].map((plat, i) => (
-              <div key={i} className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.06em] ${
+              <div key={i} className={`flex items-center gap-1.5 border rounded-md px-2.5 py-1 text-[10px] md:text-[12px] font-bold uppercase tracking-[0.04em] md:tracking-[0.06em] ${
                 theme === 'dark' ? 'bg-white/5 border-white/10 text-[#eef2f7]/55' : 'bg-black/5 border-black/10 text-[#0b1118]/55'
               }`}>
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: plat.color }} />
@@ -650,5 +657,6 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
       </div>
 
     </motion.div>
+    </>
   );
 }

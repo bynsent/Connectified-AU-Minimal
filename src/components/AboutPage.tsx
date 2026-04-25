@@ -548,6 +548,64 @@ const AboutPage: React.FC<AboutPageProps> = ({ theme, onNavigate }) => {
         </div>
       </section>
 
+      {/* ── LINKEDIN ───────────────────────────────────────────────── */}
+      <section className={`py-24 px-6 ${theme === 'dark' ? 'bg-[#0F1A22]' : 'bg-white'}`}>
+        <div className="max-w-6xl mx-auto">
+          <FadeUp className="mb-12">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// Latest from LinkedIn</div>
+                <h2 className="text-4xl md:text-5xl font-bold tracking-tighter uppercase">
+                  What We've<br />Been Up To.
+                </h2>
+              </div>
+              <a
+                href="https://www.linkedin.com/company/connectified"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-[#14ACD4]/30 text-[#14ACD4] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[#14ACD4]/10 transition-colors whitespace-nowrap"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                Follow on LinkedIn
+              </a>
+            </div>
+          </FadeUp>
+
+          {/* TO UPDATE: Replace the src URLs below with new post embed URLs from LinkedIn.
+              To get one: open a post → click ··· menu → "Embed this post" → copy the src value from the iframe code. */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+            {[
+              'https://www.linkedin.com/embed/feed/update/urn:li:share:7390176798774423552?collapsed=1',
+              'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7378288337826209792?collapsed=1',
+              'https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7383277899979837440?collapsed=1',
+            ].map((src, idx) => (
+              <motion.div
+                key={idx}
+                className={`rounded-2xl overflow-hidden border ${
+                  theme === 'dark' ? 'border-white/5' : 'border-black/5'
+                }`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: idx * 0.1 }}
+              >
+                <iframe
+                  src={src}
+                  height="500"
+                  width="100%"
+                  frameBorder="0"
+                  allowFullScreen
+                  title={`Connectified LinkedIn post ${idx + 1}`}
+                  className="w-full block"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA BAND ───────────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#14ACD4] relative overflow-hidden">
         {/* C Watermark on teal bg */}

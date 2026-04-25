@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Briefcase, Cpu, Settings, Search, Code2 } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -129,10 +130,16 @@ interface ProfessionalServicesPageProps {
 
 const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ theme, onBack, onNavigate }) => {
   return (
+    <>
+      <SEO
+        title="IoT Professional Services — Design, Integration & Deployment | Connectified"
+        description="End-to-end IoT professional services. Project management, IoT architecture, proof of concept, remote site surveys and custom software development. Seaford, Victoria."
+        path="/prof-services"
+      />
     <div className={`font-sans ${theme === 'dark' ? 'bg-[#0b1118] text-white' : 'bg-white text-[#0b1118]'}`}>
 
       {/* ── Hero ── */}
-      <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-12 pb-12 md:pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Replace with: <img src="/images/prof-services-hero.jpg" alt="IoT Technology" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.45 }} /> */}
           <img
@@ -154,28 +161,28 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}>
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-[0.9] mb-6">
+            <h1 className="text-[clamp(36px,7vw,96px)] font-bold tracking-tighter uppercase leading-[0.9] mb-6">
               IoT <span className="text-[#14ACD4]">Professional</span><br />Services
             </h1>
-            <p className="text-[#14ACD4] text-xs font-bold uppercase tracking-[0.2em] mb-8">
+            <p className="text-[#14ACD4] text-[9px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mb-6 md:mb-8">
               Design, Integration & Deployment — Seaford, Victoria
             </p>
             <p className={`text-lg max-w-2xl mb-10 leading-relaxed ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>
               From initial concept to live deployment — Connectified delivers end-to-end IoT professional services for Australian businesses. Project management, IoT design and architecture, proof of concept, remote site surveys and bespoke software development.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-16">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-12 md:mb-16">
               <button onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
+                className="w-full sm:w-auto px-8 py-4 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
                 Explore Our Services
               </button>
               <button onClick={() => onNavigate('prof-cases')}
-                className={`px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
+                className={`w-full sm:w-auto px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
                 See Our Projects
               </button>
             </div>
 
-            <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
+            <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-8 md:pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
               <StatCounter num="5" label="Service areas" theme={theme} />
               <StatCounter num="4" suffix="+" label="Completed projects" theme={theme} />
               <StatCounter num="AU" label="Seaford, Victoria" theme={theme} />
@@ -186,11 +193,11 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
       </section>
 
       {/* ── Value Strip ── */}
-      <div className="bg-[#14ACD4] py-12 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="bg-[#14ACD4] py-8 md:py-12 px-6">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {[{ num: '5', label: 'Core IoT service areas' }, { num: 'PoC', label: 'Validate before you invest' }, { num: 'End-to-end', label: 'Concept through to deployment' }, { num: 'AU', label: 'Australian-based delivery team' }].map((item, idx) => (
             <div key={idx} className="text-center border-r last:border-0 border-[#0b1118]/10 px-4">
-              <div className="text-4xl font-bold text-[#0b1118] mb-1">{item.num}</div>
+              <div className="text-2xl md:text-4xl font-bold text-[#0b1118] mb-1">{item.num}</div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-[#0b1118]/60 leading-tight">{item.label}</div>
             </div>
           ))}
@@ -198,11 +205,11 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
       </div>
 
       {/* ── Services ── */}
-      <section id="services" className="py-24 px-6">
+      <section id="services" className="py-12 md:py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <FadeUp className="mb-16">
             <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// Our Services</div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-6">
+            <h2 className="text-[clamp(28px,4vw,64px)] font-bold tracking-tighter uppercase mb-6">
               Five Ways We Bring<br />IoT Projects to Life
             </h2>
             <p className={`text-lg max-w-2xl ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>
@@ -341,7 +348,7 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
           </FadeUp>
 
           {/* Replace with: <img src="/images/prof-team.jpg" alt="Connectified team" className="w-full rounded-2xl mb-12 object-cover" style={{ height: '280px' }} /> */}
-          <img src="/images/profservices/profservicesbanner.png" label="Team / Lab Photo" hint="Recommended: 1400×440px — dev lab, team meeting, or hardware prototyping" className="w-full h-[220px] mb-12" />
+          <img src="/images/profservices/profservicesbanner.png" alt="Connectified team" className="w-full h-[160px] md:h-[220px] mb-8 md:mb-12 object-cover rounded-xl" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {whyItems.map((item, idx) => (
@@ -358,27 +365,28 @@ const ProfessionalServicesPage: React.FC<ProfessionalServicesPageProps> = ({ the
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative bg-[#14ACD4] py-24 px-6 text-center overflow-hidden">
+      <section className="relative bg-[#14ACD4] py-14 md:py-24 px-6 text-center overflow-hidden">
         <CWatermark className="absolute right-8 bottom-0 w-64 opacity-10" />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
+          <h2 className="text-[clamp(28px,6vw,80px)] font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
             Have an IoT Project in Mind?
           </h2>
           <p className="text-lg text-[#0b1118]/60 mb-10 max-w-2xl mx-auto">
             Whether you have a fully formed brief or just an early-stage idea — we can help you work out what's possible and what it would take to build it.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+            <button onClick={() => onNavigate('contact')} className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={() => onNavigate('prof-cases')}
-              className="px-10 py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
+              className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
               See Our Projects
             </button>
           </div>
         </div>
       </section>
     </div>
+    </>
   );
 };
 

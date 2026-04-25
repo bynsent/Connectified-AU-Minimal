@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import SEO from './SEO';
 
 const ACCENT = '#14ACD4';
 
@@ -95,19 +96,24 @@ interface BPOServicePageProps { onBack: () => void; onNavigate: (page: any) => v
 export default function BPOOfficeAdminPage({ onBack, onNavigate, theme }: BPOServicePageProps) {
   return (
     <>
+      <SEO
+        title="Office Administration BPO — Dedicated Admin Teams | Connectified"
+        description="Offshore office administration teams in Clark, Philippines. Data entry, scheduling, document management and operational support. Australian-managed from Seaford, VIC."
+        path="/bpo-admin"
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
         className={`relative w-full overflow-hidden font-sans ${theme === 'dark' ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}>
 
         {/* ── Hero ── */}
-        <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
+        <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/images/bpo/officeadmin.png" label="BPO Hero" resolution="2069×1380px" className="w-full h-full rounded-none border-0" />
+            <img src="/images/bpo/officeadmin.png" alt="BPO Office Administration" className="absolute inset-0 w-full h-full object-cover object-center" />
             <div className={`absolute inset-0 bg-gradient-to-b ${theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/72 to-[#0b1118]' : 'from-white/20 via-white/72 to-white'}`} />
             <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 59px, #14ACD4 59px, #14ACD4 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, #14ACD4 59px, #14ACD4 60px)` }} />
           </div>
           <div className="relative z-10 max-w-[1100px]">
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5">
               <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
               <span className="opacity-20">/</span>
               <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('bpo')}>BPO Services</span>
@@ -115,23 +121,23 @@ export default function BPOOfficeAdminPage({ onBack, onNavigate, theme }: BPOSer
               <span className="text-[#14ACD4]">Office Administration</span>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
-              className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#14ACD4] mb-5">
+              className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3 py-1.5 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.08em] md:tracking-[0.16em] text-[#14ACD4] mb-5">
               <div className="w-1.5 h-1.5 rounded-full bg-[#14ACD4] animate-pulse" />
               Back Office Outsourcing · BPO Services
             </motion.div>
             <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-              className="font-display text-[clamp(48px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2">
+              className="font-display text-[clamp(36px,6.5vw,88px)] leading-[0.95] font-black tracking-tighter uppercase mb-2">
               Office<br /><span className="text-[#14ACD4]">Administration</span>
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-              className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] text-[#14ACD4]/60 mb-7">
+              className="font-sans text-[9px] md:text-sm font-bold uppercase tracking-[0.1em] md:tracking-[0.18em] text-[#14ACD4]/60 mb-7">
               Office Administration Outsourcing Australia — Data Entry, Scheduling & Reporting · Seaford, VIC
             </motion.p>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
               className={`text-base md:text-lg font-light max-w-[580px] leading-relaxed mb-10 ${theme === 'dark' ? 'text-[#eef2f7]/60' : 'text-[#0b1118]/60'}`}>
               Free your Australian team from the daily grind of administrative work. Connectified provides dedicated office administration staff in Clark, Philippines — onboarded to your systems, managed to your KPIs, and accountable to your Australian point of contact.
             </motion.p>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-wrap gap-4 items-center mb-12">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }} className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12">
               <button onClick={() => onNavigate('contact')} className="inline-flex items-center gap-2 px-7 py-3 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] hover:-translate-y-0.5 transition-colors">
                 Get a Free Quote <ArrowRight className="w-4 h-4" />
               </button>

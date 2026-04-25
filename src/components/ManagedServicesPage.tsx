@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Cpu, Network, CreditCard, ClipboardCheck } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -125,10 +126,16 @@ interface ManagedServicesPageProps {
 
 const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack, onNavigate }) => {
   return (
+    <>
+      <SEO
+        title="Managed IT & IoT Services — 24/7 Device Management | Connectified"
+        description="Managed IoT device fleets, network infrastructure, DevOps and support desk services. Full operational ownership. Australian-managed from Seaford, VIC and Clark, Philippines."
+        path="/managed-services"
+      />
     <div className={`font-sans ${theme === 'dark' ? 'bg-[#0b1118] text-white' : 'bg-white text-[#0b1118]'}`}>
 
       {/* ── Hero ── */}
-      <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
+      <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-12 pb-12 md:pb-20 pt-32 md:pt-40 overflow-hidden">
         <div className="absolute inset-0 z-0">
           {/* Replace with: <img src="/images/managed-services-hero.jpg" alt="Data Monitoring" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.45 }} /> */}
           <img src="/images/managedservices/managedservices.png" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} />
@@ -137,35 +144,35 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
 
         <div className="relative z-10 max-w-6xl mx-auto w-full">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#14ACD4] mb-6">
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-bold uppercase tracking-[0.15em] text-[#14ACD4] mb-6">
             <button onClick={onBack} className="hover:text-white transition-colors">Connectified</button>
             <span className="opacity-30">/</span>
             <span className={theme === 'dark' ? 'text-white' : 'text-black'}>Managed Services</span>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}>
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-[0.9] mb-6">
+            <h1 className="text-[clamp(36px,7vw,96px)] font-bold tracking-tighter uppercase leading-[0.9] mb-6">
               Managed<br /><span className="text-[#14ACD4]">Services</span>
             </h1>
-            <p className="text-[#14ACD4] text-xs font-bold uppercase tracking-[0.2em] mb-8">
+            <p className="text-[#14ACD4] text-[9px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mb-6 md:mb-8">
               Managed IT Services Melbourne — Seaford, Victoria
             </p>
             <p className={`text-lg max-w-2xl mb-10 leading-relaxed ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>
               We take ownership of your critical systems so you don't have to. From IoT device fleets and network infrastructure to DevOps pipelines and support desks — Connectified manages, monitors and optimises your technology operations end-to-end.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-16">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-12 md:mb-16">
               <button onClick={() => { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="px-8 py-4 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
+                className="w-full sm:w-auto px-8 py-4 bg-[#14ACD4] text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#1299bc] transition-colors">
                 Explore Our Services
               </button>
               <button onClick={() => onNavigate('managed-cases')}
-                className={`px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
+                className={`w-full sm:w-auto px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
                 See Our Projects
               </button>
             </div>
 
-            <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
+            <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 pt-8 md:pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
               <StatCounter num="5" suffix="+" label="Managed projects" theme={theme} />
               <StatCounter num="24" suffix="/7" label="Monitoring capability" theme={theme} />
               <StatCounter num="AU" label="Australian-managed" theme={theme} />
@@ -177,7 +184,7 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
 
       {/* ── Value Strip ── */}
       <div className="bg-[#14ACD4] py-12 px-6">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {[
             { num: '5+', label: 'Industries with managed deployments' },
             { num: '24/7', label: 'Network monitoring & incident response' },
@@ -193,11 +200,11 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
       </div>
 
       {/* ── Services ── */}
-      <section id="services" className="py-24 px-6">
+      <section id="services" className="py-12 md:py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <FadeUp className="mb-16">
             <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// Our Services</div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-6">
+            <h2 className="text-[clamp(28px,4vw,64px)] font-bold tracking-tighter uppercase mb-6">
               Four Managed Service<br />Disciplines. One Partner.
             </h2>
             <p className={`text-lg max-w-2xl ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>
@@ -291,11 +298,11 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
       </section>
 
       {/* ── Why Connectified ── */}
-      <section className="py-24 px-6">
+      <section className="py-12 md:py-24 px-6">
         <div className="max-w-6xl mx-auto">
-          <FadeUp className="mb-16">
+          <FadeUp className="mb-10 md:mb-16">
             <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// Why Connectified</div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-6">
+            <h2 className="text-[clamp(28px,4vw,64px)] font-bold tracking-tighter uppercase mb-6">
               We Don't Just Monitor.<br />We Own the Outcome.
             </h2>
           </FadeUp>
@@ -318,27 +325,28 @@ const ManagedServicesPage: React.FC<ManagedServicesPageProps> = ({ theme, onBack
       </section>
 
       {/* ── CTA ── */}
-      <section className="relative bg-[#14ACD4] py-24 px-6 text-center overflow-hidden">
+      <section className="relative bg-[#14ACD4] py-14 md:py-24 px-6 text-center overflow-hidden">
         <CWatermark className="absolute right-8 bottom-0 w-64 opacity-10" />
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
+          <h2 className="text-[clamp(28px,6vw,80px)] font-bold tracking-tighter uppercase text-[#0b1118] mb-6">
             Ready to Hand Over the Operational Burden?
           </h2>
           <p className="text-lg text-[#0b1118]/60 mb-10 max-w-2xl mx-auto">
             Tell us what you're managing today. We'll scope a managed service and show you what full operational ownership looks like.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
+            <button onClick={() => onNavigate('contact')} className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-[#0b1118] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0d1a28] transition-colors">
               Start a Conversation →
             </button>
             <button onClick={() => onNavigate('managed-cases')}
-              className="px-10 py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
+              className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 border-2 border-[#0b1118]/20 text-[#0b1118] font-bold text-xs uppercase tracking-widest rounded-full hover:border-[#0b1118]/60 transition-colors">
               See Our Projects
             </button>
           </div>
         </div>
       </section>
     </div>
+    </>
   );
 };
 

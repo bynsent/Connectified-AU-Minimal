@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Settings, MessageSquare, Users, Target, Rocket, Search, ChevronDown } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -129,12 +130,17 @@ interface ManagedSupportDeskPageProps {
 const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, onBack, onNavigate }) => {
   return (
     <>
+      <SEO
+        title="Managed Support Desk — 24/7 IT Helpdesk | Connectified"
+        description="Dedicated managed support desk with SLA-backed response times. Tier 1/2 helpdesk, IoT device support and custom KPI reporting. Australian-managed offshore operations."
+        path="/managed-support"
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className={`font-sans ${theme === 'dark' ? 'bg-[#0F1A22] text-white' : 'bg-[#F8FAFC] text-[#0F172A]'}`}>
 
         {/* ── Hero ── */}
-        <section className="relative min-h-[90vh] flex flex-col justify-end px-6 md:px-12 pb-20 pt-32 md:pt-40 overflow-hidden">
+        <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-12 pb-12 md:pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
             {/* Replace with: <img src="/images/support-desk-hero.jpg" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} /> */}
             <img src="/images/managedservices/supportdesk.png" alt="Support Team" className="w-full h-full object-cover" style={{ opacity: theme === 'dark' ? 0.3 : 0.1 }} />
@@ -150,25 +156,25 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}>
-              <h1 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase leading-[0.9] mb-6">
+              <h1 className="text-[clamp(36px,7vw,96px)] font-bold tracking-tighter uppercase leading-[0.9] mb-6">
                 Support<br /><span className="text-[#14ACD4]">Desk</span><br />Services
               </h1>
-              <p className="text-[#14ACD4] text-xs font-bold uppercase tracking-[0.2em] mb-8">
+              <p className="text-[#14ACD4] text-[9px] md:text-xs font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mb-6 md:mb-8">
                 Managed Technical & Customer Support Australia — Seaford, VIC
               </p>
               <p className={`text-lg max-w-2xl mb-10 leading-relaxed ${theme === 'dark' ? 'text-white/60' : 'text-black/60'}`}>
                 A responsive, professional support desk isn't just about answering tickets — it's the front line of your customer experience. Connectified builds and manages dedicated support teams that represent your brand.
               </p>
-              <div className="flex flex-wrap gap-4 mb-16">
-                <button onClick={() => onNavigate('contact')} className="px-8 py-4 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-12 md:mb-16">
+                <button onClick={() => onNavigate('contact')} className="w-full sm:w-auto px-8 py-4 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
                   Build Your Support Team →
                 </button>
                 <button onClick={() => onNavigate('managed-cases')}
-                  className={`px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
+                  className={`w-full sm:w-auto px-8 py-4 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'}`}>
                   See Our Projects
                 </button>
               </div>
-              <div className={`grid grid-cols-2 md:grid-cols-3 gap-8 pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
+              <div className={`grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 pt-8 md:pt-10 border-t ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
                 <StatCounter num="Tech" suffix="+CX" label="Technical & customer support" theme={theme} />
                 <StatCounter num="AU" label="Managed from Seaford VIC" theme={theme} />
                 <StatCounter num="Your" label="Brand, systems & culture" theme={theme} />
@@ -178,11 +184,11 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
         </section>
 
         {/* ── Two Service Panels ── */}
-        <section className="py-24 px-6">
+        <section className="py-12 md:py-24 px-6">
           <div className="max-w-6xl mx-auto">
-            <FadeUp className="mb-16">
+            <FadeUp className="mb-10 md:mb-16">
               <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// What We Offer</div>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-6">
+              <h2 className="text-[clamp(28px,4vw,64px)] font-bold tracking-tighter uppercase mb-6">
                 Two Support Disciplines.<br />One Managed Team.
               </h2>
             </FadeUp>
@@ -190,7 +196,7 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
               <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ duration: 0.55, ease: 'easeOut' }}
-                className={`p-12 md:p-16 border-t-4 border-[#14ACD4] ${theme === 'dark' ? 'bg-[#16242F]' : 'bg-white shadow-sm'}`}>
+                className={`p-8 md:p-16 border-t-4 border-[#14ACD4] ${theme === 'dark' ? 'bg-[#16242F]' : 'bg-white shadow-sm'}`}>
                 <Settings className="w-10 h-10 text-[#14ACD4] mb-8" />
                 <h3 className="text-3xl font-bold uppercase tracking-tight mb-4">Technical Support</h3>
                 <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-widest mb-6">Multi-tiered diagnostics & resolution</div>
@@ -355,17 +361,17 @@ const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, 
           <CWatermark className="absolute right-8 bottom-0 w-56 opacity-[0.06]" />
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
             <div className="max-w-xl">
-              <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter mb-6">Ready to Build Your Support Team?</h2>
+              <h2 className="text-[clamp(24px,4vw,52px)] font-bold uppercase tracking-tighter mb-6">Ready to Build Your Support Team?</h2>
               <p className={`text-lg ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>
                 Tell us about your support operation — volume, ticket types, hours and what's not working today. We'll scope a team and walk you through the process.
               </p>
             </div>
             <div className="flex flex-col gap-4 w-full md:w-auto">
-              <button onClick={() => onNavigate('contact')} className="px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
+              <button onClick={() => onNavigate('contact')} className="w-full px-10 py-5 bg-[#14ACD4] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#09566D] transition-colors">
                 Get a Free Quote →
               </button>
               <button onClick={() => onNavigate('managed-cases')}
-                className={`px-10 py-5 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4]'}`}>
+                className={`w-full px-10 py-5 border font-bold text-xs uppercase tracking-widest rounded-full transition-colors ${theme === 'dark' ? 'border-white/20 text-white hover:border-[#14ACD4]' : 'border-black/20 text-black hover:border-[#14ACD4]'}`}>
                 See Real Projects
               </button>
             </div>
