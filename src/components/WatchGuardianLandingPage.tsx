@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   ChevronRight
 } from 'lucide-react';
+import MondayForm from './MondayForm';
 
 interface WatchGuardianLandingPageProps {
   theme: 'dark' | 'light';
@@ -511,24 +512,34 @@ export default function WatchGuardianLandingPage({ theme, onBack }: WatchGuardia
             </div>
           </div>
 
-          <div className={`rounded-3xl border overflow-hidden min-h-[600px] relative ${
-            theme === 'dark' ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
-          }`}>
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center">
-              <div className="text-5xl mb-6 opacity-20">📋</div>
-              <h4 className={`text-xl font-bold uppercase tracking-widest mb-4 ${theme === 'dark' ? 'text-white/30' : 'text-black/30'}`}>
-                Monday.com Form Integration
-              </h4>
-              <p className={`text-sm max-w-sm mb-8 ${theme === 'dark' ? 'text-white/20' : 'text-black/20'}`}>
-                This section will contain the embedded Monday.com lead capture form for direct CRM integration.
-              </p>
-              <div className={`px-6 py-3 rounded-xl border font-mono text-xs ${
-                theme === 'dark' ? 'bg-white/5 border-white/10 text-[#14ACD4]' : 'bg-black/5 border-black/10 text-[#14ACD4]'
-              }`}>
-                &lt;iframe src="https://forms.monday.com/forms/embed/..." /&gt;
-              </div>
-            </div>
-          </div>
+          <MondayForm
+            theme={theme}
+            boardId={5028100217}
+            columnIds={{
+              email:    'text_mm2v7xcv',
+              phone:    'numeric_mm2vzhat',
+              country:  'text_mm2v24dt',
+              industry: 'text_mm2v5stv',
+              service:  'dropdown_mm2v25n',
+              comments: 'text_mm2vghgy',
+              status:   'status',
+              date:     'date4',
+            }}
+            serviceColumnType="dropdown"
+            serviceOptions={[
+              'Watch Guardian',
+              'Watch Guardian Health',
+              'Watch Guardian Assist',
+              'WatchArmour',
+              'Q-View',
+            ]}
+            defaultService={
+              activeVariant === 'wg' ? 'Watch Guardian' :
+              activeVariant === 'wgh' ? 'Watch Guardian Health' :
+              'Watch Guardian Assist'
+            }
+            accentColor={variantMeta[activeVariant].color}
+          />
         </div>
       </section>
 
