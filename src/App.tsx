@@ -12,7 +12,8 @@ import {
   ChevronRight,
   ChevronDown,
   Sun,
-  Moon
+  Moon,
+  ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -587,6 +588,21 @@ export default function App() {
 
                     </div>
                   ))}
+                  {/* Shop pill — external link */}
+                  <div className="relative group flex-shrink-0 snap-center">
+                    <a
+                      href="https://shop.connectified.com.au"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 px-4 py-2.5 md:px-8 md:py-4 rounded-full border text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.15em] font-bold transition-all duration-500 ${
+                        theme === 'dark'
+                          ? 'border-[#14ACD4]/40 text-[#14ACD4] hover:bg-[#14ACD4] hover:border-[#14ACD4] hover:text-white'
+                          : 'border-[#14ACD4]/40 text-[#14ACD4] hover:bg-[#14ACD4] hover:border-[#14ACD4] hover:text-white'
+                      }`}
+                    >
+                      Shop <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                   <div className="md:hidden flex-shrink-0 w-6 h-1" />
                 </div>
 
