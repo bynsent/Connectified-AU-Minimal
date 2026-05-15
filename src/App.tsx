@@ -12,8 +12,7 @@ import {
   ChevronRight,
   ChevronDown,
   Sun,
-  Moon,
-  ExternalLink
+  Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -67,6 +66,18 @@ const PILLARS = [
     color: '#14ACD4',
     image: '/images/home/hero-managed.webp',
     cta: 'Explore Support'
+  },
+  {
+    id: 'shop',
+    title: 'Shop',
+    headline: 'BUY',
+    subheadline: 'Hardware · Wearables · IoT Devices · Licenses & Subscriptions — Australia',
+    description: "Order Connectified's full range of networking hardware, IoT gateways and safety wearables. Includes Teltonika RMS licenses, Cradlepoint NetCloud subscriptions and more. In-stock from Seaford, Victoria.",
+    color: '#14ACD4',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=2070',
+    cta: 'Browse the Store',
+    secondaryCta: 'View Hardware',
+    secondaryCtaPage: 'networking-hardware'
   }
 ];
 
@@ -374,6 +385,8 @@ export default function App() {
       setCurrentPage('prof-services');
     } else if (PILLARS[activeIndex].id === 'managed') {
       setCurrentPage('managed-services');
+    } else if (PILLARS[activeIndex].id === 'shop') {
+      window.open('https://shop.connectified.com.au', '_blank');
     }
   };
 
@@ -588,21 +601,6 @@ export default function App() {
 
                     </div>
                   ))}
-                  {/* Shop pill — external link */}
-                  <div className="relative group flex-shrink-0 snap-center">
-                    <a
-                      href="https://shop.connectified.com.au"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-1.5 px-4 py-2.5 md:px-8 md:py-4 rounded-full border text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.15em] font-bold transition-all duration-500 ${
-                        theme === 'dark'
-                          ? 'border-[#14ACD4]/40 text-[#14ACD4] hover:bg-[#14ACD4] hover:border-[#14ACD4] hover:text-white'
-                          : 'border-[#14ACD4]/40 text-[#14ACD4] hover:bg-[#14ACD4] hover:border-[#14ACD4] hover:text-white'
-                      }`}
-                    >
-                      Shop <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
                   <div className="md:hidden flex-shrink-0 w-6 h-1" />
                 </div>
 
