@@ -15,6 +15,7 @@ import {
   Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import SIMSignupPage from './components/SIMSignupPage';
 
 if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
@@ -141,7 +142,9 @@ type PageId =
   | 'managed-support'
   // Company
   | 'about'
-  | 'contact';
+  | 'contact'
+  | 'sim-signup'
+  | 'sim-ticket';
 
 export default function App() {
   const [containerElement, setContainerElement] = React.useState<HTMLDivElement | null>(null);
@@ -222,7 +225,15 @@ export default function App() {
       ],
       id: 'managed'
     },
-    { title: "About Connectified", subItems: [], id: 'about' },
+    {
+    title: "SIM Services",
+    id: 'sim',
+    subItems: [
+      { label: "Sign Up", id: 'sim-signup' },
+      { label: "Activation Request", id: 'sim-ticket' },
+    ]
+  },
+  { title: "About Connectified", subItems: [], id: 'about' },
     { title: "Shop", subItems: [], id: 'shop' },
     { title: "Contact Us", subItems: [], id: 'contact' }
   ];
@@ -833,6 +844,11 @@ export default function App() {
         {currentPage === 'about' && (
           <PageWrap pageKey="about">
             <AboutPage theme={theme} onNavigate={navigate} />
+          </PageWrap>
+        )}
+        {currentPage === 'sim-signup' && (
+          <PageWrap pageKey="sim-signup">
+            <SIMSignupPage theme={theme} onBack={() => setCurrentPage('home')} />
           </PageWrap>
         )}
         {currentPage === 'contact' && (
