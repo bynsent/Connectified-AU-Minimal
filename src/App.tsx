@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import SIMSignupPage from './components/SIMSignupPage';
+import SIMTicketPage from './components/SIMTicketPage';
 
 if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
@@ -71,9 +72,9 @@ const PILLARS = [
   {
     id: 'shop',
     title: 'Shop',
-    headline: 'BUY',
+    headline: 'SHOP',
     subheadline: 'Hardware · Wearables · IoT Devices · Licenses & Subscriptions — Australia',
-    description: "Order Connectified's full range of networking hardware, IoT gateways and safety wearables. Includes Teltonika RMS licenses, Cradlepoint NetCloud subscriptions and more. In-stock from Seaford, Victoria.",
+    description: "Order Connectified's full range of networking hardware, safety wearables and cloud management subscriptions. In-stock from Seaford, Victoria.",
     color: '#14ACD4',
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=2070',
     cta: 'Browse the Store',
@@ -849,6 +850,11 @@ export default function App() {
         {currentPage === 'sim-signup' && (
           <PageWrap pageKey="sim-signup">
             <SIMSignupPage theme={theme} onBack={() => setCurrentPage('home')} />
+          </PageWrap>
+        )}
+        {currentPage === 'sim-ticket' && (
+          <PageWrap pageKey="sim-ticket">
+            <SIMTicketPage theme={theme} onBack={() => setCurrentPage('home')} />
           </PageWrap>
         )}
         {currentPage === 'contact' && (
