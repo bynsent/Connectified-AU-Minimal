@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, CheckCircle, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Send, CheckCircle, ArrowLeft, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import SEO from './SEO';
 
 interface SIMTicketPageProps {
@@ -17,7 +17,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
-    iccid: '',
+    iccids: [''], // Switched to an array of strings
     requestType: '' as 'Activate' | 'Cancel' | '',
     simKit: '',
     requestDate: '',
@@ -46,13 +46,29 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
     }));
   };
 
-  // ICCID — digits only, max 20
-  const handleIccidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = e.target.value.replace(/\D/g, '').slice(0, 20);
-    setForm(prev => ({ ...prev, iccid: cleaned }));
+  // Dynamic Array Handlers
+  const handleIccidChange = (index: number, value: string) => {
+    const cleaned = value.replace(/\D/g, '').slice(0, 20);
+    setForm(prev => {
+      const nextIccids = [...prev.iccids];
+      nextIccids[index] = cleaned;
+      return { ...prev, iccids: nextIccids };
+    });
   };
 
-  const iccidValid = form.iccid.length >= 19 && form.iccid.length <= 20;
+  const addIccidField = () => {
+    setForm(prev => ({ ...prev, iccids: [...prev.iccids, ''] }));
+  };
+
+  const removeIccidField = (index: number) => {
+    if (form.iccids.length === 1) return;
+    setForm(prev => ({
+      ...prev,
+      iccids: prev.iccids.filter((_, i) => i !== index)
+    }));
+  };
+
+  const allIccidsValid = form.iccids.every(id => id.length >= 19 && id.length <= 20);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,8 +77,8 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
       setError('Please enter a valid email address.');
       return;
     }
-    if (!iccidValid) {
-      setError('ICCID must be 19 or 20 digits.');
+    if (!allIccidsValid) {
+      setError('All ICCIDs must be 19 or 20 digits.');
       return;
     }
     if (!form.requestType) {
@@ -85,20 +101,19 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
     setIsSubmitting(true);
     setError(null);
 
+    // Removed the old single ICCID field (text_mm3g9thj) out of parent columns
     const columnValues: Record<string, unknown> = {
       text_mm3gc1n1:    form.email,
       dropdown_mm3gm404: { labels: [form.requestType] },
-      text_mm3g9thj: form.iccid,
       dropdown_mm3g1kxb: { labels: [form.simKit] },
       date_mm3gv78f:    { date: form.requestDate },
     };
 
-    // Only include cancellation reason if Cancel is selected
     if (form.requestType === 'Cancel' && form.cancellationReason) {
       columnValues['text_mm3gbmmd'] = form.cancellationReason;
     }
 
-    const query = `
+    const parentQuery = `
       mutation {
         create_item(
           board_id: ${BOARD_ID},
@@ -109,6 +124,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
     `;
 
     try {
+      // Step 1: Post the Main Ticket Row
       const res = await fetch('https://api.monday.com/v2', {
         method: 'POST',
         headers: {
@@ -116,18 +132,44 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
           'Authorization': MONDAY_API_TOKEN,
           'API-Version': '2024-01',
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query: parentQuery }),
       });
 
       const data = await res.json();
 
       if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API error:', JSON.stringify(data, null, 2));
+        console.error('Monday API parent item error:', JSON.stringify(data, null, 2));
         setError('Something went wrong. Please try again or email admin@connectified.com.au');
         setIsSubmitting(false);
         return;
       }
 
+      const parentItemId = data.data.create_item.id;
+
+      // Step 2: Concurrently attach each ICCID as an individual Subitem
+      const subitemPromises = form.iccids.map(async (singleIccid) => {
+        const subitemQuery = `
+          mutation {
+            create_subitem(
+              parent_item_id: ${parentItemId},
+              item_name: ${JSON.stringify(singleIccid)}
+            ) { id }
+          }
+        `;
+
+        const subRes = await fetch('https://api.monday.com/v2', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': MONDAY_API_TOKEN,
+            'API-Version': '2024-01',
+          },
+          body: JSON.stringify({ query: subitemQuery }),
+        });
+        return subRes.json();
+      });
+
+      await Promise.all(subitemPromises);
       setIsSubmitted(true);
     } catch {
       setError('Something went wrong. Please try again or email admin@connectified.com.au');
@@ -149,7 +191,6 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
         transition={{ duration: 0.6 }}
         className={`relative w-full min-h-screen font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}
       >
-        {/* Back button */}
         <div className="px-6 md:px-10 pt-32 md:pt-40 pb-4">
           <button onClick={onBack} className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${dk ? 'text-white/40 hover:text-[#14ACD4]' : 'text-black/40 hover:text-[#14ACD4]'}`}>
             <ArrowLeft className="w-4 h-4" /> Back
@@ -157,8 +198,6 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
         </div>
 
         <div className="max-w-2xl mx-auto px-6 md:px-10 py-12">
-
-          {/* Header */}
           <div className="mb-12">
             <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// SIM Services</div>
             <h1 className="text-[clamp(36px,6vw,72px)] font-black tracking-tighter uppercase leading-[0.95] mb-4">
@@ -170,7 +209,6 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
             </p>
           </div>
 
-          {/* Success */}
           {isSubmitted ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -183,16 +221,15 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                 {form.requestType} Request Submitted
               </h2>
               <p className={`text-sm max-w-sm leading-relaxed ${dk ? 'text-white/50' : 'text-black/50'}`}>
-                Your {form.requestType === 'Activate' ? 'activation' : 'cancellation'} request for ICCID <strong>{form.iccid}</strong> has been received. We'll confirm via <strong>{form.email}</strong> shortly.
+                Your {form.requestType === 'Activate' ? 'activation' : 'cancellation'} request for <strong>{form.iccids.length} SIM card(s)</strong> has been received. We'll confirm via <strong>{form.email}</strong> shortly.
               </p>
             </motion.div>
           ) : (
-
             <form onSubmit={handleSubmit} className={`rounded-3xl border p-8 md:p-10 ${
               dk ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
             }`}>
               <div className="flex flex-col gap-6">
-
+                
                 {/* Full Name */}
                 <div>
                   <label className={labelClass}>Full Name <span className="text-[#14ACD4]">*</span></label>
@@ -218,29 +255,67 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                   )}
                 </div>
 
-                {/* ICCID */}
+                {/* Dynamic Multi-ICCID Field Component */}
                 <div>
-                  <label className={labelClass}>SIM ICCID <span className="text-[#14ACD4]">*</span></label>
-                  <input required type="text" name="iccid" value={form.iccid}
-                    onChange={handleIccidChange} placeholder="19–20 digit ICCID number"
-                    inputMode="numeric"
-                    className={`${inputClass} ${
-                      form.iccid && !iccidValid
-                        ? 'border-red-400 focus:border-red-400'
-                        : form.iccid && iccidValid
-                          ? 'border-green-400 focus:border-green-400'
-                          : ''
-                    }`} />
-                  <div className="flex items-center justify-between mt-1">
-                    {form.iccid && !iccidValid && (
-                      <p className="text-[10px] text-red-400 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> ICCID must be 19 or 20 digits
-                      </p>
-                    )}
-                    <p className={`text-[10px] ml-auto ${dk ? 'text-white/25' : 'text-black/25'}`}>
-                      {form.iccid.length}/20
-                    </p>
+                  <label className={labelClass}>SIM ICCID(s) <span className="text-[#14ACD4]">*</span></label>
+                  <div className="flex flex-col gap-3">
+                    {form.iccids.map((id, index) => {
+                      const isValid = id.length >= 19 && id.length <= 20;
+                      return (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="flex-1">
+                            <input
+                              required
+                              type="text"
+                              value={id}
+                              onChange={(e) => handleIccidChange(index, e.target.value)}
+                              placeholder={`19–20 digit ICCID number #${index + 1}`}
+                              inputMode="numeric"
+                              className={`${inputClass} ${
+                                id && !isValid
+                                  ? 'border-red-400 focus:border-red-400'
+                                  : id && isValid
+                                    ? 'border-green-400 focus:border-green-400'
+                                    : ''
+                              }`}
+                            />
+                            <div className="flex items-center justify-between mt-1 px-1">
+                              {id && !isValid && (
+                                <p className="text-[10px] text-red-400 flex items-center gap-1">
+                                  <AlertCircle className="w-3 h-3" /> Must be 19–20 digits
+                                </p>
+                              )}
+                              <p className={`text-[10px] ml-auto ${dk ? 'text-white/25' : 'text-black/25'}`}>
+                                {id.length}/20
+                              </p>
+                            </div>
+                          </div>
+
+                          {form.iccids.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeIccidField(index)}
+                              className={`p-3 rounded-xl border transition-colors ${
+                                dk 
+                                  ? 'border-white/10 text-white/40 hover:text-red-400 hover:border-red-400/40' 
+                                  : 'border-black/10 text-black/40 hover:text-red-400 hover:border-red-400/40'
+                              }`}
+                            >
+                              <Trash2 className="w-4.5 h-4.5" />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={addIccidField}
+                    className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#14ACD4] hover:underline"
+                  >
+                    <Plus className="w-3 h-3" /> Add Another ICCID
+                  </button>
                 </div>
 
                 {/* Request Type */}
