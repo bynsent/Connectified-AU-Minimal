@@ -114,8 +114,27 @@
     <!-- apple-touch-icon: 180×180px PNG, solid background (no transparency) -->
 
     <meta name="theme-color" content="#0F1A22" />
+
+    <!-- ═══════════════════════════════════════════════════════════
+         GOOGLE TAG MANAGER
+         GTM container: GTM-PC6CBNHP
+         GA4 Measurement ID: G-2PPG2FE26X
+         SPA page views tracked via custom 'spa_page_view' dataLayer event
+         fired from App.tsx on every currentPage state change.
+         In GTM: create Custom Event trigger (event: spa_page_view)
+         and point your GA4 tag to that trigger instead of All Pages.
+         ═══════════════════════════════════════════════════════════ -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PC6CBNHP');</script>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PC6CBNHP"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

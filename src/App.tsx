@@ -165,6 +165,21 @@ export default function App() {
   // Helper so child components can navigate by string without casting
   const navigate = (page: string) => setCurrentPage(page as PageId);
 
+  // ─── SPA page view tracking for GTM / GA4 ────────────────────
+  // Fires a dataLayer event on every page change so GTM can track
+  // navigation within the React SPA (no full page reloads occur).
+  // In GTM: create a Custom Event trigger with event name 'spa_page_view'
+  // and point your GA4 Configuration tag to that trigger.
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      (window as any).dataLayer.push({
+        event: 'spa_page_view',
+        page_path: `/${currentPage === 'home' ? '' : currentPage}`,
+        page_title: currentPage,
+      });
+    }
+  }, [currentPage]);
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
