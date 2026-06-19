@@ -1,0 +1,191 @@
+# SEO Implementation Guide — Connectified
+# =========================================
+# For each page, add the <SEO> component as the first child inside the return().
+# Import: import SEO from '../SEO';  (adjust path to match your folder structure)
+
+# ── SETUP (do this once) ──────────────────────────────────────────────────────
+# 1. Install:  npm install react-helmet-async
+# 2. In main.tsx, wrap App:
+#      import { HelmetProvider } from 'react-helmet-async';
+#      root.render(<HelmetProvider><App /></HelmetProvider>)
+
+# ── PER-PAGE USAGE ────────────────────────────────────────────────────────────
+# Copy the relevant snippet into each component's return(), as the first element.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NetworkingHardwarePage.tsx
+<SEO
+  title="Networking Hardware — Teltonika, Cradlepoint & Milesight | Connectified"
+  description="Authorised Australian supplier of industrial 4G/5G routers, IoT gateways and LTE devices. Teltonika, Cradlepoint and Milesight in-stock from Seaford, Victoria."
+  path="/networking-hardware"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WearablesPage.tsx
+<SEO
+  title="Safety Wearables — Watch Guardian, WatchArmour & Q-View | Connectified"
+  description="Australian-designed wearable safety devices. Watch Guardian, WatchArmour, Watch Guardian Health, Watch Guardian Assist and Q-View pendant. Workplace, healthcare and aged care."
+  path="/wearables"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WatchGuardianPage.tsx
+<SEO
+  title="Watch Guardian — Enterprise Workplace Safety Platform | Connectified"
+  description="Watch Guardian is a Samsung Galaxy Watch safety platform with GPS duress alerts, two-way audio, security system integration and Knox enterprise security. Australian deployment."
+  path="/watch-guardian"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WatchGuardianHealthPage.tsx
+<SEO
+  title="Watch Guardian Health — Healthcare Staff Safety Wearable | Connectified"
+  description="Wearable safety device for nurses and clinical staff. Silent duress alerts, real-time hospital zone tracking and Samsung Knox security. ACQSC compliant."
+  path="/wg-health"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WatchGuardianAssistPage.tsx
+<SEO
+  title="Watch Guardian Assist — Aged Care & NDIS Safety Wearable | Connectified"
+  description="Purpose-built wearable for aged care and NDIS environments. Medication reminders, geofence monitoring, wellness tracking and duress alerts. ACQSC compliant."
+  path="/wg-assist"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WatchArmourPage.tsx
+<SEO
+  title="WatchArmour — Discreet Duress Alert Smartwatch | Connectified"
+  description="Connectified's proprietary duress smartwatch. Escalating Green-Amber-Red silent alerts with live audio recording. Built for banking, retail and high-risk workplaces."
+  path="/watcharmour"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# QViewPage.tsx
+<SEO
+  title="Q-View — Personal Safety Pendant Device | Connectified"
+  description="Simple, reliable personal safety pendant. One-button SOS, fall detection and two-way audio. No smartphone required. For lone workers, elderly individuals and small business."
+  path="/q-view"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOPage.tsx
+<SEO
+  title="BPO Services — Dedicated Offshore Teams | Connectified"
+  description="Dedicated BPO teams in Clark, Philippines for office administration, payroll and HR, accounting and IT development. Australian-managed, up to 60% cost reduction."
+  path="/bpo"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOOfficeAdminPage.tsx
+<SEO
+  title="Office Administration BPO — Dedicated Admin Teams | Connectified"
+  description="Offshore office administration teams in Clark, Philippines. Data entry, scheduling, document management and operational support. Australian-managed from Seaford, VIC."
+  path="/bpo-admin"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOPayrollHRPage.tsx
+<SEO
+  title="Payroll & HR BPO — Australian Payroll Outsourcing | Connectified"
+  description="Dedicated offshore payroll and HR teams. STP Phase 2, Fair Work compliance, superannuation, onboarding and HR administration. Australian-managed BPO from Clark, Philippines."
+  path="/bpo-hr"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOAccountingPage.tsx
+<SEO
+  title="Accounting BPO — Bookkeeping & Financial Reporting | Connectified"
+  description="Offshore accounting teams for bookkeeping, AP/AR, BAS preparation, financial reporting and payroll accounting. Xero, MYOB, QuickBooks. Australian-managed."
+  path="/bpo-accounting"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOITDevPage.tsx
+<SEO
+  title="IT & Development BPO — Offshore Tech Teams | Connectified"
+  description="Dedicated offshore IT support, web development, infrastructure management and QA teams. Integrated with your existing workflows. Australian-managed from Clark, Philippines."
+  path="/bpo-it"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOCaseStudiesPage.tsx
+<SEO
+  title="BPO Case Studies — Real Client Outcomes | Connectified"
+  description="Real BPO case studies from Connectified — security monitoring centre, telecommunications administration and more. See how Australian businesses achieved 60%+ cost reductions."
+  path="/bpo-cases"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ProfessionalServicesPage.tsx
+<SEO
+  title="IoT Professional Services — Design, Integration & Deployment | Connectified"
+  description="End-to-end IoT professional services. Project management, IoT architecture, proof of concept, remote site surveys and custom software development. Seaford, Victoria."
+  path="/prof-services"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ProfessionalServicesCaseStudiesPage.tsx
+<SEO
+  title="IoT Professional Services Case Studies | Connectified"
+  description="IoT project case studies — safety compliance platforms, Watch Guardian healthcare integration, DirectWireless and more. See Connectified's delivered IoT solutions."
+  path="/prof-cases"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ManagedServicesPage.tsx
+<SEO
+  title="Managed IT & IoT Services — 24/7 Device Management | Connectified"
+  description="Managed IoT device fleets, network infrastructure, DevOps and support desk services. Full operational ownership. Australian-managed from Seaford, VIC and Clark, Philippines."
+  path="/managed-services"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ManagedSupportDeskPage.tsx
+<SEO
+  title="Managed Support Desk — 24/7 IT Helpdesk | Connectified"
+  description="Dedicated managed support desk with SLA-backed response times. Tier 1/2 helpdesk, IoT device support and custom KPI reporting. Australian-managed offshore operations."
+  path="/managed-support"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ManagedServicesCaseStudiesPage.tsx
+<SEO
+  title="Managed Services Case Studies — Smart Water, Security & More | Connectified"
+  description="Managed services case studies — Australia's largest smart water meter support operation, security monitoring, telecommunications and DevOps. Real outcomes from Connectified."
+  path="/managed-cases"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AboutPage.tsx
+<SEO
+  title="About Connectified — Australian Technology Company"
+  description="Connectified is an Australian technology company headquartered in Seaford, Victoria with operations in Clark, Philippines. IoT hardware, safety wearables, managed services and BPO."
+  path="/about"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ContactPage.tsx
+<SEO
+  title="Contact Connectified — Seaford VIC & Clark Philippines"
+  description="Get in touch with the Connectified team. Office in Seaford, Victoria and Clark, Pampanga. Call 1300 555 570 or email admin@connectified.com.au."
+  path="/contact"
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# WatchGuardianLandingPage.tsx (noindex — campaign page)
+<SEO
+  title="Book a Watch Guardian Demo | Connectified"
+  description="Book a Watch Guardian platform demo with the Connectified team."
+  path="/watch-guardian-demo"
+  noIndex={true}
+/>
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BPOLanding.tsx (noindex — campaign page)
+<SEO
+  title="BPO Services — Get a Free Quote | Connectified"
+  description="Get a free quote for dedicated BPO services from Connectified."
+  path="/bpo-demo"
+  noIndex={true}
+/>
