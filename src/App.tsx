@@ -455,13 +455,6 @@ export default function App() {
         
         <div className="flex items-center gap-4">
 
-          {/* CyberCert SMB1001 Bronze Badge — visible on all pages */}
-          <img
-            src="/images/bronzecert.png"
-            alt="CyberCert SMB1001 Bronze Level 1 Certified"
-            className="w-12 h-12 md:w-14 md:h-14 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-md"
-          />
-
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-full border transition-all duration-300 ${
@@ -593,6 +586,14 @@ export default function App() {
             className="relative"
           >
             <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
+
+              {/* CyberCert badge — home hero only, static, unaffected by GSAP */}
+              <img
+                src="/images/bronzecert.png"
+                alt="CyberCert SMB1001 Bronze Level 1 Certified"
+                className="absolute bottom-6 right-6 w-20 h-20 md:w-24 md:h-24 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg pointer-events-auto"
+              />
+
               <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
                 <motion.h1 
                   key={`headline-${activeIndex}`}
@@ -887,6 +888,75 @@ export default function App() {
         )}
 
       </AnimatePresence>
+
+      {/* ── FOOTER ──────────────────────────────────────────────── */}
+      {currentPage !== 'home' && (
+        <footer className={`w-full border-t transition-colors duration-500 ${
+          theme === 'dark'
+            ? 'bg-[#0a1520] border-white/10'
+            : 'bg-[#F0F4F8] border-black/10'
+        }`}>
+          <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+
+            {/* Left — logo + entity info */}
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <img
+                src="/connectifiedLogoSVG-2.svg"
+                alt="Connectified"
+                className="h-8 w-auto object-contain"
+              />
+              <div className={`text-[11px] leading-relaxed ${theme === 'dark' ? 'text-white/40' : 'text-black/40'}`}>
+                <p className="font-semibold">Connectified Pty Ltd</p>
+                <p>ABN 31 087 318 358</p>
+                <p>27A Sir Laurence Drive</p>
+                <p>Seaford, Victoria 3198, Australia</p>
+              </div>
+            </div>
+
+            {/* Centre — contact + socials */}
+            <div className="flex flex-col items-center gap-3">
+              <div className={`text-[11px] text-center leading-relaxed ${theme === 'dark' ? 'text-white/40' : 'text-black/40'}`}>
+                <a href="tel:+1300555570" className="block hover:text-[#14ACD4] transition-colors duration-200">+1300 555 570</a>
+                <a href="mailto:sales@connectified.com.au" className="block hover:text-[#14ACD4] transition-colors duration-200">sales@connectified.com.au</a>
+              </div>
+              <a
+                href="https://linkedin.com/company/connectified"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#14ACD4] ${
+                  theme === 'dark' ? 'text-white/30' : 'text-black/30'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                LinkedIn
+              </a>
+            </div>
+
+            {/* Right — CyberCert badge */}
+            <div className="flex flex-col items-center gap-2">
+              <img
+                src="/images/bronzecert.png"
+                alt="CyberCert SMB1001 Bronze Level 1 Certified"
+                className="w-20 h-20 md:w-24 md:h-24 opacity-90 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg"
+              />
+              <span className={`text-[9px] uppercase tracking-widest text-center ${theme === 'dark' ? 'text-white/25' : 'text-black/25'}`}>
+                SMB1001 Bronze · Level 1
+              </span>
+            </div>
+
+          </div>
+
+          {/* Bottom bar */}
+          <div className={`border-t px-6 md:px-12 py-4 text-center text-[10px] ${
+            theme === 'dark' ? 'border-white/5 text-white/20' : 'border-black/5 text-black/20'
+          }`}>
+            © {new Date().getFullYear()} Connectified Pty Ltd. All rights reserved.
+          </div>
+        </footer>
+      )}
+
     </div>
   );
 }
