@@ -585,6 +585,14 @@ export default function App() {
             className="relative"
           >
             <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
+
+              {/* CyberCert SMB1001 Bronze Badge — static, unaffected by GSAP scroll */}
+              <img
+                src="/images/bronzecert.png"
+                alt="CyberCert SMB1001 Bronze Level 1 Certified"
+                className="absolute bottom-6 right-6 w-16 h-16 md:w-20 md:h-20 opacity-70 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg pointer-events-auto"
+              />
+
               <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
                 <motion.h1 
                   key={`headline-${activeIndex}`}
