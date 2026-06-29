@@ -413,7 +413,7 @@ export default function App() {
     } else if (PILLARS[activeIndex].id === 'managed') {
       setCurrentPage('managed-services');
     } else if (PILLARS[activeIndex].id === 'shop') {
-      window.open('https://shop.connectified.com.au', '_blank');
+      window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank');
     }
   };
 
@@ -500,7 +500,7 @@ export default function App() {
                             onClick={() => {
                               if (item.id === 'about') setCurrentPage('about');
                               else if (item.id === 'contact') setCurrentPage('contact');
-                              else if (item.id === 'shop') { window.open('https://shop.connectified.com.au', '_blank'); }
+                              else if (item.id === 'shop') { window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank'); }
                               setIsMenuOpen(false);
                             }}
                             className={`w-full text-left px-4 py-1.5 rounded-xl transition-colors ${
