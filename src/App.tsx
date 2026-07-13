@@ -85,6 +85,7 @@ const PILLARS = [
 
 import DevicesPage from './components/DevicesPage';
 import NetworkingHardwarePage from './components/NetworkingHardwarePage';
+import NetworkingSoftwarePage from './components/NetworkingSoftwarePage';
 import WearablesPage from './components/WearablesPage';
 import BPOPage from './components/BPOPage';
 import BPOCaseStudiesPage from './components/BPOCaseStudiesPage';
@@ -115,6 +116,7 @@ type PageId =
   | 'home'
   | 'devices'
   | 'networking-hardware'
+  | 'networking-software'
   | 'wearables'
   // Wearable product detail pages
   | 'watch-guardian'
@@ -202,6 +204,7 @@ export default function App() {
       title: "Devices & Connectivity",
       subItems: [
         { label: "Networking Hardware", id: 'networking-hardware' },
+        { label: "Networking Software", id: 'networking-software' },
         { label: "Wearables & Watch Guardian", id: 'wearables' }
       ],
       id: 'devices'
@@ -413,7 +416,7 @@ export default function App() {
     } else if (PILLARS[activeIndex].id === 'managed') {
       setCurrentPage('managed-services');
     } else if (PILLARS[activeIndex].id === 'shop') {
-      window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank');
+      window.open('https://shop.connectified.com.au', '_blank');
     }
   };
 
@@ -454,7 +457,6 @@ export default function App() {
         </div>
         
         <div className="flex items-center gap-4">
-
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-full border transition-all duration-300 ${
@@ -500,7 +502,7 @@ export default function App() {
                             onClick={() => {
                               if (item.id === 'about') setCurrentPage('about');
                               else if (item.id === 'contact') setCurrentPage('contact');
-                              else if (item.id === 'shop') { window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank'); }
+                              else if (item.id === 'shop') { window.open('https://shop.connectified.com.au', '_blank'); }
                               setIsMenuOpen(false);
                             }}
                             className={`w-full text-left px-4 py-1.5 rounded-xl transition-colors ${
@@ -727,6 +729,13 @@ export default function App() {
         {currentPage === 'networking-hardware' && (
           <PageWrap pageKey="networking-hardware">
             <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* NETWORKING SOFTWARE — Teltonika RMS */}
+        {currentPage === 'networking-software' && (
+          <PageWrap pageKey="networking-software">
+            <NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
           </PageWrap>
         )}
 
