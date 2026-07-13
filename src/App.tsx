@@ -29,7 +29,7 @@ ScrollTrigger.clearScrollMemory();
 const PILLARS = [
   {
     id: 'devices',
-    title: 'Devices & Connectivity',
+    title: 'IOT Devices & Connectivity',
     headline: 'CONNECT',
     subheadline: 'Networking, IoT & Safety Wearables — Teltonika, Cradlepoint, Watch Guardian · Australia',
     description: 'Empowering secure, intelligent connectivity across people, systems and environments.',
@@ -41,7 +41,7 @@ const PILLARS = [
   },
   {
     id: 'bpo',
-    title: 'BPO Services',
+    title: 'Offsure Recruitment',
     headline: 'OPTIMISE',
     subheadline: 'BPO Solutions — Payroll, HR & Admin Outsourcing · Australia',
     description: 'Streamlining operations through tailored services, smarter workflows and dependable delivery.',
@@ -51,7 +51,7 @@ const PILLARS = [
   },
   {
     id: 'professional',
-    title: 'Professional Services',
+    title: 'MSP Professional Services',
     headline: 'SCALE',
     subheadline: 'IoT Professional Services — Design, Integration & Deployment · Australia',
     description: 'Building scalable foundations so teams can grow with confidence, clarity and control.',
@@ -61,7 +61,7 @@ const PILLARS = [
   },
   {
     id: 'managed',
-    title: 'Managed Services',
+    title: 'MSP Managed Services',
     headline: 'SUPPORT',
     subheadline: 'Managed IT Services, Support Desk & Cloud Management · Australia',
     description: 'Reliable, human-led support that keeps systems running and people empowered long-term.',
@@ -201,7 +201,7 @@ export default function App() {
 
   const menuItems = [
     {
-      title: "Devices & Connectivity",
+      title: "IOT Devices & Connectivity",
       subItems: [
         { label: "Networking Hardware", id: 'networking-hardware' },
         { label: "Networking Software", id: 'networking-software' },
@@ -210,7 +210,7 @@ export default function App() {
       id: 'devices'
     },
     {
-      title: "BPO Services",
+      title: "Offsure Recruitment",
       subItems: [
         { label: "Overview", id: 'bpo' },
         { 
@@ -228,7 +228,7 @@ export default function App() {
       id: 'bpo'
     },
     {
-      title: "Professional Services",
+      title: "MSP Professional Services",
       subItems: [
         { label: "Overview", id: 'prof-services' },
         { label: "Case Studies", id: 'prof-cases' }
@@ -236,7 +236,7 @@ export default function App() {
       id: 'professional'
     },
     {
-      title: "Managed Services",
+      title: "MSP Managed Services",
       subItems: [
         { label: "Overview", id: 'managed-services' },
         { label: "Support Desk", id: 'managed-support' },
