@@ -335,9 +335,24 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                               : 'bg-black/5 border-black/10 text-black/60 hover:border-[#14ACD4]/40'
                         }`}
                       >
-                        {opt === 'Activate' ? '✓ Activate' : '✕ Cancel'}
+                        {opt === 'Activate' ? '✓ Activate' : '✕ Cancellation'}
                       </button>
                     ))}
+                  </div>
+                </div>
+
+                {/* SLA Notice */}
+                <div className={`rounded-xl border px-5 py-4 flex gap-3 items-start ${
+                  dk ? 'bg-[#14ACD4]/8 border-[#14ACD4]/20' : 'bg-[#14ACD4]/8 border-[#14ACD4]/25'
+                }`}>
+                  <svg className="w-4 h-4 text-[#14ACD4] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#14ACD4] mb-1">Processing Times</p>
+                    <p className={`text-[12px] leading-relaxed ${dk ? 'text-white/55' : 'text-black/55'}`}>
+                      Requests submitted during business hours <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>(Mon–Fri, 9am–5pm AEST)</span> are processed within <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>2 hours</span>. Requests submitted outside business hours will be processed on the <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>next business day</span>.
+                    </p>
                   </div>
                 </div>
 
@@ -347,8 +362,10 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                   <select name="simKit" value={form.simKit} onChange={handleChange}
                     className={`${inputClass} appearance-none ${dk ? '!bg-[#1a2a38] !text-white' : ''}`}>
                     <option value="" disabled className="bg-[#1a2a38] text-white">Select a SIM kit...</option>
+                    {/* ↓↓↓ EDIT YOUR SIM KIT OPTIONS HERE ↓↓↓ */}
                     <option value="Sim Kit 1" className="bg-[#1a2a38] text-white">Sim Kit 1</option>
                     <option value="Sim Kit 2" className="bg-[#1a2a38] text-white">Sim Kit 2</option>
+                    {/* ↑↑↑ ADD / REMOVE / RENAME OPTIONS ABOVE ↑↑↑ */}
                   </select>
                 </div>
 
