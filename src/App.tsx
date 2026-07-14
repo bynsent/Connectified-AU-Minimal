@@ -29,7 +29,7 @@ ScrollTrigger.clearScrollMemory();
 const PILLARS = [
   {
     id: 'devices',
-    title: 'Devices & Connectivity',
+    title: 'IOT Devices & Connectivity',
     headline: 'CONNECT',
     subheadline: 'Networking, IoT & Safety Wearables — Teltonika, Cradlepoint, Watch Guardian · Australia',
     description: 'Empowering secure, intelligent connectivity across people, systems and environments.',
@@ -41,7 +41,7 @@ const PILLARS = [
   },
   {
     id: 'bpo',
-    title: 'BPO Services',
+    title: 'Offsure Recruitment',
     headline: 'OPTIMISE',
     subheadline: 'BPO Solutions — Payroll, HR & Admin Outsourcing · Australia',
     description: 'Streamlining operations through tailored services, smarter workflows and dependable delivery.',
@@ -51,7 +51,7 @@ const PILLARS = [
   },
   {
     id: 'professional',
-    title: 'Professional Services',
+    title: 'MSP Professional Services',
     headline: 'SCALE',
     subheadline: 'IoT Professional Services — Design, Integration & Deployment · Australia',
     description: 'Building scalable foundations so teams can grow with confidence, clarity and control.',
@@ -61,7 +61,7 @@ const PILLARS = [
   },
   {
     id: 'managed',
-    title: 'Managed Services',
+    title: 'MSP Managed Services',
     headline: 'SUPPORT',
     subheadline: 'Managed IT Services, Support Desk & Cloud Management · Australia',
     description: 'Reliable, human-led support that keeps systems running and people empowered long-term.',
@@ -85,6 +85,7 @@ const PILLARS = [
 
 import DevicesPage from './components/DevicesPage';
 import NetworkingHardwarePage from './components/NetworkingHardwarePage';
+import NetworkingSoftwarePage from './components/NetworkingSoftwarePage';
 import WearablesPage from './components/WearablesPage';
 import BPOPage from './components/BPOPage';
 import BPOCaseStudiesPage from './components/BPOCaseStudiesPage';
@@ -115,6 +116,7 @@ type PageId =
   | 'home'
   | 'devices'
   | 'networking-hardware'
+  | 'networking-software'
   | 'wearables'
   // Wearable product detail pages
   | 'watch-guardian'
@@ -199,15 +201,16 @@ export default function App() {
 
   const menuItems = [
     {
-      title: "Devices & Connectivity",
+      title: "IOT Devices & Connectivity",
       subItems: [
         { label: "Networking Hardware", id: 'networking-hardware' },
+        { label: "Networking Software", id: 'networking-software' },
         { label: "Wearables & Watch Guardian", id: 'wearables' }
       ],
       id: 'devices'
     },
     {
-      title: "BPO Services",
+      title: "Offsure Recruitment",
       subItems: [
         { label: "Overview", id: 'bpo' },
         { 
@@ -225,7 +228,7 @@ export default function App() {
       id: 'bpo'
     },
     {
-      title: "Professional Services",
+      title: "MSP Professional Services",
       subItems: [
         { label: "Overview", id: 'prof-services' },
         { label: "Case Studies", id: 'prof-cases' }
@@ -233,7 +236,7 @@ export default function App() {
       id: 'professional'
     },
     {
-      title: "Managed Services",
+      title: "MSP Managed Services",
       subItems: [
         { label: "Overview", id: 'managed-services' },
         { label: "Support Desk", id: 'managed-support' },
@@ -413,7 +416,7 @@ export default function App() {
     } else if (PILLARS[activeIndex].id === 'managed') {
       setCurrentPage('managed-services');
     } else if (PILLARS[activeIndex].id === 'shop') {
-      window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank');
+      window.open('https://shop.connectified.com.au', '_blank');
     }
   };
 
@@ -454,7 +457,6 @@ export default function App() {
         </div>
         
         <div className="flex items-center gap-4">
-
           <button
             onClick={toggleTheme}
             className={`p-2 rounded-full border transition-all duration-300 ${
@@ -500,7 +502,7 @@ export default function App() {
                             onClick={() => {
                               if (item.id === 'about') setCurrentPage('about');
                               else if (item.id === 'contact') setCurrentPage('contact');
-                              else if (item.id === 'shop') { window.open('https://connectifiedecomdev-dev.azurewebsites.net/', '_blank'); }
+                              else if (item.id === 'shop') { window.open('https://shop.connectified.com.au', '_blank'); }
                               setIsMenuOpen(false);
                             }}
                             className={`w-full text-left px-4 py-1.5 rounded-xl transition-colors ${
@@ -727,6 +729,13 @@ export default function App() {
         {currentPage === 'networking-hardware' && (
           <PageWrap pageKey="networking-hardware">
             <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
+          </PageWrap>
+        )}
+
+        {/* NETWORKING SOFTWARE — Teltonika RMS */}
+        {currentPage === 'networking-software' && (
+          <PageWrap pageKey="networking-software">
+            <NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
           </PageWrap>
         )}
 
