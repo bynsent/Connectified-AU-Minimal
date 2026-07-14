@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
-import { Send, CheckCircle, ArrowLeft, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Send, CheckCircle, ArrowLeft, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import SEO from './SEO';
 
-interface SIMSignupPageProps {
+interface SIMTicketPageProps {
   theme: 'dark' | 'light';
   onBack: () => void;
 }
 
 const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
-const BOARD_ID = 5028626358;
+const BOARD_ID = 5028643256;
 
-export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
+export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
   const dk = theme === 'dark';
 
   const [form, setForm] = useState({
     fullName: '',
-    company: '',
     email: '',
-    phone: '',
+    iccids: [''], // Switched to an array of strings
+    requestType: '' as 'Activate' | 'Cancel' | '',
+    simKit: '',
+    requestDate: '',
+    cancellationReason: '',
     tosAgreed: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,7 +38,7 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
     dk ? 'text-white/40' : 'text-black/40'
   }`;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     setForm(prev => ({
       ...prev,
@@ -43,16 +46,51 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
     }));
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = e.target.value.replace(/[^\d+\s\-()]/g, '');
-    setForm(prev => ({ ...prev, phone: cleaned }));
+  // Dynamic Array Handlers
+  const handleIccidChange = (index: number, value: string) => {
+    const cleaned = value.replace(/\D/g, '').slice(0, 20);
+    setForm(prev => {
+      const nextIccids = [...prev.iccids];
+      nextIccids[index] = cleaned;
+      return { ...prev, iccids: nextIccids };
+    });
   };
+
+  const addIccidField = () => {
+    setForm(prev => ({ ...prev, iccids: [...prev.iccids, ''] }));
+  };
+
+  const removeIccidField = (index: number) => {
+    if (form.iccids.length === 1) return;
+    setForm(prev => ({
+      ...prev,
+      iccids: prev.iccids.filter((_, i) => i !== index)
+    }));
+  };
+
+  const allIccidsValid = form.iccids.every(id => id.length >= 19 && id.length <= 20);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) {
       setError('Please enter a valid email address.');
+      return;
+    }
+    if (!allIccidsValid) {
+      setError('All ICCIDs must be 19 or 20 digits.');
+      return;
+    }
+    if (!form.requestType) {
+      setError('Please select Activate or Cancel.');
+      return;
+    }
+    if (!form.simKit) {
+      setError('Please select a SIM Kit.');
+      return;
+    }
+    if (!form.requestDate) {
+      setError(`Please select a ${form.requestType === 'Activate' ? 'activation' : 'cancellation'} date.`);
       return;
     }
     if (!form.tosAgreed) {
@@ -63,26 +101,30 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
     setIsSubmitting(true);
     setError(null);
 
-    const today = new Date().toISOString().split('T')[0];
+    // Removed the old single ICCID field (text_mm3g9thj) out of parent columns
+    const columnValues: Record<string, unknown> = {
+      text_mm3gc1n1:    form.email,
+      dropdown_mm3gm404: { labels: [form.requestType] },
+      dropdown_mm3g1kxb: { labels: [form.simKit] },
+      date_mm3gv78f:    { date: form.requestDate },
+    };
 
-    const columnValues = JSON.stringify({
-      date_mm3g656w:    { date: today },
-      text_mm3gfhg4:    form.company,
-      text_mm3gmf5j:    form.email,
-      numeric_mm3g3vmg: form.phone.replace(/[^\d+]/g, ''),
-    });
+    if (form.requestType === 'Cancel' && form.cancellationReason) {
+      columnValues['text_mm3gbmmd'] = form.cancellationReason;
+    }
 
-    const query = `
+    const parentQuery = `
       mutation {
         create_item(
           board_id: ${BOARD_ID},
           item_name: ${JSON.stringify(form.fullName)},
-          column_values: ${JSON.stringify(columnValues)}
+          column_values: ${JSON.stringify(JSON.stringify(columnValues))}
         ) { id }
       }
     `;
 
     try {
+      // Step 1: Post the Main Ticket Row
       const res = await fetch('https://api.monday.com/v2', {
         method: 'POST',
         headers: {
@@ -90,18 +132,44 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
           'Authorization': MONDAY_API_TOKEN,
           'API-Version': '2024-01',
         },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query: parentQuery }),
       });
 
       const data = await res.json();
 
       if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API error:', JSON.stringify(data, null, 2));
+        console.error('Monday API parent item error:', JSON.stringify(data, null, 2));
         setError('Something went wrong. Please try again or email admin@connectified.com.au');
         setIsSubmitting(false);
         return;
       }
 
+      const parentItemId = data.data.create_item.id;
+
+      // Step 2: Concurrently attach each ICCID as an individual Subitem
+      const subitemPromises = form.iccids.map(async (singleIccid) => {
+        const subitemQuery = `
+          mutation {
+            create_subitem(
+              parent_item_id: ${parentItemId},
+              item_name: ${JSON.stringify(singleIccid)}
+            ) { id }
+          }
+        `;
+
+        const subRes = await fetch('https://api.monday.com/v2', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': MONDAY_API_TOKEN,
+            'API-Version': '2024-01',
+          },
+          body: JSON.stringify({ query: subitemQuery }),
+        });
+        return subRes.json();
+      });
+
+      await Promise.all(subitemPromises);
       setIsSubmitted(true);
     } catch {
       setError('Something went wrong. Please try again or email admin@connectified.com.au');
@@ -113,9 +181,9 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
   return (
     <>
       <SEO
-        title="SIM Service Signup — IoT Cellular Connectivity | Connectified"
-        description="Sign up for Connectified's IoT SIM services. Managed cellular connectivity for IoT devices, routers and wearables across Australia."
-        path="/sim-signup"
+        title="SIM Activation Request — IoT Cellular Connectivity | Connectified"
+        description="Submit a SIM activation or cancellation request for your Connectified IoT cellular service."
+        path="/sim-ticket"
         noIndex={false}
       />
       <motion.div
@@ -123,7 +191,6 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
         transition={{ duration: 0.6 }}
         className={`relative w-full min-h-screen font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}
       >
-        {/* Back button */}
         <div className="px-6 md:px-10 pt-32 md:pt-40 pb-4">
           <button onClick={onBack} className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors ${dk ? 'text-white/40 hover:text-[#14ACD4]' : 'text-black/40 hover:text-[#14ACD4]'}`}>
             <ArrowLeft className="w-4 h-4" /> Back
@@ -131,20 +198,17 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
         </div>
 
         <div className="max-w-2xl mx-auto px-6 md:px-10 py-12">
-
-          {/* Header */}
           <div className="mb-12">
             <div className="text-[#14ACD4] text-[10px] font-bold uppercase tracking-[0.3em] mb-4">// SIM Services</div>
             <h1 className="text-[clamp(36px,6vw,72px)] font-black tracking-tighter uppercase leading-[0.95] mb-4">
-              SIM Service<br />
-              <span className="text-[#14ACD4]">Sign Up.</span>
+              Activation<br />
+              <span className="text-[#14ACD4]">Request.</span>
             </h1>
             <p className={`text-sm leading-relaxed max-w-lg ${dk ? 'text-white/55' : 'text-black/55'}`}>
-              Register for Connectified's IoT cellular connectivity services. Once submitted, our team will send you a Terms of Service agreement for digital signature before your SIM is activated.
+              Submit a SIM activation or cancellation request. Our team will process your request and confirm via email.
             </p>
           </div>
 
-          {/* Success state */}
           {isSubmitted ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -153,33 +217,24 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
               }`}
             >
               <CheckCircle className="w-12 h-12 text-[#14ACD4] mb-6" />
-              <h2 className="text-2xl font-bold uppercase tracking-tight mb-3">Signup Received</h2>
+              <h2 className="text-2xl font-bold uppercase tracking-tight mb-3">
+                {form.requestType} Request Submitted
+              </h2>
               <p className={`text-sm max-w-sm leading-relaxed ${dk ? 'text-white/50' : 'text-black/50'}`}>
-                Thank you for signing up. You'll receive a Terms of Service agreement at <strong>{form.email}</strong> shortly. Please sign and return it to complete your SIM service registration.
+                Your {form.requestType === 'Activate' ? 'activation' : 'cancellation'} request for <strong>{form.iccids.length} SIM card(s)</strong> has been received. We'll confirm via <strong>{form.email}</strong> shortly.
               </p>
             </motion.div>
           ) : (
-
-            /* Form */
             <form onSubmit={handleSubmit} className={`rounded-3xl border p-8 md:p-10 ${
               dk ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/10'
             }`}>
               <div className="flex flex-col gap-6">
-
+                
                 {/* Full Name */}
                 <div>
                   <label className={labelClass}>Full Name <span className="text-[#14ACD4]">*</span></label>
                   <input required type="text" name="fullName" value={form.fullName}
-                    onChange={handleChange} placeholder="Jane Smith"
-                    className={inputClass} />
-                </div>
-
-                {/* Company */}
-                <div>
-                  <label className={labelClass}>Company</label>
-                  <input type="text" name="company" value={form.company}
-                    onChange={handleChange} placeholder="Acme Pty Ltd"
-                    className={inputClass} />
+                    onChange={handleChange} placeholder="Jane Smith" className={inputClass} />
                 </div>
 
                 {/* Email */}
@@ -200,54 +255,180 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
                   )}
                 </div>
 
-                {/* Phone */}
+                {/* Dynamic Multi-ICCID Field Component */}
                 <div>
-                  <label className={labelClass}>Phone Number</label>
-                  <input type="tel" name="phone" value={form.phone}
-                    onChange={handlePhoneChange} placeholder="+61 4XX XXX XXX"
-                    className={inputClass} />
+                  <label className={labelClass}>SIM ICCID(s) <span className="text-[#14ACD4]">*</span></label>
+                  <div className="flex flex-col gap-3">
+                    {form.iccids.map((id, index) => {
+                      const isValid = id.length >= 19 && id.length <= 20;
+                      return (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="flex-1">
+                            <input
+                              required
+                              type="text"
+                              value={id}
+                              onChange={(e) => handleIccidChange(index, e.target.value)}
+                              placeholder={`19–20 digit ICCID number #${index + 1}`}
+                              inputMode="numeric"
+                              className={`${inputClass} ${
+                                id && !isValid
+                                  ? 'border-red-400 focus:border-red-400'
+                                  : id && isValid
+                                    ? 'border-green-400 focus:border-green-400'
+                                    : ''
+                              }`}
+                            />
+                            <div className="flex items-center justify-between mt-1 px-1">
+                              {id && !isValid && (
+                                <p className="text-[10px] text-red-400 flex items-center gap-1">
+                                  <AlertCircle className="w-3 h-3" /> Must be 19–20 digits
+                                </p>
+                              )}
+                              <p className={`text-[10px] ml-auto ${dk ? 'text-white/25' : 'text-black/25'}`}>
+                                {id.length}/20
+                              </p>
+                            </div>
+                          </div>
+
+                          {form.iccids.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeIccidField(index)}
+                              className={`p-3 rounded-xl border transition-colors ${
+                                dk 
+                                  ? 'border-white/10 text-white/40 hover:text-red-400 hover:border-red-400/40' 
+                                  : 'border-black/10 text-black/40 hover:text-red-400 hover:border-red-400/40'
+                              }`}
+                            >
+                              <Trash2 className="w-4.5 h-4.5" />
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={addIccidField}
+                    className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#14ACD4] hover:underline"
+                  >
+                    <Plus className="w-3 h-3" /> Add Another ICCID
+                  </button>
                 </div>
+
+                {/* Request Type */}
+                <div>
+                  <label className={labelClass}>Request Type <span className="text-[#14ACD4]">*</span></label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {(['Activate', 'Cancel'] as const).map(opt => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setForm(prev => ({ ...prev, requestType: opt, requestDate: '', cancellationReason: '' }))}
+                        className={`py-3.5 rounded-xl border text-xs font-bold uppercase tracking-widest transition-colors ${
+                          form.requestType === opt
+                            ? 'bg-[#14ACD4] border-[#14ACD4] text-white'
+                            : dk
+                              ? 'bg-white/5 border-white/10 text-white/60 hover:border-[#14ACD4]/40'
+                              : 'bg-black/5 border-black/10 text-black/60 hover:border-[#14ACD4]/40'
+                        }`}
+                      >
+                        {opt === 'Activate' ? '✓ Activate' : '✕ Cancellation'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* SLA Notice */}
+                <div className={`rounded-xl border px-5 py-4 flex gap-3 items-start ${
+                  dk ? 'bg-[#14ACD4]/8 border-[#14ACD4]/20' : 'bg-[#14ACD4]/8 border-[#14ACD4]/25'
+                }`}>
+                  <svg className="w-4 h-4 text-[#14ACD4] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#14ACD4] mb-1">Processing Times</p>
+                    <p className={`text-[12px] leading-relaxed ${dk ? 'text-white/55' : 'text-black/55'}`}>
+                      Requests submitted during business hours <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>(Mon–Fri, 9am–5pm AEST)</span> are processed within <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>2 hours</span>. Requests submitted outside business hours will be processed on the <span className={`font-semibold ${dk ? 'text-white/80' : 'text-black/80'}`}>next business day</span>.
+                    </p>
+                  </div>
+                </div>
+
+                {/* SIM Kit */}
+                <div>
+                  <label className={labelClass}>SIM Kit <span className="text-[#14ACD4]">*</span></label>
+                  <select name="simKit" value={form.simKit} onChange={handleChange}
+                    className={`${inputClass} appearance-none ${dk ? '!bg-[#1a2a38] !text-white' : ''}`}>
+                    <option value="" disabled className="bg-[#1a2a38] text-white">Select a SIM kit...</option>
+                    {/* ↓↓↓ EDIT YOUR SIM KIT OPTIONS HERE ↓↓↓ */}
+                    <option value="Sim Kit 1" className="bg-[#1a2a38] text-white">Sim Kit 1</option>
+                    <option value="Sim Kit 2" className="bg-[#1a2a38] text-white">Sim Kit 2</option>
+                    {/* ↑↑↑ ADD / REMOVE / RENAME OPTIONS ABOVE ↑↑↑ */}
+                  </select>
+                </div>
+
+                {/* Conditional date + cancellation reason */}
+                <AnimatePresence mode="wait">
+                  {form.requestType === 'Activate' && (
+                    <motion.div key="activate"
+                      initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}>
+                      <label className={labelClass}>Activation Date <span className="text-[#14ACD4]">*</span></label>
+                      <input required type="date" name="requestDate" value={form.requestDate}
+                        onChange={handleChange}
+                        min={new Date().toISOString().split('T')[0]}
+                        className={`${inputClass} ${dk ? '[color-scheme:dark]' : ''}`} />
+                    </motion.div>
+                  )}
+
+                  {form.requestType === 'Cancel' && (
+                    <motion.div key="cancel" className="flex flex-col gap-6"
+                      initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}>
+                      <div>
+                        <label className={labelClass}>Cancellation Date <span className="text-[#14ACD4]">*</span></label>
+                        <input required type="date" name="requestDate" value={form.requestDate}
+                          onChange={handleChange}
+                          min={new Date().toISOString().split('T')[0]}
+                          className={`${inputClass} ${dk ? '[color-scheme:dark]' : ''}`} />
+                      </div>
+                      <div>
+                        <label className={labelClass}>Cancellation Reason</label>
+                        <textarea name="cancellationReason" value={form.cancellationReason}
+                          onChange={handleChange} rows={3}
+                          placeholder="Optional — let us know why you're cancelling..."
+                          className={`${inputClass} resize-none`} />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Divider */}
                 <div className={`border-t ${dk ? 'border-white/10' : 'border-black/10'}`} />
 
                 {/* TOS */}
-                <div className={`rounded-2xl border p-6 ${dk ? 'bg-[#14ACD4]/5 border-[#14ACD4]/20' : 'bg-[#14ACD4]/5 border-[#14ACD4]/20'}`}>
-                  <div className="flex items-start gap-3 mb-4">
-                    <FileText className="w-5 h-5 text-[#14ACD4] flex-shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-[11px] font-bold uppercase tracking-widest text-[#14ACD4] mb-1">Terms of Service</div>
-                      <p className={`text-xs leading-relaxed ${dk ? 'text-white/50' : 'text-black/50'}`}>
-                        Upon submission, a Terms of Service agreement (M2M Telecoms — IoT Cellular Connectivity) will be sent to your email address for digital signature via GetSign. Your SIM service will be activated after the signed agreement is received.
-                      </p>
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <div className="relative flex-shrink-0 mt-0.5">
+                    <input type="checkbox" name="tosAgreed" checked={form.tosAgreed}
+                      onChange={handleChange} className="sr-only" />
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+                      form.tosAgreed
+                        ? 'bg-[#14ACD4] border-[#14ACD4]'
+                        : dk ? 'border-white/20 bg-white/5' : 'border-black/20 bg-black/5'
+                    }`}>
+                      {form.tosAgreed && (
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
                     </div>
                   </div>
-                  <label className="flex items-start gap-3 cursor-pointer group">
-                    <div className="relative flex-shrink-0 mt-0.5">
-                      <input
-                        type="checkbox"
-                        name="tosAgreed"
-                        checked={form.tosAgreed}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-                        form.tosAgreed
-                          ? 'bg-[#14ACD4] border-[#14ACD4]'
-                          : dk ? 'border-white/20 bg-white/5' : 'border-black/20 bg-black/5'
-                      }`}>
-                        {form.tosAgreed && (
-                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </div>
-                    </div>
-                    <span className={`text-xs leading-relaxed select-none ${dk ? 'text-white/60' : 'text-black/60'}`}>
-                      I understand that a Terms of Service agreement will be sent to my email for digital signature, and that SIM activation will begin only after the signed agreement is received by Connectified.
-                    </span>
-                  </label>
-                </div>
+                  <span className={`text-xs leading-relaxed select-none ${dk ? 'text-white/60' : 'text-black/60'}`}>
+                    I confirm that I am authorised to submit this request and agree to the Connectified SIM Service Terms of Service.
+                  </span>
+                </label>
 
                 {/* Submit */}
                 <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
@@ -265,11 +446,11 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
                         Submitting...
                       </>
                     ) : (
-                      <> Submit Signup <Send className="w-4 h-4" /> </>
+                      <> Submit Request <Send className="w-4 h-4" /> </>
                     )}
                   </button>
                   <p className={`text-[10px] uppercase tracking-widest ${dk ? 'text-white/25' : 'text-black/25'}`}>
-                    TOS agreement sent after submission.
+                    We'll confirm via email.
                   </p>
                 </div>
 
