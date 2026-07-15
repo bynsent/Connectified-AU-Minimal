@@ -314,11 +314,9 @@ export default function NetworkingSoftwarePage({ theme, onBack, onNavigate }: Pr
                 style={{ fontSize: 'clamp(40px, 7vw, 96px)' }}
               >
                 Teltonika{' '}
-                <span className="text-[#14ACD4]">RMS</span>
+                <span className="text-[#14ACD4]">Remote</span>
                 <br />
-                Remote Management
-                <br />
-                System
+                Management
               </h1>
             </FadeUp>
 
