@@ -363,8 +363,9 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                     className={`${inputClass} appearance-none ${dk ? '!bg-[#1a2a38] !text-white' : ''}`}>
                     <option value="" disabled className="bg-[#1a2a38] text-white">Select a SIM kit...</option>
                     {/* ↓↓↓ EDIT YOUR SIM KIT OPTIONS HERE ↓↓↓ */}
-                    <option value="Sim Kit 1" className="bg-[#1a2a38] text-white">Sim Kit 1</option>
-                    <option value="Sim Kit 2" className="bg-[#1a2a38] text-white">Sim Kit 2</option>
+                    <option value="Managed Sim Service" className="bg-[#1a2a38] text-white">Managed Sim Service (Default)</option>
+                    <option value="BGWT Paradox M25 Single Sim" className="bg-[#1a2a38] text-white">BGWT Paradox M25 Single Sim</option>
+                    <option value="BGWT Paradox M25 Dual Sim" className="bg-[#1a2a38] text-white">BGWT Paradox M25 Dual Sim</option>
                     {/* ↑↑↑ ADD / REMOVE / RENAME OPTIONS ABOVE ↑↑↑ */}
                   </select>
                 </div>
