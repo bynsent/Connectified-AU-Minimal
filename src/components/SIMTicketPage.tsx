@@ -335,7 +335,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                               : 'bg-black/5 border-black/10 text-black/60 hover:border-[#14ACD4]/40'
                         }`}
                       >
-                        {opt === 'Activate' ? '✓ Activate' : '✕ Cancellation'}
+                        {opt === 'Activate' ? '✓ Activation' : '✕ Cancellation'}
                       </button>
                     ))}
                   </div>
