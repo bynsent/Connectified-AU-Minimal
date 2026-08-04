@@ -18,7 +18,7 @@ variables:
   project: websites
   region: australiaeast
   app_name: 'connectified-au'
-  dockerRegistryServiceConnection: 'scacr-$(project)-$(environment)'
+  dockerRegistryServiceConnection: 'scacr-websites-proproprod'
   imageRepository: '$(app_name)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
