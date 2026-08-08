@@ -18,7 +18,6 @@ variables:
   project: websites
   region: australiaeast
   app_name: 'connectified-au'
-  dockerRegistryServiceConnection: "scacr-websites-${{ variables.environment }}"
   imageRepository: '$(app_name)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
@@ -27,6 +26,7 @@ variables:
     environment: uat
   ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
     environment: dev
+  dockerRegistryServiceConnection: 'scacr-websites-${{ variables.environment }}'
   azureSubscription: "scarm-websites-${{ variables.environment }}"
   imageTag: '$(Build.BuildNumber)'
   vmImageName: 'ubuntu-latest'
