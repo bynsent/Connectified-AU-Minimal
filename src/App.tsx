@@ -591,8 +591,8 @@ export default function App() {
 
               {/* CyberCert badge — home hero only, static, unaffected by GSAP */}
               <img
-                src="/images/bronzecert.png"
-                alt="CyberCert SMB1001 Bronze Level 1 Certified"
+                src="/images/silvercert.png"
+                alt="CyberCert SMB1001 Silver Level 2 Certified"
                 className="absolute bottom-6 right-6 w-20 h-20 md:w-24 md:h-24 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg pointer-events-auto"
               />
 
@@ -946,12 +946,12 @@ export default function App() {
             {/* Right — CyberCert badge */}
             <div className="flex flex-col items-center gap-2">
               <img
-                src="/images/bronzecert.png"
-                alt="CyberCert SMB1001 Bronze Level 1 Certified"
+                src="/images/silvercert.png"
+                alt="CyberCert SMB1001 Silver Level 2 Certified"
                 className="w-20 h-20 md:w-24 md:h-24 opacity-90 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg"
               />
               <span className={`text-[9px] uppercase tracking-widest text-center ${theme === 'dark' ? 'text-white/25' : 'text-black/25'}`}>
-                SMB1001 Bronze · Level 1
+                SMB1001 Silver · Level 2
               </span>
             </div>
 
