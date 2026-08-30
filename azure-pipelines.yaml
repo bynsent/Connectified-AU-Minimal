@@ -17,7 +17,7 @@ parameters:
 variables:
   project: websites
   region: australiaeast
-  app_name: 'connectified-au'
+  app_name: 'connectified-com-au'
   imageRepository: '$(app_name)'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
