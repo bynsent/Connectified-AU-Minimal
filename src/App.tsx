@@ -111,7 +111,6 @@ import WatchArmourPage from './components/WatchArmourPage';
 import QViewPage from './components/QViewPage';
 
 // ─── Page type ────────────────────────────────────────────────────
-// Add new product page IDs here when adding new pages.
 type PageId =
   | 'home'
   | 'devices'
@@ -164,14 +163,9 @@ export default function App() {
   const isProgrammaticScroll = useRef(false);
   const AUTO_PLAY_DURATION = 5000;
 
-  // Helper so child components can navigate by string without casting
   const navigate = (page: string) => setCurrentPage(page as PageId);
 
   // ─── SPA page view tracking for GTM / GA4 ────────────────────
-  // Fires a dataLayer event on every page change so GTM can track
-  // navigation within the React SPA (no full page reloads occur).
-  // In GTM: create a Custom Event trigger with event name 'spa_page_view'
-  // and point your GA4 Configuration tag to that trigger.
   React.useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).dataLayer) {
       (window as any).dataLayer.push({
@@ -245,14 +239,14 @@ export default function App() {
       id: 'managed'
     },
     {
-    title: "SIM Services",
-    id: 'sim',
-    subItems: [
-      { label: "Sign Up", id: 'sim-signup' },
-      { label: "Activation Request", id: 'sim-ticket' },
-    ]
-  },
-  { title: "About Connectified", subItems: [], id: 'about' },
+      title: "SIM Services",
+      id: 'sim',
+      subItems: [
+        { label: "Sign Up", id: 'sim-signup' },
+        { label: "Activation Request", id: 'sim-ticket' },
+      ]
+    },
+    { title: "About Connectified", subItems: [], id: 'about' },
     { title: "Shop", subItems: [], id: 'shop' },
     { title: "Contact Us", subItems: [], id: 'contact' }
   ];
@@ -392,8 +386,6 @@ export default function App() {
     if (!lenisRef.current || !containerElement) return;
     isProgrammaticScroll.current = true;
     setProgress(0);
-    // Don't update activeIndex until scroll completes — prevents
-    // the UI text flashing to the new slide before GSAP has moved there
     const totalScrollDistance = (PILLARS.length - 1) * window.innerWidth;
     const targetScroll = (idx / (PILLARS.length - 1)) * totalScrollDistance;
     lenisRef.current.scrollTo(targetScroll, {
@@ -420,7 +412,6 @@ export default function App() {
     }
   };
 
-  // ─── Shared motion wrapper for page transitions ───────────────
   const PageWrap: React.FC<{ pageKey: string; children: React.ReactNode }> = ({ pageKey, children }) => (
     <motion.div key={pageKey} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       {children}
@@ -587,15 +578,14 @@ export default function App() {
             onAnimationComplete={() => { setTimeout(() => ScrollTrigger.refresh(), 500); }}
             className="relative"
           >
+            {/* CyberCert badge — landing page only, resized 2x (w-24 h-24 md:w-32 md:h-32) below navbar */}
+            <img
+              src="/images/silvercert.png"
+              alt="CyberCert SMB1001 Silver Level 2 Certified"
+              className="fixed top-20 right-4 md:top-28 md:right-8 w-24 h-24 md:w-32 md:h-32 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg z-[140] pointer-events-auto"
+            />
+
             <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
-
-              {/* CyberCert badge — home hero only, static, unaffected by GSAP */}
-              <img
-                src="/images/silvercert.png"
-                alt="CyberCert SMB1001 Silver Level 2 Certified"
-                className="absolute bottom-6 right-6 w-20 h-20 md:w-24 md:h-24 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg pointer-events-auto"
-              />
-
               <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
                 <motion.h1 
                   key={`headline-${activeIndex}`}
@@ -713,7 +703,6 @@ export default function App() {
                 </section>
               ))}
             </div>
-
 
           </motion.div>
         )}
@@ -928,19 +917,34 @@ export default function App() {
                 <a href="tel:+1300555570" className="block hover:text-[#14ACD4] transition-colors duration-200">+1300 555 570</a>
                 <a href="mailto:sales@connectified.com.au" className="block hover:text-[#14ACD4] transition-colors duration-200">sales@connectified.com.au</a>
               </div>
-              <a
-                href="https://linkedin.com/company/connectified"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#14ACD4] ${
-                  theme === 'dark' ? 'text-white/30' : 'text-black/30'
-                }`}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                LinkedIn
-              </a>
+              <div className="flex flex-col items-center gap-2">
+                <a
+                  href="https://linkedin.com/company/connectified"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#14ACD4] ${
+                    theme === 'dark' ? 'text-white/30' : 'text-black/30'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  LinkedIn
+                </a>
+                <a
+                  href="https://www.facebook.com/connectified.au/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-colors duration-200 hover:text-[#14ACD4] ${
+                    theme === 'dark' ? 'text-white/30' : 'text-black/30'
+                  }`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  Facebook
+                </a>
+              </div>
             </div>
 
             {/* Right — CyberCert badge */}
