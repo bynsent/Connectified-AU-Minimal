@@ -47,7 +47,6 @@ function ImgPlaceholder({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
 const MONDAY_BOARD_ID = 5027978324;
 
 interface ContactPageProps {
@@ -130,12 +129,10 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
     `;
 
     try {
-      const res = await fetch('https://api.monday.com/v2', {
+      const res = await fetch('/api/monday', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': MONDAY_API_TOKEN,
-          'API-Version': '2024-01',
         },
         body: JSON.stringify({ query }),
       });

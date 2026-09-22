@@ -8,7 +8,6 @@ interface SIMTicketPageProps {
   onBack: () => void;
 }
 
-const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
 const BOARD_ID = 5028643256;
 
 export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
@@ -125,12 +124,10 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
 
     try {
       // Step 1: Post the Main Ticket Row
-      const res = await fetch('https://api.monday.com/v2', {
+      const res = await fetch('/api/monday', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': MONDAY_API_TOKEN,
-          'API-Version': '2024-01',
         },
         body: JSON.stringify({ query: parentQuery }),
       });
@@ -157,12 +154,10 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
           }
         `;
 
-        const subRes = await fetch('https://api.monday.com/v2', {
+        const subRes = await fetch('/api/monday', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': MONDAY_API_TOKEN,
-            'API-Version': '2024-01',
           },
           body: JSON.stringify({ query: subitemQuery }),
         });

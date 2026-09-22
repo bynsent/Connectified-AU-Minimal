@@ -8,7 +8,6 @@ interface SIMSignupPageProps {
   onBack: () => void;
 }
 
-const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
 const BOARD_ID = 5028626358;
 
 export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
@@ -83,12 +82,10 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
     `;
 
     try {
-      const res = await fetch('https://api.monday.com/v2', {
+      const res = await fetch('/api/monday', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': MONDAY_API_TOKEN,
-          'API-Version': '2024-01',
         },
         body: JSON.stringify({ query }),
       });
