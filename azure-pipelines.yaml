@@ -57,7 +57,7 @@ stages:
           containerRegistry: $(dockerRegistryServiceConnection)
           Dockerfile: $(dockerfilePath)
           arguments: >
-            --build-arg VITE_VITE_MONDAY_API_TOKEN=$(viteMondayApiToken)
+            --build-arg VITE_MONDAY_API_TOKEN=$(viteMondayApiToken)
           tags: '$(imageTag)'
 
       - task: Docker@2
