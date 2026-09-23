@@ -26,7 +26,7 @@ variables:
     viteMondayApiToken: /api
   ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
     environment: dev
-    viteMondayApiToken: /api
+    viteMondayApiToken: eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ
 
   dockerRegistryServiceConnection: 'scacr-$(project)-$(environment)'
   imageRepository: '$(app_name)'
