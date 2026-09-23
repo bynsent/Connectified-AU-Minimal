@@ -46,7 +46,7 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
   );
 };
 
-interface Props { theme: 'dark' | 'light'; onBack: () => void; onNavigate: (page: any) => void; }
+interface Props { theme: 'dark' | 'light'; onBack: () => void; onNavigate: (page: string) => void; }
 
 export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: Props) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -76,7 +76,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
       <SEO
         title="Watch Guardian Assist — Aged Care & NDIS Safety Wearable | Connectified"
         description="Purpose-built wearable for aged care and NDIS environments. Medication reminders, geofence monitoring, wellness tracking and duress alerts. ACQSC compliant."
-        path="/wg-assist"
+        path="/wearables/watch-guardian-assist"
       />
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}
       className={`relative w-full overflow-hidden font-sans ${dk ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'}`}>
@@ -85,12 +85,12 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
       <section className="relative min-h-[100svh] flex flex-col justify-end px-6 md:px-10 pb-12 md:pb-20 pt-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-  src="/images/watchguardianassist/watchguardianassist.png"
-  alt="Watch Guardian workplace safety platform"
-  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-    theme === 'dark' ? 'opacity-40' : 'opacity-45'
-  }`}
-/>
+            src="/images/watchguardianassist/watchguardianassist.png"
+            alt="Watch Guardian workplace safety platform"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              theme === 'dark' ? 'opacity-40' : 'opacity-45'
+            }`}
+          />
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${ACCENT}18 0%, transparent 55%)` }} />
           <div className={`absolute inset-0 bg-gradient-to-b ${dk ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'}`} />
           <div className="grid-overlay" />
@@ -100,9 +100,9 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
         <div className="relative z-10 max-w-[1100px]">
           <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('/')}>Connectified</span>
             <span className="opacity-20">/</span>
-            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('wearables')}>Wearables</span>
+            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('/wearables')}>Wearables</span>
             <span className="opacity-20">/</span>
             <span style={{ color: ACCENT }}>Watch Guardian Assist</span>
           </motion.div>
@@ -132,12 +132,12 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
 
           <motion.div className="flex flex-col sm:flex-row flex-wrap gap-3 items-start mb-12 md:mb-14"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
-            <button onClick={() => onNavigate('contact')}
+            <button onClick={() => onNavigate('/contact')}
               className="inline-flex items-center gap-2 px-7 py-3.5 font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full transition-colors"
               style={{ background: ACCENT, color: '#fff' }}>
               Request a Demo <ArrowRight className="w-4 h-4" />
             </button>
-            <button onClick={() => onNavigate('wearables')}
+            <button onClick={() => onNavigate('/wearables')}
               className={`inline-flex items-center gap-2 px-7 py-3.5 border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
                 dk ? 'border-white/15 text-white' : 'border-black/15 text-black'
               }`}>
@@ -149,8 +149,8 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.48 }}>
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Also in this series</span>
             {[
-              { label: "Watch Guardian", color: "#14ACD4", page: 'watch-guardian' },
-              { label: "Watch Guardian Health", color: "#2ecc8e", page: 'wg-health' },
+              { label: "Watch Guardian", color: "#14ACD4", page: '/wearables/watch-guardian' },
+              { label: "Watch Guardian Health", color: "#2ecc8e", page: '/wearables/watch-guardian-health' },
             ].map((v, i) => (
               <button key={i} onClick={() => onNavigate(v.page)}
                 className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
@@ -200,7 +200,7 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <FadeUp delay={0.12}>
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <img src="/images/watchguardianassist/assist1200x900.png" className="absolute inset-0 w-full h-full rounded-none" />
+              <img src="/images/watchguardianassist/assist1200x900.png" className="absolute inset-0 w-full h-full rounded-none" alt="Watch Guardian Assist" />
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
             </div>
@@ -261,12 +261,12 @@ export default function WatchGuardianAssistPage({ theme, onBack, onNavigate }: P
             </p>
           </FadeUp>
           <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => onNavigate('contact')}
+            <button onClick={() => onNavigate('/contact')}
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors"
               style={{ color: ACCENT }}>
               Request a Demo <ArrowRight className="w-4 h-4" />
             </button>
-            <button onClick={() => onNavigate('wearables')}
+            <button onClick={() => onNavigate('/wearables')}
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
               All Wearable Products
             </button>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'motion/react';
 import { ArrowRight, ChevronRight, Shield, Wifi, MapPin, Bell, Mic, Smartphone, Settings, Users } from 'lucide-react';
+import SEO from './SEO';
 
 // ─── Shared micro-components ──────────────────────────────────────
 const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -54,7 +55,7 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
 interface WatchGuardianPageProps {
   theme: 'dark' | 'light';
   onBack: () => void;
-  onNavigate: (page: any) => void;
+  onNavigate: (page: string) => void;
 }
 
 const ACCENT = '#14ACD4';
@@ -105,307 +106,311 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
   ];
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`relative w-full overflow-hidden font-sans ${
-        theme === 'dark' ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'
-      }`}>
+    <>
+      <SEO
+        title="Watch Guardian — Enterprise Wearable Safety Platform | Connectified"
+        description="Flagship wearable safety platform for enterprise and industrial workplaces. GPS tracking, duress alerts, live audio, and Samsung Knox security."
+        path="/wearables/watch-guardian"
+      />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        className={`relative w-full overflow-hidden font-sans ${
+          theme === 'dark' ? 'bg-[#0b1118] text-[#eef2f7]' : 'bg-white text-[#0b1118]'
+        }`}>
 
-      {/* ── HERO ──────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          {/* Hero image placeholder — replace with product/lifestyle photo */}
-<img
-  src="/images/watchguardian/watchguardian.png"
-  alt="Watch Guardian workplace safety platform"
-  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-    theme === 'dark' ? 'opacity-40' : 'opacity-45'
-  }`}
-/>
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(20,172,212,0.12) 0%, transparent 55%)' }} />
-          <div className={`absolute inset-0 bg-gradient-to-b ${
-            theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'
-          }`} />
-          <div className="grid-overlay" />
-        </div>
-        <CWatermark className="watermark-c-hero hidden lg:block" />
+        {/* ── HERO ──────────────────────────────────────────────── */}
+        <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/images/watchguardian/watchguardian.png"
+              alt="Watch Guardian workplace safety platform"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                theme === 'dark' ? 'opacity-40' : 'opacity-45'
+              }`}
+            />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(20,172,212,0.12) 0%, transparent 55%)' }} />
+            <div className={`absolute inset-0 bg-gradient-to-b ${
+              theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'
+            }`} />
+            <div className="grid-overlay" />
+          </div>
+          <CWatermark className="watermark-c-hero hidden lg:block" />
 
-        <div className="relative z-10 max-w-[1100px]">
-          <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
-            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('home')}>Connectified</span>
-            <span className="opacity-20">/</span>
-            <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('wearables')}>Wearables</span>
-            <span className="opacity-20">/</span>
-            <span className="text-[#14ACD4]">Watch Guardian</span>
-          </motion.div>
+          <div className="relative z-10 max-w-[1100px]">
+            <motion.div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#5e6e82] mb-5"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
+              <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('/')}>Connectified</span>
+              <span className="opacity-20">/</span>
+              <span className="cursor-pointer hover:text-[#14ACD4] transition-colors" onClick={() => onNavigate('/wearables')}>Wearables</span>
+              <span className="opacity-20">/</span>
+              <span className="text-[#14ACD4]">Watch Guardian</span>
+            </motion.div>
 
-          <motion.div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#14ACD4] mb-5"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}>
-            <div className="glow-dot" />
-            Flagship Platform · Enterprise Workplace Safety · Samsung Knox
-          </motion.div>
+            <motion.div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#14ACD4] mb-5"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}>
+              <div className="glow-dot" />
+              Flagship Platform · Enterprise Workplace Safety · Samsung Knox
+            </motion.div>
 
-          <motion.h1 className="font-display text-[clamp(48px,7vw,96px)] leading-[0.92] font-black tracking-tighter uppercase mb-4"
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.22 }}>
-            Watch<br /><span style={{ color: ACCENT }}>Guardian</span>
-          </motion.h1>
+            <motion.h1 className="font-display text-[clamp(48px,7vw,96px)] leading-[0.92] font-black tracking-tighter uppercase mb-4"
+              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.22 }}>
+              Watch<br /><span style={{ color: ACCENT }}>Guardian</span>
+            </motion.h1>
 
-          <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] mb-7"
-            style={{ color: `${ACCENT}99` }}
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
-            Complete Workplace Safety Platform — GPS · Duress · Two-Way Audio · Systems Integration
-          </motion.p>
+            <motion.p className="font-sans text-xs md:text-sm font-bold uppercase tracking-[0.18em] mb-7"
+              style={{ color: `${ACCENT}99` }}
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
+              Complete Workplace Safety Platform — GPS · Duress · Two-Way Audio · Systems Integration
+            </motion.p>
 
-          <motion.p className={`text-base md:text-lg font-light max-w-[580px] leading-relaxed mb-10 ${
-            theme === 'dark' ? 'text-[#eef2f7]/60' : 'text-[#0b1118]/60'
-          }`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.36 }}>
-            The most comprehensive wearable safety platform in the Connectified range. Watch Guardian integrates Samsung Galaxy Watch with a centralised web portal, wireless relay board and your existing security infrastructure — delivering real-time emergency response for enterprise, healthcare and high-risk workplaces.
-          </motion.p>
+            <motion.p className={`text-base md:text-lg font-light max-w-[580px] leading-relaxed mb-10 ${
+              theme === 'dark' ? 'text-[#eef2f7]/60' : 'text-[#0b1118]/60'
+            }`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.36 }}>
+              The most comprehensive wearable safety platform in the Connectified range. Watch Guardian integrates Samsung Galaxy Watch with a centralised web portal, wireless relay board and your existing security infrastructure — delivering real-time emergency response for enterprise, healthcare and high-risk workplaces.
+            </motion.p>
 
-          <motion.div className="flex flex-wrap gap-4 items-center mb-14"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
-            <button onClick={() => onNavigate('contact')}
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors">
-              Request a Demo <ArrowRight className="w-4 h-4" />
-            </button>
-            <button onClick={() => onNavigate('wearables')}
-              className={`inline-flex items-center gap-2 px-7 py-3.5 border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
-                theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
-              }`}>
-              All Wearables
-            </button>
-          </motion.div>
-
-          {/* Variant strip */}
-          <motion.div className={`flex flex-wrap items-center gap-3 pt-8 border-t ${
-            theme === 'dark' ? 'border-white/10' : 'border-black/10'
-          }`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.48 }}>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Also in this series</span>
-            {[
-              { label: "Watch Guardian Health", color: "#2ecc8e", page: 'wg-health' },
-              { label: "Watch Guardian Assist", color: "#9b7fe8", page: 'wg-assist' },
-            ].map((v, i) => (
-              <button key={i} onClick={() => onNavigate(v.page)}
-                className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
-                  theme === 'dark' ? 'bg-white/5 border-white/10 text-[#eef2f7]/55 hover:border-white/30' : 'bg-black/5 border-black/10 text-[#0b1118]/55 hover:border-black/30'
-                }`}>
-                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: v.color }} />
-                {v.label}
+            <motion.div className="flex flex-wrap gap-4 items-center mb-14"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.42 }}>
+              <button onClick={() => onNavigate('/contact')}
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#14ACD4] text-[#080e14] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#0f9bbf] transition-colors">
+                Request a Demo <ArrowRight className="w-4 h-4" />
               </button>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+              <button onClick={() => onNavigate('/wearables')}
+                className={`inline-flex items-center gap-2 px-7 py-3.5 border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
+                  theme === 'dark' ? 'border-white/15 text-white hover:border-[#14ACD4] hover:text-[#14ACD4]' : 'border-black/15 text-black hover:border-[#14ACD4] hover:text-[#14ACD4]'
+                }`}>
+                All Wearables
+              </button>
+            </motion.div>
 
-      {/* ── KEY FEATURES ──────────────────────────────────────── */}
-      <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
-        <div className="max-w-[1100px] mx-auto">
-          <FadeUp>
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Core Features</div>
-            <h2 className="font-display text-[clamp(28px,3.5vw,46px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-4">
-              Everything Your Safety<br />Programme Needs.
-            </h2>
-            <p className={`text-lg font-light max-w-[560px] leading-relaxed mb-14 ${
-              theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'
-            }`}>
-              Watch Guardian is the only wearable safety solution that combines real-time GPS, two-way audio, security system integration and enterprise fleet management in a single Samsung Galaxy Watch.
-            </p>
-          </FadeUp>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px] bg-white/5">
-            {features.map((feat, i) => (
-              <motion.div key={i}
-                className={`p-9 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-white'}`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.08 }}
-                whileHover={{ backgroundColor: theme === 'dark' ? '#161e28' : '#f9fafb' }}>
-                <div className="w-10 h-10 rounded-lg bg-[#14ACD4]/10 border border-[#14ACD4]/20 flex items-center justify-center text-[#14ACD4] mb-5">
-                  {feat.icon}
-                </div>
-                <h4 className="text-lg font-extrabold uppercase tracking-[0.03em] mb-2.5">{feat.title}</h4>
-                <p className={`text-[13.5px] font-light leading-relaxed ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>{feat.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PRODUCT IMAGE ─────────────────────────────────────── */}
-      <section className="py-16 px-6 md:px-10">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <FadeUp>
-            {/* Product image — replace with real photo */}
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <img src="/images/watchguardian/guardian1200x900.png" className="absolute inset-0 w-full h-full rounded-none"/>
-              {/* L-bracket */}
-              <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
-              <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.12}>
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// The Hardware</div>
-            <h3 className="font-display text-[clamp(24px,3vw,38px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-6">
-              Built on Samsung.<br />Secured by Knox.
-            </h3>
-            <p className={`text-[14.5px] font-light leading-relaxed mb-6 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
-              Watch Guardian runs on Samsung Galaxy Watch — enterprise-grade wearables your staff are actually comfortable wearing. IP68 rated, all-day battery, and Knox hardware encryption that locks the device to Watch Guardian functions only.
-            </p>
-            <p className={`text-[14.5px] font-light leading-relaxed mb-8 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
-              Connectified is a Samsung One Partner — validated against Knox's defence-grade security framework. Your fleet is encrypted, locked down and fully managed from deployment to decommission.
-            </p>
-            <div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded-lg px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-[#14ACD4] glow-border">
-              🛡 Samsung One Partner · Knox Certified
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* ── SPECS ─────────────────────────────────────────────── */}
-      <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
-        <div className="max-w-[1100px] mx-auto">
-          <FadeUp className="mb-12">
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Specifications</div>
-            <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05]">
-              Technical Specifications
-            </h2>
-          </FadeUp>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-white/5">
-            {specs.map((spec, i) => (
-              <motion.div key={i}
-                className={`flex items-start gap-4 px-6 py-4 border-b ${
-                  theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-white border-black/5'
-                }`}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -12 : 12 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: Math.floor(i / 2) * 0.05 }}>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5e6e82] min-w-[120px] pt-0.5">{spec.label}</div>
-                <div className="text-[13.5px] font-medium">{spec.val}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── INDUSTRIES ────────────────────────────────────────── */}
-      <section className="py-24 px-6 md:px-10">
-        <div className="max-w-[1100px] mx-auto">
-          <FadeUp className="mb-12">
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Who It's For</div>
-            <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-4">
-              Built for High-Risk<br />Australian Workplaces.
-            </h2>
-            <p className={`text-lg font-light max-w-[540px] leading-relaxed ${
-              theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'
-            }`}>
-              Watch Guardian is deployed across sectors where staff safety incidents have serious operational, legal and human consequences.
-            </p>
-          </FadeUp>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {industries.map((ind, i) => (
-              <motion.div key={i}
-                className={`p-7 rounded-xl border ${
-                  theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-gray-50 border-black/5'
-                }`}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.08 }}
-                whileHover={{ y: -3, borderColor: 'rgba(20,172,212,0.25)', boxShadow: '0 0 20px rgba(20,172,212,0.08)' }}>
-                <div className="text-2xl mb-3">{ind.icon}</div>
-                <h3 className="text-base font-extrabold uppercase tracking-[0.03em] mb-2">{ind.title}</h3>
-                <p className={`text-[13px] font-light leading-relaxed ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>{ind.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SYSTEM INTEGRATION ────────────────────────────────── */}
-      <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <FadeUp>
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Systems Integration</div>
-            <h2 className="font-display text-[clamp(26px,3vw,40px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-6">
-              Connects to Your<br />Existing Infrastructure.
-            </h2>
-            <p className={`text-[14.5px] font-light leading-relaxed mb-8 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
-              The Wireless Relay Board (WRB) — designed and built by Connectified — connects Watch Guardian to your existing security systems via WiFi. A single duress event can automatically trigger door locks, alarm panels, CCTV recording and third-party monitoring platforms simultaneously.
-            </p>
-            <div className="flex flex-col gap-3">
+            {/* Variant strip */}
+            <motion.div className={`flex flex-wrap items-center gap-3 pt-8 border-t ${
+              theme === 'dark' ? 'border-white/10' : 'border-black/10'
+            }`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.48 }}>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Also in this series</span>
               {[
-                "Door access control — automatic lockdown on alert",
-                "Alarm panels — trigger or silence remotely",
-                "CCTV — start recording immediately on duress",
-                "Monitoring centres — direct API integration",
-                "Custom REST API & XML for third-party systems"
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#14ACD4] shrink-0 mt-2" />
-                  <span className={`text-[13.5px] font-light ${theme === 'dark' ? 'text-[#eef2f7]/65' : 'text-[#0b1118]/65'}`}>{item}</span>
-                </div>
+                { label: "Watch Guardian Health", color: "#2ecc8e", page: '/wearables/watch-guardian-health' },
+                { label: "Watch Guardian Assist", color: "#9b7fe8", page: '/wearables/watch-guardian-assist' },
+              ].map((v, i) => (
+                <button key={i} onClick={() => onNavigate(v.page)}
+                  className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
+                    theme === 'dark' ? 'bg-white/5 border-white/10 text-[#eef2f7]/55 hover:border-white/30' : 'bg-black/5 border-black/10 text-[#0b1118]/55 hover:border-black/30'
+                  }`}>
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: v.color }} />
+                  {v.label}
+                </button>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── KEY FEATURES ──────────────────────────────────────── */}
+        <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
+          <div className="max-w-[1100px] mx-auto">
+            <FadeUp>
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Core Features</div>
+              <h2 className="font-display text-[clamp(28px,3.5vw,46px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-4">
+                Everything Your Safety<br />Programme Needs.
+              </h2>
+              <p className={`text-lg font-light max-w-[560px] leading-relaxed mb-14 ${
+                theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'
+              }`}>
+                Watch Guardian is the only wearable safety solution that combines real-time GPS, two-way audio, security system integration and enterprise fleet management in a single Samsung Galaxy Watch.
+              </p>
+            </FadeUp>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2px] bg-white/5">
+              {features.map((feat, i) => (
+                <motion.div key={i}
+                  className={`p-9 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-white'}`}
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.08 }}
+                  whileHover={{ backgroundColor: theme === 'dark' ? '#161e28' : '#f9fafb' }}>
+                  <div className="w-10 h-10 rounded-lg bg-[#14ACD4]/10 border border-[#14ACD4]/20 flex items-center justify-center text-[#14ACD4] mb-5">
+                    {feat.icon}
+                  </div>
+                  <h4 className="text-lg font-extrabold uppercase tracking-[0.03em] mb-2.5">{feat.title}</h4>
+                  <p className={`text-[13.5px] font-light leading-relaxed ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>{feat.desc}</p>
+                </motion.div>
               ))}
             </div>
-          </FadeUp>
-          <FadeUp delay={0.12}>
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <img src="/images/watchguardian/wrb1200x900.png" className="absolute inset-0 w-full h-full rounded-none"/>
-              <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
-              <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
-            </div>
-          </FadeUp>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* ── FAQs ──────────────────────────────────────────────── */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org", "@type": "FAQPage",
-        "mainEntity": faqs.map(f => ({
-          "@type": "Question", "name": f.q,
-          "acceptedAnswer": { "@type": "Answer", "text": f.a }
-        }))
-      })}} />
-      <section className="py-20 px-6 md:px-10">
-        <div className="max-w-[1100px] mx-auto">
-          <FadeUp className="mb-12">
-            <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Frequently Asked</div>
-            <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05]">
-              Watch Guardian FAQs
-            </h2>
-          </FadeUp>
-          <div className="flex flex-col gap-px bg-white/5">
-            {faqs.map((faq, i) => <FaqItem key={i} q={faq.q} a={faq.a} theme={theme} index={i} />)}
+        {/* ── PRODUCT IMAGE ─────────────────────────────────────── */}
+        <section className="py-16 px-6 md:px-10">
+          <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <FadeUp>
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+                <img src="/images/watchguardian/guardian1200x900.png" className="absolute inset-0 w-full h-full rounded-none" alt="Watch Guardian Hardware"/>
+                <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
+                <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT, boxShadow: `0 0 12px ${ACCENT}80` }} />
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.12}>
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// The Hardware</div>
+              <h3 className="font-display text-[clamp(24px,3vw,38px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-6">
+                Built on Samsung.<br />Secured by Knox.
+              </h3>
+              <p className={`text-[14.5px] font-light leading-relaxed mb-6 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
+                Watch Guardian runs on Samsung Galaxy Watch — enterprise-grade wearables your staff are actually comfortable wearing. IP68 rated, all-day battery, and Knox hardware encryption that locks the device to Watch Guardian functions only.
+              </p>
+              <p className={`text-[14.5px] font-light leading-relaxed mb-8 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
+                Connectified is a Samsung One Partner — validated against Knox's defence-grade security framework. Your fleet is encrypted, locked down and fully managed from deployment to decommission.
+              </p>
+              <div className="inline-flex items-center gap-2 bg-[#14ACD4]/10 border border-[#14ACD4]/20 rounded-lg px-4 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-[#14ACD4] glow-border">
+                🛡 Samsung One Partner · Knox Certified
+              </div>
+            </FadeUp>
+          </div>
+        </section>
+
+        {/* ── SPECS ─────────────────────────────────────────────── */}
+        <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
+          <div className="max-w-[1100px] mx-auto">
+            <FadeUp className="mb-12">
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Specifications</div>
+              <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05]">
+                Technical Specifications
+              </h2>
+            </FadeUp>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[2px] bg-white/5">
+              {specs.map((spec, i) => (
+                <motion.div key={i}
+                  className={`flex items-start gap-4 px-6 py-4 border-b ${
+                    theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-white border-black/5'
+                  }`}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -12 : 12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: Math.floor(i / 2) * 0.05 }}>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#5e6e82] min-w-[120px] pt-0.5">{spec.label}</div>
+                  <div className="text-[13.5px] font-medium">{spec.val}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── INDUSTRIES ────────────────────────────────────────── */}
+        <section className="py-24 px-6 md:px-10">
+          <div className="max-w-[1100px] mx-auto">
+            <FadeUp className="mb-12">
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Who It's For</div>
+              <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-4">
+                Built for High-Risk<br />Australian Workplaces.
+              </h2>
+              <p className={`text-lg font-light max-w-[540px] leading-relaxed ${
+                theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'
+              }`}>
+                Watch Guardian is deployed across sectors where staff safety incidents have serious operational, legal and human consequences.
+              </p>
+            </FadeUp>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {industries.map((ind, i) => (
+                <motion.div key={i}
+                  className={`p-7 rounded-xl border ${
+                    theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-gray-50 border-black/5'
+                  }`}
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.08 }}
+                  whileHover={{ y: -3, borderColor: 'rgba(20,172,212,0.25)', boxShadow: '0 0 20px rgba(20,172,212,0.08)' }}>
+                  <div className="text-2xl mb-3">{ind.icon}</div>
+                  <h3 className="text-base font-extrabold uppercase tracking-[0.03em] mb-2">{ind.title}</h3>
+                  <p className={`text-[13px] font-light leading-relaxed ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>{ind.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SYSTEM INTEGRATION ────────────────────────────────── */}
+        <section className={`py-24 px-6 md:px-10 ${theme === 'dark' ? 'bg-[#111820]' : 'bg-gray-50'}`}>
+          <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <FadeUp>
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Systems Integration</div>
+              <h2 className="font-display text-[clamp(26px,3vw,40px)] font-extrabold uppercase tracking-tight leading-[1.05] mb-6">
+                Connects to Your<br />Existing Infrastructure.
+              </h2>
+              <p className={`text-[14.5px] font-light leading-relaxed mb-8 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>
+                The Wireless Relay Board (WRB) — designed and built by Connectified — connects Watch Guardian to your existing security systems via WiFi. A single duress event can automatically trigger door locks, alarm panels, CCTV recording and third-party monitoring platforms simultaneously.
+              </p>
+              <div className="flex flex-col gap-3">
+                {[
+                  "Door access control — automatic lockdown on alert",
+                  "Alarm panels — trigger or silence remotely",
+                  "CCTV — start recording immediately on duress",
+                  "Monitoring centres — direct API integration",
+                  "Custom REST API & XML for third-party systems"
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#14ACD4] shrink-0 mt-2" />
+                    <span className={`text-[13.5px] font-light ${theme === 'dark' ? 'text-[#eef2f7]/65' : 'text-[#0b1118]/65'}`}>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.12}>
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
+                <img src="/images/watchguardian/wrb1200x900.png" className="absolute inset-0 w-full h-full rounded-none" alt="Wireless Relay Board"/>
+                <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
+                <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
+              </div>
+            </FadeUp>
+          </div>
+        </section>
+
+        {/* ── FAQs ──────────────────────────────────────────────── */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org", "@type": "FAQPage",
+          "mainEntity": faqs.map(f => ({
+            "@type": "Question", "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+          }))
+        })}} />
+        <section className="py-20 px-6 md:px-10">
+          <div className="max-w-[1100px] mx-auto">
+            <FadeUp className="mb-12">
+              <div className="font-sans text-[11px] font-bold uppercase tracking-[0.18em] text-[#14ACD4] mb-3">// Frequently Asked</div>
+              <h2 className="font-display text-[clamp(28px,3.5vw,42px)] font-extrabold uppercase tracking-tight leading-[1.05]">
+                Watch Guardian FAQs
+              </h2>
+            </FadeUp>
+            <div className="flex flex-col gap-px bg-white/5">
+              {faqs.map((faq, i) => <FaqItem key={i} q={faq.q} a={faq.a} theme={theme} index={i} />)}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA ───────────────────────────────────────────────── */}
+        <div className="bg-[#14ACD4] py-16 px-6 md:px-10 text-center relative overflow-hidden">
+          <CWatermark className="watermark-c-dark watermark-c-right" />
+          <div className="relative z-10">
+            <FadeUp>
+              <h2 className="font-display text-[clamp(28px,4vw,50px)] font-black uppercase tracking-tight text-[#070d14] mb-3">
+                See Watch Guardian in Action.
+              </h2>
+              <p className="text-base font-normal text-[#070d14]/60 mb-8 max-w-xl mx-auto">
+                Book a demo with the Connectified team. We'll walk you through the platform, the portal and what deployment looks like for your operation.
+              </p>
+            </FadeUp>
+            <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
+              <button onClick={() => onNavigate('/contact')}
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
+                Request a Demo <ArrowRight className="w-4 h-4" />
+              </button>
+              <button onClick={() => onNavigate('/wearables')}
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
+                All Wearable Products
+              </button>
+            </FadeUp>
           </div>
         </div>
-      </section>
 
-      {/* ── CTA ───────────────────────────────────────────────── */}
-      <div className="bg-[#14ACD4] py-16 px-6 md:px-10 text-center relative overflow-hidden">
-        <CWatermark className="watermark-c-dark watermark-c-right" />
-        <div className="relative z-10">
-          <FadeUp>
-            <h2 className="font-display text-[clamp(28px,4vw,50px)] font-black uppercase tracking-tight text-[#070d14] mb-3">
-              See Watch Guardian in Action.
-            </h2>
-            <p className="text-base font-normal text-[#070d14]/60 mb-8 max-w-xl mx-auto">
-              Book a demo with the Connectified team. We'll walk you through the platform, the portal and what deployment looks like for your operation.
-            </p>
-          </FadeUp>
-          <FadeUp delay={0.1} className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => onNavigate('contact')}
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#070d14] text-[#14ACD4] font-display text-xs font-extrabold uppercase tracking-[0.12em] rounded-full hover:bg-[#101c28] transition-colors">
-              Request a Demo <ArrowRight className="w-4 h-4" />
-            </button>
-            <button onClick={() => onNavigate('wearables')}
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-transparent border-2 border-[#070d14]/25 text-[#070d14] font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full hover:border-[#070d14]/60 transition-colors">
-              All Wearable Products
-            </button>
-          </FadeUp>
-        </div>
-      </div>
-
-    </motion.div>
+      </motion.div>
+    </>
   );
 }

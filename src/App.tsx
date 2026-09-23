@@ -15,6 +15,7 @@ import {
   Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import SIMSignupPage from './components/SIMSignupPage';
 import SIMTicketPage from './components/SIMTicketPage';
 
@@ -37,7 +38,7 @@ const PILLARS = [
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070',
     cta: 'Explore Connectivity',
     secondaryCta: 'Watch Guardian',
-    secondaryCtaPage: 'wg-landing'
+    secondaryCtaPage: '/wearables/watch-guardian'
   },
   {
     id: 'bpo',
@@ -79,7 +80,7 @@ const PILLARS = [
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=2070',
     cta: 'Browse the Store',
     secondaryCta: 'View Hardware',
-    secondaryCtaPage: 'networking-hardware'
+    secondaryCtaPage: '/networking-hardware'
   }
 ];
 
@@ -110,51 +111,12 @@ import WatchGuardianAssistPage from './components/WatchGuardianAssistPage';
 import WatchArmourPage from './components/WatchArmourPage';
 import QViewPage from './components/QViewPage';
 
-// ─── Page type ────────────────────────────────────────────────────
-type PageId =
-  | 'home'
-  | 'devices'
-  | 'networking-hardware'
-  | 'networking-software'
-  | 'wearables'
-  // Wearable product detail pages
-  | 'watch-guardian'
-  | 'wg-health'
-  | 'wg-assist'
-  | 'watcharmour'
-  | 'q-view'
-  // Campaign landing pages (not in nav)
-  | 'wg-landing'
-  | 'bpo-landing'
-  | 'watch-guardian-demo'
-  | 'bpo-demo'
-  // BPO
-  | 'bpo'
-  | 'bpo-cases'
-  | 'bpo-admin'
-  | 'bpo-hr'
-  | 'bpo-accounting'
-  | 'bpo-it'
-  // Professional Services
-  | 'prof-services'
-  | 'prof-cases'
-  // Managed Services
-  | 'managed-services'
-  | 'managed-cases'
-  | 'managed-support'
-  // Company
-  | 'about'
-  | 'contact'
-  | 'sim-signup'
-  | 'sim-ticket';
-
 export default function App() {
   const [containerElement, setContainerElement] = React.useState<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [progress, setProgress] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
-  const [currentPage, setCurrentPage] = React.useState<PageId>('home');
   const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
   const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -163,18 +125,20 @@ export default function App() {
   const isProgrammaticScroll = useRef(false);
   const AUTO_PLAY_DURATION = 5000;
 
-  const navigate = (page: string) => setCurrentPage(page as PageId);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   // ─── SPA page view tracking for GTM / GA4 ────────────────────
   React.useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).dataLayer) {
       (window as any).dataLayer.push({
         event: 'spa_page_view',
-        page_path: `/${currentPage === 'home' ? '' : currentPage}`,
-        page_title: currentPage,
+        page_path: location.pathname,
+        page_title: location.pathname === '/' ? 'home' : location.pathname.replace(/\//g, '-').slice(1),
       });
     }
-  }, [currentPage]);
+  }, [location.pathname]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -187,7 +151,7 @@ export default function App() {
     window.scrollTo(0, 0);
     const timer = setTimeout(() => { ScrollTrigger.refresh(); }, 100);
     return () => clearTimeout(timer);
-  }, [currentPage]);
+  }, [location.pathname]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -197,44 +161,44 @@ export default function App() {
     {
       title: "IOT Devices & Connectivity",
       subItems: [
-        { label: "Networking Hardware", id: 'networking-hardware' },
-        { label: "Networking Software", id: 'networking-software' },
-        { label: "Wearables & Watch Guardian", id: 'wearables' }
+        { label: "Networking Hardware", path: '/networking-hardware' },
+        { label: "Networking Software", path: '/networking-software' },
+        { label: "Wearables & Watch Guardian", path: '/wearables' }
       ],
       id: 'devices'
     },
     {
       title: "Offsure Recruitment",
       subItems: [
-        { label: "Overview", id: 'bpo' },
+        { label: "Overview", path: '/bpo' },
         { 
           label: "Our Services", 
-          id: 'bpo-services',
+          path: '/bpo',
           nested: [
-            { label: "Office Administration", id: 'bpo-admin' },
-            { label: "Payroll & HR", id: 'bpo-hr' },
-            { label: "Accounting", id: 'bpo-accounting' },
-            { label: "IT & Development", id: 'bpo-it' }
+            { label: "Office Administration", path: '/bpo/admin' },
+            { label: "Payroll & HR", path: '/bpo/hr' },
+            { label: "Accounting", path: '/bpo/accounting' },
+            { label: "IT & Development", path: '/bpo/it' }
           ]
         },
-        { label: "Case Studies", id: 'bpo-cases' }
+        { label: "Case Studies", path: '/bpo/cases' }
       ],
       id: 'bpo'
     },
     {
       title: "MSP Professional Services",
       subItems: [
-        { label: "Overview", id: 'prof-services' },
-        { label: "Case Studies", id: 'prof-cases' }
+        { label: "Overview", path: '/professional-services' },
+        { label: "Case Studies", path: '/professional-services/cases' }
       ],
       id: 'professional'
     },
     {
       title: "MSP Managed Services",
       subItems: [
-        { label: "Overview", id: 'managed-services' },
-        { label: "Support Desk", id: 'managed-support' },
-        { label: "Case Studies", id: 'managed-cases' }
+        { label: "Overview", path: '/managed-services' },
+        { label: "Support Desk", path: '/managed-services/support' },
+        { label: "Case Studies", path: '/managed-services/cases' }
       ],
       id: 'managed'
     },
@@ -242,17 +206,17 @@ export default function App() {
       title: "SIM Services",
       id: 'sim',
       subItems: [
-        { label: "Sign Up", id: 'sim-signup' },
-        { label: "Activation Request", id: 'sim-ticket' },
+        { label: "Sign Up", path: '/sim/signup' },
+        { label: "Activation Request", path: '/sim/ticket' },
       ]
     },
-    { title: "About Connectified", subItems: [], id: 'about' },
-    { title: "Shop", subItems: [], id: 'shop' },
-    { title: "Contact Us", subItems: [], id: 'contact' }
+    { title: "About Connectified", subItems: [], id: 'about', path: '/about' },
+    { title: "Shop", subItems: [], id: 'shop', path: 'external' },
+    { title: "Contact Us", subItems: [], id: 'contact', path: '/contact' }
   ];
 
   React.useLayoutEffect(() => {
-    if (currentPage !== 'home' || !containerElement) return;
+    if (!isHome || !containerElement) return;
 
     const mm = gsap.matchMedia();
     
@@ -305,7 +269,7 @@ export default function App() {
     });
 
     return () => { mm.revert(); };
-  }, [currentPage, containerElement]);
+  }, [isHome, containerElement]);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -331,7 +295,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (currentPage !== 'home') return;
+    if (!isHome) return;
     
     const startTimer = () => {
       startTimeRef.current = Date.now();
@@ -351,12 +315,12 @@ export default function App() {
 
     startTimer();
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [activeIndex, currentPage]);
+  }, [activeIndex, isHome]);
 
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (currentPage !== 'home') return;
+    if (!isHome) return;
     if (navRef.current) {
       const activeBtn = navRef.current.children[activeIndex] as HTMLElement;
       if (activeBtn) {
@@ -365,10 +329,10 @@ export default function App() {
         container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       }
     }
-  }, [activeIndex, currentPage]);
+  }, [activeIndex, isHome]);
 
   const handleBackToHome = () => {
-    setCurrentPage('home');
+    navigate('/');
     setActiveIndex(0);
     setProgress(0);
     isProgrammaticScroll.current = false;
@@ -400,20 +364,25 @@ export default function App() {
 
   const handleExplore = () => {
     if (PILLARS[activeIndex].id === 'devices') {
-      setCurrentPage('networking-hardware');
+      navigate('/networking-hardware');
     } else if (PILLARS[activeIndex].id === 'bpo') {
-      setCurrentPage('bpo');
+      navigate('/bpo');
     } else if (PILLARS[activeIndex].id === 'professional') {
-      setCurrentPage('prof-services');
+      navigate('/professional-services');
     } else if (PILLARS[activeIndex].id === 'managed') {
-      setCurrentPage('managed-services');
+      navigate('/managed-services');
     } else if (PILLARS[activeIndex].id === 'shop') {
       window.open('https://shop.connectified.com.au', '_blank');
     }
   };
 
-  const PageWrap: React.FC<{ pageKey: string; children: React.ReactNode }> = ({ pageKey, children }) => (
-    <motion.div key={pageKey} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+  const PageWrap: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <motion.div
+      key={location.pathname}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       {children}
     </motion.div>
   );
@@ -423,7 +392,7 @@ export default function App() {
 
       {/* ── NAV ─────────────────────────────────────────────────── */}
       <nav className={`fixed top-0 left-0 w-full z-[150] p-4 md:p-8 flex justify-between items-start transition-all duration-500 ${
-        currentPage === 'home' 
+        isHome
           ? (isMenuOpen ? 'bg-[var(--brand-background)] shadow-xl' : (theme === 'dark' ? 'mix-blend-difference' : 'bg-transparent')) 
           : 'bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--border-color)]'
       }`}>
@@ -440,7 +409,7 @@ export default function App() {
               <div className="w-10 h-10 bg-[#14ACD4] rounded-full flex items-center justify-center">
                 <div className="w-6 h-6 bg-[#0F1A22] rounded-sm rotate-45" />
               </div>
-              <span className={`ml-2 font-display text-2xl font-bold tracking-tighter uppercase ${theme === 'light' && currentPage === 'home' ? 'text-[#0F1A22]' : 'text-white'}`}>
+              <span className={`ml-2 font-display text-2xl font-bold tracking-tighter uppercase ${theme === 'light' && isHome ? 'text-[#0F1A22]' : 'text-white'}`}>
                 Connectified
               </span>
             </>
@@ -491,9 +460,11 @@ export default function App() {
                         ) : (
                           <button 
                             onClick={() => {
-                              if (item.id === 'about') setCurrentPage('about');
-                              else if (item.id === 'contact') setCurrentPage('contact');
-                              else if (item.id === 'shop') { window.open('https://shop.connectified.com.au', '_blank'); }
+                              if (item.id === 'shop') {
+                                window.open('https://shop.connectified.com.au', '_blank');
+                              } else if ((item as any).path) {
+                                navigate((item as any).path);
+                              }
                               setIsMenuOpen(false);
                             }}
                             className={`w-full text-left px-4 py-1.5 rounded-xl transition-colors ${
@@ -517,7 +488,7 @@ export default function App() {
                                       setIsBpoServicesOpen(!isBpoServicesOpen);
                                       return;
                                     }
-                                    navigate(sub.id);
+                                    navigate(sub.path);
                                     setIsMenuOpen(false);
                                   }}
                                   className={`w-full text-left px-4 py-1 rounded-lg transition-colors text-[9px] uppercase tracking-wider flex items-center justify-between ${
@@ -541,7 +512,7 @@ export default function App() {
                                     {sub.nested.map((nested: any, nIdx: number) => (
                                       <button
                                         key={nIdx}
-                                        onClick={() => { navigate(nested.id); setIsMenuOpen(false); }}
+                                        onClick={() => { navigate(nested.path); setIsMenuOpen(false); }}
                                         className={`w-full text-left px-4 py-0.5 text-[8px] uppercase tracking-[0.1em] transition-colors ${
                                           theme === 'dark' ? 'text-white/20 hover:text-white' : 'text-black/20 hover:text-black'
                                         }`}
@@ -567,328 +538,204 @@ export default function App() {
 
       {/* ── PAGE ROUTER ─────────────────────────────────────────── */}
       <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
 
-        {/* HOME */}
-        {currentPage === 'home' && (
-          <motion.div 
-            key="home"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onAnimationComplete={() => { setTimeout(() => ScrollTrigger.refresh(), 500); }}
-            className="relative"
-          >
-            {/* CyberCert badge — landing page only, resized 2x (w-24 h-24 md:w-32 md:h-32) below navbar */}
-            <img
-              src="/images/silvercert.png"
-              alt="CyberCert SMB1001 Silver Level 2 Certified"
-              className="fixed top-20 right-4 md:top-28 md:right-8 w-24 h-24 md:w-32 md:h-32 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg z-[140] pointer-events-auto"
-            />
+          {/* HOME */}
+          <Route path="/" element={
+            <motion.div
+              key="home"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onAnimationComplete={() => { setTimeout(() => ScrollTrigger.refresh(), 500); }}
+              className="relative"
+            >
+              {/* CyberCert badge */}
+              <img
+                src="/images/silvercert.png"
+                alt="CyberCert SMB1001 Silver Level 2 Certified"
+                className="fixed top-20 right-4 md:top-28 md:right-8 w-24 h-24 md:w-32 md:h-32 opacity-80 hover:opacity-100 transition-opacity duration-300 drop-shadow-lg z-[140] pointer-events-auto"
+              />
 
-            <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
-              <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
-                <motion.h1 
-                  key={`headline-${activeIndex}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="font-display text-[clamp(32px,7.5vw,96px)] leading-[0.85] font-bold tracking-tighter uppercase mb-4 flex items-baseline justify-center"
-                >
-                  {PILLARS[activeIndex].headline}
-                  <span className="w-[0.15em] h-[0.15em] bg-[#14ACD4] rounded-full ml-2 mb-[0.1em]" />
-                </motion.h1>
+              <div className="fixed inset-0 z-20 pointer-events-none flex items-end justify-center pb-6 md:pb-12">
+                <div className="text-center max-w-6xl w-full px-6 flex flex-col items-center pointer-events-auto">
+                  <motion.h1 
+                    key={`headline-${activeIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="font-display text-[clamp(32px,7.5vw,96px)] leading-[0.85] font-bold tracking-tighter uppercase mb-4 flex items-baseline justify-center"
+                  >
+                    {PILLARS[activeIndex].headline}
+                    <span className="w-[0.15em] h-[0.15em] bg-[#14ACD4] rounded-full ml-2 mb-[0.1em]" />
+                  </motion.h1>
 
-                <motion.p
-                  key={`subheadline-${activeIndex}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.05 }}
-                  className="text-[#14ACD4] font-display text-[9px] md:text-xs font-bold uppercase tracking-[0.12em] md:tracking-[0.2em] mb-8 max-w-lg mx-auto text-center min-h-[2.5em] px-4"
-                >
-                  {PILLARS[activeIndex].subheadline}
-                </motion.p>
-                
-                <div 
-                  ref={navRef}
-                  className="flex flex-nowrap md:flex-wrap items-center justify-start md:justify-center gap-3 mb-8 w-full overflow-x-auto md:overflow-x-visible no-scrollbar snap-x snap-mandatory"
-                >
-                  {PILLARS.map((pillar, idx) => (
-                    <div key={pillar.id} className="relative group flex-shrink-0 snap-center">
-                      <button
-                        onClick={() => scrollToSection(idx)}
-                        className={`px-4 py-2.5 md:px-8 md:py-4 rounded-full border text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.15em] font-bold transition-all duration-500 ${
-                          idx === activeIndex 
-                            ? 'bg-[#14ACD4] border-[#14ACD4] text-white' 
-                            : theme === 'dark'
-                              ? 'border-white/10 text-white/40 hover:border-white/40 hover:text-white'
-                              : 'border-black/10 text-black/40 hover:border-black/40 hover:text-black'
+                  <motion.p
+                    key={`subheadline-${activeIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.05 }}
+                    className="text-[#14ACD4] font-display text-[9px] md:text-xs font-bold uppercase tracking-[0.12em] md:tracking-[0.2em] mb-8 max-w-lg mx-auto text-center min-h-[2.5em] px-4"
+                  >
+                    {PILLARS[activeIndex].subheadline}
+                  </motion.p>
+                  
+                  <div 
+                    ref={navRef}
+                    className="flex flex-nowrap md:flex-wrap items-center justify-start md:justify-center gap-3 mb-8 w-full overflow-x-auto md:overflow-x-visible no-scrollbar snap-x snap-mandatory"
+                  >
+                    {PILLARS.map((pillar, idx) => (
+                      <div key={pillar.id} className="relative group flex-shrink-0 snap-center">
+                        <button
+                          onClick={() => scrollToSection(idx)}
+                          className={`px-4 py-2.5 md:px-8 md:py-4 rounded-full border text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.15em] font-bold transition-all duration-500 ${
+                            idx === activeIndex 
+                              ? 'bg-[#14ACD4] border-[#14ACD4] text-white' 
+                              : theme === 'dark'
+                                ? 'border-white/10 text-white/40 hover:border-white/40 hover:text-white'
+                                : 'border-black/10 text-black/40 hover:border-black/40 hover:text-black'
+                          }`}
+                        >
+                          {pillar.title}
+                        </button>
+                      </div>
+                    ))}
+                    <div className="md:hidden flex-shrink-0 w-6 h-1" />
+                  </div>
+
+                  <motion.p 
+                    key={`desc-${activeIndex}`}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.1 }}
+                    className={`font-sans text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed font-medium px-2 ${
+                      theme === 'dark' ? 'text-white/80' : 'text-black/80'
+                    }`}
+                  >
+                    {PILLARS[activeIndex].description}
+                  </motion.p>
+
+                  <div className="min-h-[48px] flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <button 
+                      onClick={handleExplore}
+                      className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 bg-[#14ACD4] text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(20,172,212,0.2)] hover:bg-[#1299bc] transition-colors"
+                    >
+                      {PILLARS[activeIndex].cta} <ArrowRight className="w-4 h-4" />
+                    </button>
+
+                    {(PILLARS[activeIndex] as any).secondaryCta && (
+                      <button 
+                        onClick={() => navigate((PILLARS[activeIndex] as any).secondaryCtaPage)}
+                        className={`w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 transition-colors ${
+                          theme === 'dark'
+                            ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
+                            : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'
                         }`}
                       >
-                        {pillar.title}
+                        {(PILLARS[activeIndex] as any).secondaryCta} <ArrowRight className="w-4 h-4" />
                       </button>
-
-                    </div>
-                  ))}
-                  <div className="md:hidden flex-shrink-0 w-6 h-1" />
-                </div>
-
-                <motion.p 
-                  key={`desc-${activeIndex}`}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
-                  className={`font-sans text-sm md:text-base max-w-2xl mx-auto mb-6 leading-relaxed font-medium px-2 ${
-                    theme === 'dark' ? 'text-white/80' : 'text-black/80'
-                  }`}
-                >
-                  {PILLARS[activeIndex].description}
-                </motion.p>
-
-                <div className="min-h-[48px] flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <button 
-                    onClick={handleExplore}
-                    className="w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 bg-[#14ACD4] text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(20,172,212,0.2)] hover:bg-[#1299bc] transition-colors"
-                  >
-                    {PILLARS[activeIndex].cta} <ArrowRight className="w-4 h-4" />
-                  </button>
-
-                  {(PILLARS[activeIndex] as any).secondaryCta && (
-                    <button 
-                      onClick={() => navigate((PILLARS[activeIndex] as any).secondaryCtaPage)}
-                      className={`w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 transition-colors ${
-                        theme === 'dark'
-                          ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
-                          : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'
-                      }`}
-                    >
-                      {(PILLARS[activeIndex] as any).secondaryCta} <ArrowRight className="w-4 h-4" />
-                    </button>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div 
-              key={`home-scroll-${currentPage}`}
-              ref={setContainerElement} 
-              className="horizontal-container"
-              style={{ width: `${PILLARS.length * 100}vw` }}
-            >
-              {PILLARS.map((pillar, idx) => (
-                <section key={pillar.id} className="section bg-[var(--bg-color)]">
-                  <div className="absolute inset-0">
-                    <img 
-                      src={pillar.image} 
-                      alt={pillar.title}
-                      className={`w-full h-full object-cover grayscale transition-opacity duration-500 ${
-                        theme === 'dark' ? 'opacity-30' : 'opacity-45'
-                      }`}
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-b transition-colors duration-500 ${
-                      theme === 'dark' 
-                        ? 'from-[#0F1A22]/80 via-transparent to-[#0F1A22]/80' 
-                        : 'from-white/40 via-transparent to-white/40'
-                    }`} />
-                    <div className={`absolute inset-0 transition-colors duration-500 ${
-                      theme === 'dark' ? 'bg-[#0F1A22]/40' : 'bg-white/5'
-                    }`} />
-                  </div>
-                  <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${
-                    theme === 'dark' ? 'opacity-20' : 'opacity-10'
-                  }`}>
-                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#14ACD4] blur-[150px] rounded-full" />
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#09566D] blur-[150px] rounded-full" />
-                  </div>
-                </section>
-              ))}
-            </div>
+              <div 
+                key={`home-scroll-${location.pathname}`}
+                ref={setContainerElement} 
+                className="horizontal-container"
+                style={{ width: `${PILLARS.length * 100}vw` }}
+              >
+                {PILLARS.map((pillar, idx) => (
+                  <section key={pillar.id} className="section bg-[var(--bg-color)]">
+                    <div className="absolute inset-0">
+                      <img 
+                        src={pillar.image} 
+                        alt={pillar.title}
+                        className={`w-full h-full object-cover grayscale transition-opacity duration-500 ${
+                          theme === 'dark' ? 'opacity-30' : 'opacity-45'
+                        }`}
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className={`absolute inset-0 bg-gradient-to-b transition-colors duration-500 ${
+                        theme === 'dark' 
+                          ? 'from-[#0F1A22]/80 via-transparent to-[#0F1A22]/80' 
+                          : 'from-white/40 via-transparent to-white/40'
+                      }`} />
+                      <div className={`absolute inset-0 transition-colors duration-500 ${
+                        theme === 'dark' ? 'bg-[#0F1A22]/40' : 'bg-white/5'
+                      }`} />
+                    </div>
+                    <div className={`absolute inset-0 overflow-hidden pointer-events-none transition-opacity duration-500 ${
+                      theme === 'dark' ? 'opacity-20' : 'opacity-10'
+                    }`}>
+                      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#14ACD4] blur-[150px] rounded-full" />
+                      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#09566D] blur-[150px] rounded-full" />
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </motion.div>
+          } />
 
-          </motion.div>
-        )}
+          {/* DEVICES */}
+          <Route path="/devices" element={<PageWrap><DevicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
 
-        {/* DEVICES HUB */}
-        {currentPage === 'devices' && (
-          <PageWrap pageKey="devices">
-            <DevicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* NETWORKING */}
+          <Route path="/networking-hardware" element={<PageWrap><NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/networking-software" element={<PageWrap><NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
 
-        {/* NETWORKING HARDWARE */}
-        {currentPage === 'networking-hardware' && (
-          <PageWrap pageKey="networking-hardware">
-            <NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* WEARABLES */}
+          <Route path="/wearables" element={<PageWrap><WearablesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian" element={<PageWrap><WatchGuardianPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian-health" element={<PageWrap><WatchGuardianHealthPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian-assist" element={<PageWrap><WatchGuardianAssistPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables/watch-armour" element={<PageWrap><WatchArmourPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables/q-view" element={<PageWrap><QViewPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
 
-        {/* NETWORKING SOFTWARE — Teltonika RMS */}
-        {currentPage === 'networking-software' && (
-          <PageWrap pageKey="networking-software">
-            <NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* WEARABLES SHORTCUT REDIRECTS */}
+          <Route path="/watch-guardian" element={<Navigate to="/wearables/watch-guardian" replace />} />
+          <Route path="/watch-guardian-health" element={<Navigate to="/wearables/watch-guardian-health" replace />} />
+          <Route path="/watch-guardian-assist" element={<Navigate to="/wearables/watch-guardian-assist" replace />} />
+          <Route path="/watch-armour" element={<Navigate to="/wearables/watch-armour" replace />} />
+          <Route path="/watcharmour" element={<Navigate to="/wearables/watch-armour" replace />} />
+          <Route path="/q-view" element={<Navigate to="/wearables/q-view" replace />} />
+          <Route path="/wg-health" element={<Navigate to="/wearables/watch-guardian-health" replace />} />
+          <Route path="/wg-assist" element={<Navigate to="/wearables/watch-guardian-assist" replace />} />
 
-        {/* WEARABLES HUB */}
-        {currentPage === 'wearables' && (
-          <PageWrap pageKey="wearables">
-            <WearablesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* CAMPAIGN PAGES (noindex) */}
+          <Route path="/wg-landing" element={<PageWrap><WatchGuardianLandingPage theme={theme} onBack={() => navigate('/wearables')} /></PageWrap>} />
+          <Route path="/bpo-landing" element={<PageWrap><BPOLanding theme={theme} onBack={() => navigate('/bpo')} /></PageWrap>} />
 
-        {/* WEARABLE PRODUCT PAGES */}
-        {currentPage === 'watch-guardian' && (
-          <PageWrap pageKey="watch-guardian">
-            <WatchGuardianPage
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={navigate}
-            />
-          </PageWrap>
-        )}
-        {currentPage === 'watch-guardian-demo' && (
-          <PageWrap pageKey="watch-guardian-demo">
-            <WatchGuardianLandingPage
-              theme={theme}
-              onBack={handleBackToHome}
-            />
-          </PageWrap>
-        )}
-        {currentPage === 'wg-health' && (
-          <PageWrap pageKey="wg-health">
-            <WatchGuardianHealthPage
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={navigate}
-            />
-          </PageWrap>
-        )}
-        {currentPage === 'wg-assist' && (
-          <PageWrap pageKey="wg-assist">
-            <WatchGuardianAssistPage
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={navigate}
-            />
-          </PageWrap>
-        )}
-        {currentPage === 'watcharmour' && (
-          <PageWrap pageKey="watcharmour">
-            <WatchArmourPage
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={navigate}
-            />
-          </PageWrap>
-        )}
-        {currentPage === 'q-view' && (
-          <PageWrap pageKey="q-view">
-            <QViewPage
-              theme={theme}
-              onBack={() => setCurrentPage('wearables')}
-              onNavigate={navigate}
-            />
-          </PageWrap>
-        )}
+          {/* BPO */}
+          <Route path="/bpo" element={<PageWrap><BPOPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo/cases" element={<PageWrap><BPOCaseStudiesPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo/admin" element={<PageWrap><BPOOfficeAdminPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo/hr" element={<PageWrap><BPOPayrollHRPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo/accounting" element={<PageWrap><BPOAccountingPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo/it" element={<PageWrap><BPOITDevPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
 
-        {/* CAMPAIGN LANDING PAGES (noindex — not in nav) */}
-        {currentPage === 'wg-landing' && (
-          <PageWrap pageKey="wg-landing">
-            <WatchGuardianLandingPage theme={theme} onBack={() => setCurrentPage('wearables')} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-landing' && (
-          <PageWrap pageKey="bpo-landing">
-            <BPOLanding theme={theme} onBack={() => setCurrentPage('bpo')} />
-          </PageWrap>
-        )}
+          {/* PROFESSIONAL SERVICES */}
+          <Route path="/professional-services" element={<PageWrap><ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/professional-services/cases" element={<PageWrap><ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => navigate('/professional-services')} onNavigate={navigate} /></PageWrap>} />
 
-        {/* BPO */}
-        {currentPage === 'bpo' && (
-          <PageWrap pageKey="bpo">
-            <BPOPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-cases' && (
-          <PageWrap pageKey="bpo-cases">
-            <BPOCaseStudiesPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-admin' && (
-          <PageWrap pageKey="bpo-admin">
-            <BPOOfficeAdminPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-hr' && (
-          <PageWrap pageKey="bpo-hr">
-            <BPOPayrollHRPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-accounting' && (
-          <PageWrap pageKey="bpo-accounting">
-            <BPOAccountingPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'bpo-it' && (
-          <PageWrap pageKey="bpo-it">
-            <BPOITDevPage theme={theme} onBack={() => setCurrentPage('bpo')} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* MANAGED SERVICES */}
+          <Route path="/managed-services" element={<PageWrap><ManagedServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/managed-services/support" element={<PageWrap><ManagedSupportDeskPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/managed-services/cases" element={<PageWrap><ManagedServicesCaseStudiesPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={navigate} /></PageWrap>} />
 
-        {/* PROFESSIONAL SERVICES */}
-        {currentPage === 'prof-services' && (
-          <PageWrap pageKey="prof-services">
-            <ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'prof-cases' && (
-          <PageWrap pageKey="prof-cases">
-            <ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => setCurrentPage('prof-services')} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* COMPANY */}
+          <Route path="/about" element={<PageWrap><AboutPage theme={theme} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/contact" element={<PageWrap><ContactPage theme={theme} onBack={handleBackToHome} /></PageWrap>} />
 
-        {/* MANAGED SERVICES */}
-        {currentPage === 'managed-services' && (
-          <PageWrap pageKey="managed-services">
-            <ManagedServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'managed-support' && (
-          <PageWrap pageKey="managed-support">
-            <ManagedSupportDeskPage theme={theme} onBack={() => setCurrentPage('managed-services')} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'managed-cases' && (
-          <PageWrap pageKey="managed-cases">
-            <ManagedServicesCaseStudiesPage theme={theme} onBack={() => setCurrentPage('managed-services')} onNavigate={navigate} />
-          </PageWrap>
-        )}
+          {/* SIM SERVICES */}
+          <Route path="/sim/signup" element={<PageWrap><SIMSignupPage theme={theme} onBack={() => navigate('/')} /></PageWrap>} />
+          <Route path="/sim/ticket" element={<PageWrap><SIMTicketPage theme={theme} onBack={() => navigate('/')} /></PageWrap>} />
 
-        {/* COMPANY */}
-        {currentPage === 'about' && (
-          <PageWrap pageKey="about">
-            <AboutPage theme={theme} onNavigate={navigate} />
-          </PageWrap>
-        )}
-        {currentPage === 'sim-signup' && (
-          <PageWrap pageKey="sim-signup">
-            <SIMSignupPage theme={theme} onBack={() => setCurrentPage('home')} />
-          </PageWrap>
-        )}
-        {currentPage === 'sim-ticket' && (
-          <PageWrap pageKey="sim-ticket">
-            <SIMTicketPage theme={theme} onBack={() => setCurrentPage('home')} />
-          </PageWrap>
-        )}
-        {currentPage === 'contact' && (
-          <PageWrap pageKey="contact">
-            <ContactPage theme={theme} onBack={handleBackToHome} />
-          </PageWrap>
-        )}
-
+        </Routes>
       </AnimatePresence>
 
       {/* ── FOOTER ──────────────────────────────────────────────── */}
-      {currentPage !== 'home' && (
+      {!isHome && (
         <footer className={`w-full border-t transition-colors duration-500 ${
           theme === 'dark'
             ? 'bg-[#0a1520] border-white/10'
