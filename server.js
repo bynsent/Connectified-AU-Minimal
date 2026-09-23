@@ -6,7 +6,7 @@
  *
  * Env vars required at runtime (set these in Azure Container Apps
  * → Configuration, NOT baked into the Docker image):
- *   MONDAY_API_TOKEN   - the Monday.com API token
+ *   VITE_MONDAY_API_TOKEN   - the Monday.com API token
  *   PORT               - optional, defaults to 8080
  */
 
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 8080;
-const MONDAY_API_TOKEN = process.env.MONDAY_API_TOKEN;
+const VITE_MONDAY_API_TOKEN = process.env.VITE_MONDAY_API_TOKEN;
 
 app.use(express.json());
 
@@ -28,8 +28,8 @@ app.use(express.json());
 // column values, board id — none of that is secret) and POST it
 // here. The server attaches the real token and forwards it.
 app.post('/api/monday', async (req, res) => {
-  if (!MONDAY_API_TOKEN) {
-    console.error('MONDAY_API_TOKEN is not set on the server.');
+  if (!VITE_MONDAY_API_TOKEN) {
+    console.error('VITE_MONDAY_API_TOKEN is not set on the server.');
     return res.status(500).json({ error: 'Server is not configured.' });
   }
 
@@ -43,7 +43,7 @@ app.post('/api/monday', async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': MONDAY_API_TOKEN,
+        'Authorization': VITE_MONDAY_API_TOKEN,
         'API-Version': '2024-01',
       },
       body: JSON.stringify({ query }),

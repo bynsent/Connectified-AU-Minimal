@@ -32,7 +32,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
 
-const MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
+const VITE_MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
 
 interface MondayFormProps {
   theme: 'dark' | 'light';
@@ -155,7 +155,7 @@ export default function MondayForm({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': MONDAY_API_TOKEN,
+          'Authorization': VITE_MONDAY_API_TOKEN,
           'API-Version': '2024-01',
         },
         body: JSON.stringify({ query }),
