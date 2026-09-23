@@ -301,7 +301,7 @@ const faqs = [
 
 interface BPOPageProps {
   onBack: () => void;
-  onNavigate: (page: 'bpo-cases' | 'bpo-admin' | 'bpo-hr' | 'bpo-accounting' | 'bpo-it' | 'contact') => void;
+  onNavigate: (page: string) => void
   theme: 'dark' | 'light';
 }
 
@@ -511,7 +511,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
 
                   <div className="flex flex-col gap-2 mb-6">
                     {service.resps.map((resp, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-[13px] text-[#eef2f7]/60">
+                      <div key={idx} className={`flex items-start gap-2.5 text-[13px] ${theme === 'dark' ? 'text-[#eef2f7]/60' : 'text-[#0b1118]/60'}`}>
                         <div className="w-1 h-1 rounded-full shrink-0 mt-2" style={{ backgroundColor: service.accent }} />
                         {resp}
                       </div>
@@ -660,7 +660,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
                     </div>
                     <div className="flex flex-wrap gap-1.5 mb-5">
                       {study.services.map((serv, idx) => (
-                        <span key={idx} className="text-[9px] font-bold uppercase tracking-[0.06em] px-2.5 py-1 rounded bg-white/5 border border-white/10 text-[#eef2f7]/45">
+                        <span key={idx} className={`text-[9px] font-bold uppercase tracking-[0.06em] px-2.5 py-1 rounded border ${theme === 'dark' ? 'bg-white/5 border-white/10 text-[#eef2f7]/45' : 'bg-black/5 border-black/10 text-[#0b1118]/45'}`}>
                           {serv}
                         </span>
                       ))}

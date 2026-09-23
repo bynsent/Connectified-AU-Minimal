@@ -16,12 +16,12 @@ const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
 
 // ─── Image placeholder ────────────────────────────────────────────
 const ImgPlaceholder: React.FC<{
-  label: string; resolution: string; aspect?: string; className?: string;
+  label: string; resolution: string; aspect?: string; className?: string; 
 }> = ({ label, resolution, aspect = 'aspect-video', className = '' }) => (
   <div className={`img-placeholder ${aspect} ${className}`} style={{ flexDirection: 'column', gap: 8 }}>
     <div style={{ fontSize: 28, opacity: 0.2 }}>🖼️</div>
     <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(20,172,212,0.5)', textAlign: 'center', padding: '0 12px' }}>{label}</div>
-    <div style={{ fontSize: 10, fontWeight: 400, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', textAlign: 'center' }}>{resolution}</div>
+    <div style={{ fontSize: 10, fontWeight: 400, letterSpacing: '0.06em', textTransform: 'uppercase', color: theme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)', textAlign: 'center' }}>{resolution}</div>
   </div>
 );
 
@@ -336,7 +336,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                 }`}>
                 {cat.label}
                 <span className={`text-[9px] px-1.5 py-0.5 rounded transition-colors ${
-                  activeCategory === cat.id ? 'bg-[#14ACD4]/10 text-[#14ACD4]' : 'bg-white/5 text-white/40'
+                  activeCategory === cat.id ? 'bg-[#14ACD4]/10 text-[#14ACD4]' : theme === 'dark' ? 'bg-white/5 text-white/40' : 'bg-black/5 text-black/40'
                 }`}>{cat.count}</span>
               </button>
             ))}
@@ -451,7 +451,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                       <p className={`text-[14.5px] font-light leading-relaxed mb-6 ${theme === 'dark' ? 'text-[#eef2f7]/55' : 'text-[#0b1118]/55'}`}>{product.desc}</p>
                       <div className="flex flex-col gap-2 mb-6">
                         {product.features?.map((feat, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5 text-[13px] text-[#eef2f7]/65">
+                          <div key={idx} className={`flex items-start gap-2.5 text-[13px] ${theme === 'dark' ? 'text-[#eef2f7]/65' : 'text-[#0b1118]/65'}`}>
                             <div className="w-1 h-1 rounded-full shrink-0 mt-2" style={{ backgroundColor: product.accent }} />
                             {feat}
                           </div>

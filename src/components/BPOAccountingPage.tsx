@@ -12,15 +12,6 @@ function CWatermark({ className = '' }: { className?: string }) {
   );
 }
 
-function ImgPlaceholder({ label, resolution, className = '' }: { label: string; resolution: string; className?: string }) {
-  return (
-    <div className={`img-placeholder flex flex-col items-center justify-center gap-2 bg-white/5 border border-white/10 rounded ${className}`}>
-      <div className="text-[#14ACD4]/40 text-xs font-bold uppercase tracking-widest">{label}</div>
-      <div className="text-white/20 text-[10px] font-mono">{resolution}</div>
-    </div>
-  );
-}
-
 function StatCounter({ num, suffix, label, theme }: { key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light' }) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
@@ -100,7 +91,7 @@ export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServ
         {/* ── Hero ── */}
         <section className="relative min-h-screen flex flex-col justify-end px-6 md:px-10 pb-20 pt-32 md:pt-40 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img src="/images/bpo/accounting.png" label="BPO Hero" resolution="2069×1380px" className="w-full h-full rounded-none border-0" />
+            <img src="/images/bpo/accounting.png" alt="BPO Accounting Operations" className="w-full h-full object-cover rounded-none border-0" />
             <div className={`absolute inset-0 bg-gradient-to-b ${theme === 'dark' ? 'from-[#0b1118]/20 via-[#0b1118]/72 to-[#0b1118]' : 'from-white/20 via-white/72 to-white'}`} />
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 59px, ${ACCENT} 59px, ${ACCENT} 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, ${ACCENT} 59px, ${ACCENT} 60px)` }} />
           </div>
@@ -166,7 +157,7 @@ export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServ
                   <p className={`text-[13.5px] font-light leading-relaxed mb-5 ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>{svc.desc}</p>
                   <ul className="flex flex-col gap-2">
                     {svc.tasks.map((task, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-[12.5px] text-[#eef2f7]/50">
+                      <li key={idx} className={`flex items-start gap-2.5 text-[12.5px] ${theme === 'dark' ? 'text-[#eef2f7]/50' : 'text-[#0b1118]/50'}`}>
                         <div className="w-1 h-1 rounded-full shrink-0 mt-2" style={{ backgroundColor: ACCENT }} />{task}
                       </li>
                     ))}
