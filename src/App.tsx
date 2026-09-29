@@ -645,7 +645,7 @@ export default function App() {
                 className="horizontal-container"
                 style={{ width: `${PILLARS.length * 100}vw` }}
               >
-                {PILLARS.map((pillar, idx) => (
+                {PILLARS.map((pillar) => (
                   <section key={pillar.id} className="section bg-[var(--bg-color)]">
                     <div className="absolute inset-0">
                       <img 
@@ -714,6 +714,13 @@ export default function App() {
           <Route path="/bpo/accounting" element={<PageWrap><BPOAccountingPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
           <Route path="/bpo/it" element={<PageWrap><BPOITDevPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
 
+          {/* BPO SHORTCUT & FLAT ROUTE ALIASES */}
+          <Route path="/bpo-admin" element={<Navigate to="/bpo/admin" replace />} />
+          <Route path="/bpo-hr" element={<Navigate to="/bpo/hr" replace />} />
+          <Route path="/bpo-accounting" element={<Navigate to="/bpo/accounting" replace />} />
+          <Route path="/bpo-it" element={<Navigate to="/bpo/it" replace />} />
+          <Route path="/bpo-cases" element={<Navigate to="/bpo/cases" replace />} />
+
           {/* PROFESSIONAL SERVICES */}
           <Route path="/professional-services" element={<PageWrap><ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
           <Route path="/professional-services/cases" element={<PageWrap><ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => navigate('/professional-services')} onNavigate={navigate} /></PageWrap>} />
@@ -774,7 +781,7 @@ export default function App() {
                   }`}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
                   </svg>
                   LinkedIn
                 </a>
