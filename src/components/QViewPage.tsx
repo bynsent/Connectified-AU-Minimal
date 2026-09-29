@@ -188,9 +188,13 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
               ))}
             </div>
           </FadeUp>
-          <FadeUp delay={0.12}>
+<FadeUp delay={0.12}>
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
-              <ImgPlaceholder label="Q-View — Product Shot" resolution="1200 × 900px · Pendant device, clean studio or lifestyle" className="absolute inset-0 w-full h-full rounded-none" />
+              <img 
+                src="/images/qview/qviewhero.png" 
+                alt="Q-View personal safety pendant" 
+                className="absolute inset-0 w-full h-full object-cover rounded-none" 
+              />
               <div className="absolute top-0 left-0 w-[3px] h-14 z-10" style={{ background: ACCENT }} />
               <div className="absolute top-0 left-0 h-[3px] w-14 z-10" style={{ background: ACCENT }} />
             </div>
