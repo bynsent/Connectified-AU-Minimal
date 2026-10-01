@@ -1,75 +1,56 @@
 ---
-description: "Rules for exposing configurable values as environment variables in Vite client and Express server code. Use when adding config, URLs, API keys, ports, feature flags, or editing vite.config.ts, server.js, .env files."
-applyTo: "{vite.config.ts,server.js,src/config/**,.env*,Dockerfile,azure-pipelines.yaml}"
+description: "Rules for configuration and environment variables in this Vite client + nginx container. Use when adding config, URLs, API keys, ports, feature flags, or editing vite.config.ts, nginx.conf, Dockerfile, .env files."
+applyTo: "{vite.config.ts,nginx.conf,src/config/**,.env*,Dockerfile,azure-pipelines.yaml}"
 ---
 
-# Environment-Driven Configuration
+# Configuration and Environment Variables
 
-## What Must Be Configurable
-Expose as environment variables (with safe defaults where non-secret):
-- API base URLs, endpoints, board/form IDs, webhook URLs
-- Ports, hosts, CORS origins, timeouts, retry counts, rate limits, page sizes
-- Feature flags (`VITE_FEATURE_*`)
-- Contact details, analytics/tracking IDs, site URL used for SEO/canonical links
-- Any value that differs between local, staging and production
+## Runtime Model
+There is **no Node server**. The container is nginx serving `dist/` and reverse-proxying `/api/monday`.
 
-## Client vs Server
-| Kind | Prefix | Access | Visible to browser |
-|------|--------|--------|--------------------|
-| Public client config | `VITE_` | `import.meta.env.VITE_*` | **Yes** — inlined at build time |
-| Server-only / secrets | none | `process.env.*` in `server.js` | No |
+| Kind | Where defined | Read by | Visible to browser |
+|------|---------------|---------|--------------------|
+| Non-secret constants (board/column IDs, support email, timeouts, API path) | `src/config/*.ts` typed constants | client code | Yes |
+| Public per-environment values | `VITE_*` build-time env → `src/config/env.ts` | client code | **Yes** — inlined at build |
+| `VITE_MONDAY_API_TOKEN` (the only secret) | Azure Container App secret / `.env.local` | **nginx** (envsubst at container start) and **Vite dev proxy** only | **No** — never referenced from `src/` |
 
-- **Secrets must never use the `VITE_` prefix** or be injected via `define` in `vite.config.ts`
-- `VITE_*` values are fixed at **build time**; changing them requires a rebuild. Server vars are read at **runtime**
+- The token variable name is fixed: **`VITE_MONDAY_API_TOKEN`**. Do not introduce aliases (`MONDAY_API_TOKEN`, `MONDAY_TOKEN`, ...)
+- Because it has the `VITE_` prefix, Vite *could* expose it. Prevent that by:
+  - never writing `import.meta.env.VITE_MONDAY_API_TOKEN` in `src/`
+  - never using dynamic `import.meta.env[key]` access (it inlines the whole env object)
+  - never passing it as a Docker build `ARG`/`ENV` or pipeline build variable (`.env*` files are excluded by `.dockerignore`)
+  - `vite.config.ts` (`forbidSecretInBundle` plugin) fails the build if the token value appears in any emitted file
+- Prefer typed constants in `src/config/` over new env vars; add a `VITE_*` var only when a value genuinely differs between environments **and** a rebuild per environment is acceptable
 
-## Client: Single Typed Config Module
-All client access goes through `src/config/env.ts` — no `import.meta.env` elsewhere.
+## Client: Typed Config Modules
+- `src/config/constants.ts` — app-wide constants (support email, request timeout, user-facing fallback messages)
+- `src/config/monday.ts` — Monday API path, board IDs and column IDs, typed with `MondayBoardConfig` from `src/types/monday.ts`
+- `src/config/env.ts` — only if `VITE_*` vars are needed. Use **static** property access:
 
 ```ts
 // src/config/env.ts
-const read = (key: keyof ImportMetaEnv, fallback?: string): string => {
-  const value = import.meta.env[key] ?? fallback;
-  if (value === undefined || value === '') throw new Error(`Missing env var: ${key}`);
-  return value;
+const required = (name: string, value: string | undefined, fallback?: string): string => {
+  const resolved = value ?? fallback;
+  if (!resolved) throw new Error(`Missing env var: ${name}`);
+  return resolved;
 };
 
 export const env = {
-  apiBaseUrl: read('VITE_API_BASE_URL', '/api'),
-  siteUrl: read('VITE_SITE_URL', 'https://connectified.com.au'),
-  features: {
-    chat: import.meta.env.VITE_FEATURE_CHAT === 'true',
-  },
+  siteUrl: required('VITE_SITE_URL', import.meta.env.VITE_SITE_URL, 'https://connectified.com.au'),
 } as const;
 ```
+Declare each var in `src/vite-env.d.ts` (`interface ImportMetaEnv`). No `import.meta.env` outside `src/config/env.ts`.
 
-Declare types in `src/vite-env.d.ts`:
-
-```ts
-/// <reference types="vite/client" />
-interface ImportMetaEnv {
-  readonly VITE_API_BASE_URL?: string;
-  readonly VITE_SITE_URL?: string;
-  readonly VITE_FEATURE_CHAT?: string;
-}
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-```
-
-## Server: Validate at Startup
-In `server.js`, read all `process.env` values once into a config object at the top, apply defaults, and fail fast if required secrets are missing:
-
-```js
-const config = {
-  port: Number(process.env.PORT ?? 8080),
-  mondayApiToken: process.env.MONDAY_API_TOKEN,
-};
-if (!config.mondayApiToken) throw new Error('MONDAY_API_TOKEN is required');
-```
+## nginx: Runtime Substitution
+- `nginx.conf` is copied to `/etc/nginx/templates/default.conf.template`; the official `nginx` image runs `envsubst` on start and writes `/etc/nginx/conf.d/default.conf`
+- Only variables present in the container environment are substituted, so nginx's own `$host`, `$uri` etc. are untouched
+- If `VITE_MONDAY_API_TOKEN` is missing, nginx fails to start (unknown variable) — fail fast by design
+- Listen port, upstream URL, `API-Version`, rate limits and body-size caps are set in `nginx.conf`
 
 ## Checklist for Every New Variable
-1. Add to `.env.example` with a comment (purpose, required/optional, example value — never a real secret)
-2. Add type to `ImportMetaEnv` (client) or the server config object
-3. Read via the config module only
-4. Wire into deployment: build arg (`VITE_*`) in `Dockerfile`/pipeline, or runtime secret on Azure Container App (server vars)
+1. Decide: typed constant (default) vs `VITE_*` build var vs nginx runtime var
+2. Add to `.env.example` with a comment (purpose, required/optional, example value — never a real secret)
+3. Client vars: type in `src/vite-env.d.ts`, read only in `src/config/env.ts`, wire as Docker `ARG` + pipeline build arg
+4. nginx runtime vars: reference as `${NAME}` in `nginx.conf`, set on the Azure Container App (secret ref for secrets)
 5. Parse types explicitly (`Number(...)`, `=== 'true'`) — env values are always strings
+

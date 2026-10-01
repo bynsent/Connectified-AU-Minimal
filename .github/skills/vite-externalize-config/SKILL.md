@@ -1,37 +1,45 @@
 ---
 name: vite-externalize-config
-description: "Find hard-coded configuration in a Vite/React/Express codebase and move it to typed environment variables. Use when asked to externalize config, extract env vars, remove hard-coded URLs/IDs/keys, make settings configurable, or audit secrets exposed in the client bundle."
+description: "Find hard-coded configuration in a Vite/React + nginx codebase and move it to typed config modules or environment variables. Use when asked to externalize config, extract env vars, remove hard-coded URLs/IDs/keys, make settings configurable, or audit secrets exposed in the client bundle."
 ---
 
-# Externalize Configuration to Environment Variables
+# Externalize Configuration
 
-Follow [env-config.instructions.md](../../instructions/env-config.instructions.md) for the rules. This skill is the workflow.
+Follow [env-config.instructions.md](../../instructions/env-config.instructions.md) for the rules. This skill is the workflow. There is **no Node server** — runtime configuration is done by nginx (envsubst templates).
+
+**Installing dependencies**: if a package is needed, install it only via the internal Artifactory registry:
+```powershell
+npm install <package> --registry https://artifactory.sunlifecorp.com/artifactory/api/npm/npm-all/
+```
 
 ## 1. Audit
 Search the codebase for hard-coded values:
 - URLs: `https?://`, `/api/`
 - Emails / phones: `@[a-z]+\.`, `\+?61`, `tel:`, `mailto:`
 - IDs / keys / tokens: `[Kk]ey`, `[Tt]oken`, `[Ss]ecret`, `[Ii]d\s*[:=]\s*['"]?\d{5,}`
-- Ports / timeouts / limits: `\b\d{3,5}\b` near `port`, `timeout`, `limit`, `delay`
-- Direct env access outside config modules: `import.meta.env`, `process.env`
-- Secrets leaking to the client: `VITE_.*(TOKEN|KEY|SECRET)`, `define:` in `vite.config.ts`
+- Timeouts / limits: `\b\d{3,5}\b` near `timeout`, `limit`, `delay`
+- Env access outside config: `import.meta.env` (anywhere but `src/config/env.ts`), dynamic `import.meta.env[`, `process.env` in `src/`
+- Secrets leaking to the client: any reference to `VITE_MONDAY_API_TOKEN` in `src/`, `define:` in `vite.config.ts`, `ARG`/`ENV` for secrets in `Dockerfile`
+- GraphQL settings: upstream URL and `API-Version` (belong in `nginx.conf` + `vite.config.ts` proxy), board/group/column IDs (belong in `src/config/monday.ts`)
 
-Produce a table: value, file/line, proposed variable name, client or server, secret or public, default.
+Produce a table: value, file/line, target (constant / `VITE_*` / nginx runtime var), secret or public, default.
 
 ## 2. Classify
-- **Secret** → server-only var (no `VITE_` prefix), consumed in `server.js`, exposed to the browser only through a proxy route
-- **Public, varies per environment** → `VITE_*` var with a sensible default
-- **True constant** (never varies) → typed constant in `src/config/constants.ts`, not an env var
+- **Secret** → nginx runtime variable only (the Monday token is always `VITE_MONDAY_API_TOKEN`); referenced as `${VITE_MONDAY_API_TOKEN}` in `nginx.conf` and via `loadEnv` in the `vite.config.ts` dev proxy. Never in `src/`
+- **Public, varies per environment and rebuild is acceptable** → `VITE_*` var read in `src/config/env.ts`
+- **Non-secret constant** (board IDs, column IDs, support email, timeouts) → typed constant in `src/config/constants.ts` or `src/config/monday.ts`
 
 ## 3. Implement
-1. Create/update `src/config/env.ts` (client) and `src/vite-env.d.ts` (types) using the template in [env.ts.template](./assets/env.ts.template)
-2. Create/update the top-level `config` object in `server.js`; fail fast on missing required secrets
-3. Replace each hard-coded value with `env.<name>` / `config.<name>`
-4. Remove any `define: { 'process.env.X': ... }` entries that inject secrets into the client
-5. Update `.env.example` with every variable, a comment, and a placeholder value
-6. Update `Dockerfile` (`ARG`/`ENV` for `VITE_*` build-time vars) and deployment docs for runtime secrets
+1. Constants → `src/config/*.ts`, typed with interfaces from `src/types/`
+2. Client env vars → `src/config/env.ts` + `src/vite-env.d.ts` using [env.ts.template](./assets/env.ts.template) (static `import.meta.env.VITE_X` access only)
+3. nginx runtime vars → `${NAME}` in `nginx.conf`; set on the Azure Container App (secret reference for secrets)
+4. Replace each hard-coded value with the config import
+5. Remove any `define: { 'process.env.X': ... }` entries injecting secrets
+6. Update `.env.example` with every variable, a comment, and a placeholder
+7. `VITE_*` build vars → `ARG`/`ENV` in the Dockerfile build stage + pipeline build args. Secrets → never build args
 
 ## 4. Verify
 - `npm run lint` passes
-- `npm run build` then search `dist/` for any secret value or name — must find none
-- App runs with only `.env.example` defaults (copy to `.env.local`) for non-secret values
+- `npm run build` then search `dist/` for the token value and the string `VITE_MONDAY_API_TOKEN` — must find none
+- `docker run -e VITE_MONDAY_API_TOKEN=test <image>` starts; `/etc/nginx/conf.d/default.conf` contains the substituted header
+
