@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'motion/react';
 import { ArrowRight, ChevronRight, Shield, Wifi, MapPin, Bell, Mic, Smartphone, Settings, Users } from 'lucide-react';
 import SEO from './SEO';
+import type { ProductVariantLink } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 // ─── Shared micro-components ──────────────────────────────────────
 const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -52,11 +54,7 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
 };
 
 // ─── Props ────────────────────────────────────────────────────────
-interface WatchGuardianPageProps {
-  theme: 'dark' | 'light';
-  onBack: () => void;
-  onNavigate: (page: string) => void;
-}
+type WatchGuardianPageProps = PageProps;
 
 const ACCENT = '#14ACD4';
 
@@ -189,11 +187,11 @@ export default function WatchGuardianPage({ theme, onBack, onNavigate }: WatchGu
               theme === 'dark' ? 'border-white/10' : 'border-black/10'
             }`} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.48 }}>
               <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Also in this series</span>
-              {[
+              {([
                 { label: "Watch Guardian Health", color: "#2ecc8e", page: '/wearables/watch-guardian-health' },
                 { label: "Watch Guardian Assist", color: "#9b7fe8", page: '/wearables/watch-guardian-assist' },
-              ].map((v, i) => (
-                <button key={i} onClick={() => onNavigate(v.page)}
+              ] satisfies readonly ProductVariantLink[]).map((v) => (
+                <button key={v.label} onClick={() => onNavigate(v.page)}
                   className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
                     theme === 'dark' ? 'bg-white/5 border-white/10 text-[#eef2f7]/55 hover:border-white/30' : 'bg-black/5 border-black/10 text-[#0b1118]/55 hover:border-black/30'
                   }`}>

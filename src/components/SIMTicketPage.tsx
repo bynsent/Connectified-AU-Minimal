@@ -2,30 +2,30 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle, ArrowLeft, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import SEO from './SEO';
+import { useSimTicket } from '@/src/hooks/useSimTicket';
+import type { SimTicketFormValues } from '@/src/types/forms';
+import type { Theme } from '@/src/types/theme';
+import { EMAIL_PATTERN, isValidEmail, isValidIccid, sanitizeIccidInput, todayIsoDate } from '@/src/utils/validation';
 
 interface SIMTicketPageProps {
-  theme: 'dark' | 'light';
+  theme: Theme;
   onBack: () => void;
 }
-
-const BOARD_ID = 5028643256;
 
 export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
   const dk = theme === 'dark';
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<SimTicketFormValues>({
     fullName: '',
     email: '',
-    iccids: [''], // Switched to an array of strings
-    requestType: '' as 'Activate' | 'Cancel' | '',
+    iccids: [''],
+    requestType: '',
     simKit: '',
     requestDate: '',
     cancellationReason: '',
     tosAgreed: false,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isSubmitting, isSubmitted, error, submit } = useSimTicket();
 
   const inputClass = `w-full px-4 py-3 rounded-xl border outline-none transition-colors text-sm ${
     dk
@@ -47,7 +47,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
 
   // Dynamic Array Handlers
   const handleIccidChange = (index: number, value: string) => {
-    const cleaned = value.replace(/\D/g, '').slice(0, 20);
+    const cleaned = sanitizeIccidInput(value);
     setForm(prev => {
       const nextIccids = [...prev.iccids];
       nextIccids[index] = cleaned;
@@ -67,110 +67,9 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
     }));
   };
 
-  const allIccidsValid = form.iccids.every(id => id.length >= 19 && id.length <= 20);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-    if (!allIccidsValid) {
-      setError('All ICCIDs must be 19 or 20 digits.');
-      return;
-    }
-    if (!form.requestType) {
-      setError('Please select Activate or Cancel.');
-      return;
-    }
-    if (!form.simKit) {
-      setError('Please select a SIM Kit.');
-      return;
-    }
-    if (!form.requestDate) {
-      setError(`Please select a ${form.requestType === 'Activate' ? 'activation' : 'cancellation'} date.`);
-      return;
-    }
-    if (!form.tosAgreed) {
-      setError('You must agree to the Terms of Service to proceed.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setError(null);
-
-    // Removed the old single ICCID field (text_mm3g9thj) out of parent columns
-    const columnValues: Record<string, unknown> = {
-      text_mm3gc1n1:    form.email,
-      dropdown_mm3gm404: { labels: [form.requestType] },
-      dropdown_mm3g1kxb: { labels: [form.simKit] },
-      date_mm3gv78f:    { date: form.requestDate },
-    };
-
-    if (form.requestType === 'Cancel' && form.cancellationReason) {
-      columnValues['text_mm3gbmmd'] = form.cancellationReason;
-    }
-
-    const parentQuery = `
-      mutation {
-        create_item(
-          board_id: ${BOARD_ID},
-          item_name: ${JSON.stringify(form.fullName)},
-          column_values: ${JSON.stringify(JSON.stringify(columnValues))}
-        ) { id }
-      }
-    `;
-
-    try {
-      // Step 1: Post the Main Ticket Row
-      const res = await fetch('/api/monday', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: parentQuery }),
-      });
-
-      const data = await res.json();
-
-      if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API parent item error:', JSON.stringify(data, null, 2));
-        setError('Something went wrong. Please try again or email admin@connectified.com.au');
-        setIsSubmitting(false);
-        return;
-      }
-
-      const parentItemId = data.data.create_item.id;
-
-      // Step 2: Concurrently attach each ICCID as an individual Subitem
-      const subitemPromises = form.iccids.map(async (singleIccid) => {
-        const subitemQuery = `
-          mutation {
-            create_subitem(
-              parent_item_id: ${parentItemId},
-              item_name: ${JSON.stringify(singleIccid)}
-            ) { id }
-          }
-        `;
-
-        const subRes = await fetch('/api/monday', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ query: subitemQuery }),
-        });
-        return subRes.json();
-      });
-
-      await Promise.all(subitemPromises);
-      setIsSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again or email admin@connectified.com.au');
-    } finally {
-      setIsSubmitting(false);
-    }
+    await submit(form);
   };
 
   return (
@@ -237,15 +136,15 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                   <label className={labelClass}>Email Address <span className="text-[#14ACD4]">*</span></label>
                   <input required type="email" name="email" value={form.email}
                     onChange={handleChange} placeholder="jane@company.com.au"
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                    pattern={EMAIL_PATTERN.source}
                     className={`${inputClass} ${
-                      form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+                      form.email && !isValidEmail(form.email)
                         ? 'border-red-400 focus:border-red-400'
-                        : form.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+                        : form.email && isValidEmail(form.email)
                           ? 'border-green-400 focus:border-green-400'
                           : ''
                     }`} />
-                  {form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email) && (
+                  {form.email && !isValidEmail(form.email) && (
                     <p className="text-[10px] text-red-400 mt-1">Please enter a valid email address</p>
                   )}
                 </div>
@@ -255,7 +154,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                   <label className={labelClass}>SIM ICCID(s) <span className="text-[#14ACD4]">*</span></label>
                   <div className="flex flex-col gap-3">
                     {form.iccids.map((id, index) => {
-                      const isValid = id.length >= 19 && id.length <= 20;
+                      const isValid = isValidIccid(id);
                       return (
                         <div key={index} className="flex items-start gap-2">
                           <div className="flex-1">
@@ -374,7 +273,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                       <label className={labelClass}>Activation Date <span className="text-[#14ACD4]">*</span></label>
                       <input required type="date" name="requestDate" value={form.requestDate}
                         onChange={handleChange}
-                        min={new Date().toISOString().split('T')[0]}
+                        min={todayIsoDate()}
                         className={`${inputClass} ${dk ? '[color-scheme:dark]' : ''}`} />
                     </motion.div>
                   )}
@@ -387,7 +286,7 @@ export default function SIMTicketPage({ theme, onBack }: SIMTicketPageProps) {
                         <label className={labelClass}>Cancellation Date <span className="text-[#14ACD4]">*</span></label>
                         <input required type="date" name="requestDate" value={form.requestDate}
                           onChange={handleChange}
-                          min={new Date().toISOString().split('T')[0]}
+                          min={todayIsoDate()}
                           className={`${inputClass} ${dk ? '[color-scheme:dark]' : ''}`} />
                       </div>
                       <div>

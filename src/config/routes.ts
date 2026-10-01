@@ -1,0 +1,31 @@
+import type { PageId, RoutePath } from '@/src/types/navigation';
+
+/** Single source of truth mapping logical page ids to route paths (must match the routes in App.tsx). */
+export const PAGE_ROUTES: Readonly<Record<PageId, RoutePath>> = {
+  home: '/',
+  about: '/about',
+  contact: '/contact',
+  devices: '/devices',
+  'networking-hardware': '/networking-hardware',
+  'networking-software': '/networking-software',
+  wearables: '/wearables',
+  'watch-guardian': '/wearables/watch-guardian',
+  'wg-health': '/wearables/watch-guardian-health',
+  'wg-assist': '/wearables/watch-guardian-assist',
+  watcharmour: '/wearables/watch-armour',
+  'q-view': '/wearables/q-view',
+  bpo: '/bpo',
+  'bpo-cases': '/bpo/cases',
+  'bpo-admin': '/bpo/admin',
+  'bpo-hr': '/bpo/hr',
+  'bpo-accounting': '/bpo/accounting',
+  'bpo-it': '/bpo/it',
+  'prof-services': '/professional-services',
+  'prof-cases': '/professional-services/cases',
+  'managed-services': '/managed-services',
+  'managed-support': '/managed-services/support',
+  'managed-cases': '/managed-services/cases',
+  'sim-signup': '/sim/signup',
+  'sim-ticket': '/sim/ticket',
+};
+

@@ -19,11 +19,9 @@ import {
   UserPlus,
   Rocket
 } from 'lucide-react';
+import type { BackNavigablePageProps } from '@/src/types/navigation';
 
-interface BPOLandingProps {
-  theme: 'dark' | 'light';
-  onBack: () => void;
-}
+type BPOLandingProps = BackNavigablePageProps;
 
 type ServiceKey = 'admin' | 'payroll' | 'account' | 'it';
 

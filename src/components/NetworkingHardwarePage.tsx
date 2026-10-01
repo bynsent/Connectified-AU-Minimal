@@ -5,6 +5,7 @@ import {
   Server, Radio, ShoppingCart, MessageSquare, ChevronRight, ArrowRight
 } from 'lucide-react';
 import SEO from './SEO';
+import type { PageProps } from '@/src/types/navigation';
 
 // ─── C Watermark ──────────────────────────────────────────────────
 const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -140,11 +141,7 @@ const FadeUp: React.FC<{ children: React.ReactNode; delay?: number; className?: 
   </motion.div>
 );
 
-interface NetworkingHardwarePageProps {
-  onBack: () => void;
-  theme: 'dark' | 'light';
-  onNavigate: (page: string) => void;
-}
+type NetworkingHardwarePageProps = PageProps;
 
 export default function NetworkingHardwarePage({ onBack, theme, onNavigate }: NetworkingHardwarePageProps) {
 

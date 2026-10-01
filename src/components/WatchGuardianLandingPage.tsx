@@ -17,11 +17,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 import MondayForm from './MondayForm';
+import { DEFAULT_LEAD_FORM_COLUMN_IDS, WATCH_GUARDIAN_LEAD_BOARD_ID } from '@/src/config/monday';
+import type { BackNavigablePageProps } from '@/src/types/navigation';
 
-interface WatchGuardianLandingPageProps {
-  theme: 'dark' | 'light';
-  onBack: () => void;
-}
+type WatchGuardianLandingPageProps = BackNavigablePageProps;
 
 type VariantKey = 'wg' | 'wgh' | 'wga';
 
@@ -514,17 +513,8 @@ export default function WatchGuardianLandingPage({ theme, onBack }: WatchGuardia
 
           <MondayForm
             theme={theme}
-            boardId={5028100217}
-            columnIds={{
-              email:    'text_mm2v7xcv',
-              phone:    'numeric_mm2vzhat',
-              country:  'text_mm2v24dt',
-              industry: 'text_mm2v5stv',
-              service:  'dropdown_mm2v25n',
-              comments: 'text_mm2vghgy',
-              status:   'status',
-              date:     'date4',
-            }}
+            boardId={WATCH_GUARDIAN_LEAD_BOARD_ID}
+            columnIds={DEFAULT_LEAD_FORM_COLUMN_IDS}
             serviceColumnType="dropdown"
             serviceOptions={[
               'Watch Guardian',

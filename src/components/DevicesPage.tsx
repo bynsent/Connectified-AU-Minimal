@@ -4,12 +4,9 @@ import { ArrowLeft, Wifi, Watch, Shield, Zap, Globe } from 'lucide-react';
 import gsap from 'gsap';
 import SEO from './SEO';
 import Lenis from 'lenis';
+import type { PageProps } from '@/src/types/navigation';
 
-interface DevicesPageProps {
-  onBack: () => void;
-  onNavigate: (page: 'home' | 'devices' | 'networking-hardware' | 'wearables' | 'contact') => void;
-  theme: 'dark' | 'light';
-}
+type DevicesPageProps = PageProps;
 
 export default function DevicesPage({ onBack, onNavigate, theme }: DevicesPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);

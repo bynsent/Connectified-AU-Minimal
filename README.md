@@ -13,8 +13,9 @@ View your app in AI Studio: https://ai.studio/apps/fc067df9-f19b-4c29-aa62-f2d5b
 **Prerequisites:**  Node.js
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+1. Install dependencies (internal Artifactory registry only):
+   `npm install --registry https://artifactory.sunlifecorp.com/artifactory/api/npm/npm-all/`
+   To add a package: `npm install <package> --registry https://artifactory.sunlifecorp.com/artifactory/api/npm/npm-all/`
+2. Copy [.env.example](.env.example) to `.env.local` and set `VITE_MONDAY_API_TOKEN` (used only by the Vite dev proxy / nginx, never by `src/`)
 3. Run the app:
    `npm run dev`

@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
+import type { FaqItemProps, StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 const ACCENT = '#2ecc8e';
 
@@ -13,7 +15,7 @@ function CWatermark({ className = '' }: { className?: string }) {
   );
 }
 
-function StatCounter({ num, suffix, label, theme }: { key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light' }) {
+function StatCounter({ num, suffix, label, theme }: StatCounterProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
       <div className="font-display text-4xl font-black leading-none mb-1">
@@ -33,7 +35,7 @@ function FadeUp({ children, delay = 0, className = '' }: { key?: React.Key; chil
   );
 }
 
-function FaqItem({ q, a, theme }: { key?: React.Key; q: string; a: string; theme: 'dark' | 'light' }) {
+function FaqItem({ q, a, theme }: FaqItemProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className={`border-b ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
@@ -80,7 +82,7 @@ const faqs = [
   { q: 'Can you handle payroll across multiple states or entities?', a: 'Yes — multi-entity, multi-state payroll is something we handle regularly. Different payroll tax thresholds, state-specific requirements and multiple ABNs are all scoped in the initial engagement design.' },
 ];
 
-interface BPOServicePageProps { onBack: () => void; onNavigate: (page: any) => void; theme: 'dark' | 'light'; }
+type BPOServicePageProps = PageProps;
 
 export default function BPOPayrollHRPage({ onBack, onNavigate, theme }: BPOServicePageProps) {
   return (
@@ -317,7 +319,7 @@ export default function BPOPayrollHRPage({ onBack, onNavigate, theme }: BPOServi
                 Office Administration <ArrowRight className="w-3 h-3" />
               </button>
               <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-display text-xs font-bold uppercase tracking-wider border" style={{ backgroundColor: `${ACCENT}1A`, borderColor: `${ACCENT}33`, color: ACCENT }}>Payroll & HR</button>
-              {[{ label: 'Accounting', id: 'bpo-accounting' }, { label: 'IT & Development', id: 'bpo-it' }, { label: 'Case Studies', id: 'bpo-cases' }].map(link => (
+              {([{ label: 'Accounting', id: 'bpo-accounting' }, { label: 'IT & Development', id: 'bpo-it' }, { label: 'Case Studies', id: 'bpo-cases' }] as const).map(link => (
                 <button key={link.id} onClick={() => onNavigate(link.id)} className={`flex items-center gap-2 px-4 py-2.5 bg-[#0b1118] border border-white/5 rounded-lg font-display text-xs font-bold uppercase tracking-wider transition-colors hover:text-[#2ecc8e] ${theme === 'dark' ? 'text-[#8a9bb0]' : 'text-gray-500'}`}>
                   {link.label} <ArrowRight className="w-3 h-3" />
                 </button>
