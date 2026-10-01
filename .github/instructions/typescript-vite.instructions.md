@@ -1,5 +1,5 @@
 ---
-description: "TypeScript/JavaScript and React best practices for this Vite project, including SOLID and DRY. Use when writing or reviewing .ts, .tsx, .js, .jsx code."
+description: "TypeScript/JavaScript and React best practices for this Vite project, including typed object models, hook-based API calls and state management, SOLID and DRY. Use when writing or reviewing .ts, .tsx, .js, .jsx code."
 applyTo: "**/*.{ts,tsx,js,jsx,mjs,cjs}"
 ---
 
@@ -10,6 +10,8 @@ applyTo: "**/*.{ts,tsx,js,jsx,mjs,cjs}"
 - No `any`. Use `unknown` + narrowing, generics, or precise types. No non-null `!` unless provably safe
 - Use `type` imports: `import type { Foo } from './foo'` (required by `isolatedModules`)
 - Prefer `interface` for object contracts that may be extended; `type` for unions/utility compositions
+- Model domain entities, component props, form values, and API request/response payloads with named TypeScript types; place feature types in `src/features/<feature>/types.ts` and genuinely shared types in `src/types/`
+- Keep transport DTOs distinct from domain/UI models when their shapes or semantics differ, and map between them at the service boundary
 - Model state with discriminated unions (`{ status: 'idle' } | { status: 'error'; error: string }`) instead of multiple booleans
 - Use `as const` + derived types for fixed lists instead of duplicating string literals
 - Validate external data (API responses, env vars, form input) at the boundary before trusting its type
@@ -39,6 +41,9 @@ applyTo: "**/*.{ts,tsx,js,jsx,mjs,cjs}"
 
 ## React
 - Function components + hooks only. Hooks at top level; follow `react-hooks` rules
+- Components do not call `fetch` or API service functions directly. Use typed custom hooks (`useXxx`) as the React-facing API layer; hooks call services and expose data, loading/error state, and actions such as submit, retry, or refetch
+- Extract reusable or non-trivial stateful behaviour into custom hooks, including API lifecycles, forms, subscriptions, and coordinated state. Keep trivial presentation-only state local when extraction would add indirection without improving reuse or separation
+- Custom hooks own effect cleanup and stale-request protection (for example `AbortController`) where applicable; service modules remain React-free and perform typed transport and boundary validation
 - Stable, unique `key`s (never array index for dynamic lists)
 - Derive values during render instead of syncing them with `useEffect`; use effects only for external systems and always clean up (listeners, GSAP contexts, Lenis instances, timers)
 - Lazy-load route pages with `React.lazy` + `Suspense` to keep the initial bundle small
