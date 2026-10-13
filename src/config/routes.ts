@@ -27,5 +27,5 @@ export const PAGE_ROUTES: Readonly<Record<PageId, RoutePath>> = {
   'managed-cases': '/managed-services/cases',
   'sim-signup': '/sim/signup',
   'sim-ticket': '/sim/ticket',
+  'pinnacle': '/sim/pinnacle',
 };
-
