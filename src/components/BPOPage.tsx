@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, ArrowRight, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
+import type { FaqEntry, FaqItemProps, ServiceOffering, StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -54,12 +56,7 @@ function StatCounter({
   suffix,
   label,
   theme,
-}: {
-  num: string;
-  suffix?: string;
-  label: string;
-  theme: 'dark' | 'light';
-}) {
+}: StatCounterProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -105,12 +102,7 @@ function FaqItem({
   q,
   a,
   theme,
-}: {
-  key?: React.Key;
-  q: string;
-  a: string;
-  theme: 'dark' | 'light';
-}) {
+}: FaqItemProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className={`border-b ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
@@ -191,9 +183,10 @@ const faqSchema = {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const services = [
+const services: readonly ServiceOffering[] = [
   {
     id: 'bpo-admin',
+    path: 'bpo-admin',
     cat: 'Administration',
     name: 'Office Administration',
     tagline: 'Streamlined Operations & Back-Office Support',
@@ -209,6 +202,7 @@ const services = [
   },
   {
     id: 'bpo-hr',
+    path: 'bpo-hr',
     cat: 'HR & Payroll',
     name: 'Payroll & HR Outsourcing',
     tagline: 'Workforce Management & Payroll Processing',
@@ -224,6 +218,7 @@ const services = [
   },
   {
     id: 'bpo-accounting',
+    path: 'bpo-accounting',
     cat: 'Finance',
     name: 'Accounting',
     tagline: 'Bookkeeping, Reporting & Financial Operations',
@@ -239,6 +234,7 @@ const services = [
   },
   {
     id: 'bpo-it',
+    path: 'bpo-it',
     cat: 'Technology',
     name: 'IT & Development',
     tagline: 'Software Development, Cloud & Systems Support',
@@ -288,7 +284,7 @@ const caseStudies = [
   },
 ];
 
-const faqs = [
+const faqs: readonly FaqEntry[] = [
   { q: 'What BPO services does Connectified offer?', a: 'Connectified offers four BPO service lines: Office Administration, Payroll & HR Outsourcing, Accounting, and IT & Development. Each service is delivered by a dedicated Philippines-based team managed and quality-assured from our Seaford, Victoria headquarters.' },
   { q: "Where is Connectified's BPO team based?", a: 'Our BPO team is based in Clark, Pampanga, Philippines — aligned to Australian business hours. Account management, quality assurance, and client relationships are handled from our headquarters in Seaford, Victoria, Australia.' },
   { q: 'How quickly can a Connectified BPO team be operational?', a: 'Typical onboarding timelines range from two to six weeks depending on service complexity. We handle recruitment, training, infrastructure provisioning, and system access as part of our structured onboarding process.' },
@@ -299,11 +295,7 @@ const faqs = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-interface BPOPageProps {
-  onBack: () => void;
-  onNavigate: (page: string) => void
-  theme: 'dark' | 'light';
-}
+type BPOPageProps = PageProps;
 
 export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
   return (
@@ -519,7 +511,7 @@ export default function BPOPage({ onBack, onNavigate, theme }: BPOPageProps) {
                   </div>
 
                   <button
-                    onClick={() => onNavigate(service.id as any)}
+                    onClick={() => onNavigate(service.path)}
                     className="mt-auto flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.08em] group-hover:gap-3 transition-all"
                     style={{ color: service.accent }}
                   >

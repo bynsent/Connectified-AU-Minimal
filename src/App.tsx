@@ -18,6 +18,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import SIMSignupPage from './components/SIMSignupPage';
 import SIMTicketPage from './components/SIMTicketPage';
+import { SHOP_URL } from '@/src/config/constants';
+import { useAppNavigation } from '@/src/hooks/useAppNavigation';
+import type { HomePillar, MenuItem } from '@/src/types/navigation';
+import type { Theme } from '@/src/types/theme';
 
 if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
@@ -27,7 +31,7 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ limitCallbacks: true });
 ScrollTrigger.clearScrollMemory();
 
-const PILLARS = [
+const PILLARS: readonly HomePillar[] = [
   {
     id: 'devices',
     title: 'IOT Devices & Connectivity',
@@ -37,6 +41,7 @@ const PILLARS = [
     color: '#14ACD4',
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070',
     cta: 'Explore Connectivity',
+    ctaTarget: { kind: 'route', path: '/networking-hardware' },
     secondaryCta: 'Watch Guardian',
     secondaryCtaPage: '/wearables/watch-guardian'
   },
@@ -48,7 +53,8 @@ const PILLARS = [
     description: 'Streamlining operations through tailored services, smarter workflows and dependable delivery.',
     color: '#14ACD4',
     image: '/images/home/hero-bpo.webp',
-    cta: 'Explore BPO'
+    cta: 'Explore BPO',
+    ctaTarget: { kind: 'route', path: '/bpo' },
   },
   {
     id: 'professional',
@@ -58,7 +64,8 @@ const PILLARS = [
     description: 'Building scalable foundations so teams can grow with confidence, clarity and control.',
     color: '#14ACD4',
     image: '/images/home/hero-professional.webp',
-    cta: 'Explore Services'
+    cta: 'Explore Services',
+    ctaTarget: { kind: 'route', path: '/professional-services' },
   },
   {
     id: 'managed',
@@ -68,7 +75,8 @@ const PILLARS = [
     description: 'Reliable, human-led support that keeps systems running and people empowered long-term.',
     color: '#14ACD4',
     image: '/images/home/hero-managed.webp',
-    cta: 'Explore Support'
+    cta: 'Explore Support',
+    ctaTarget: { kind: 'route', path: '/managed-services' },
   },
   {
     id: 'shop',
@@ -79,6 +87,7 @@ const PILLARS = [
     color: '#14ACD4',
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=2070',
     cta: 'Browse the Store',
+    ctaTarget: { kind: 'external', url: SHOP_URL },
     secondaryCta: 'View Hardware',
     secondaryCtaPage: '/networking-hardware'
   }
@@ -117,7 +126,7 @@ export default function App() {
   const [progress, setProgress] = React.useState(0);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isBpoServicesOpen, setIsBpoServicesOpen] = React.useState(false);
-  const [theme, setTheme] = React.useState<'dark' | 'light'>('dark');
+  const [theme, setTheme] = React.useState<Theme>('dark');
   const [logoLoadFailed, setLogoLoadFailed] = React.useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(Date.now());
@@ -126,13 +135,14 @@ export default function App() {
   const AUTO_PLAY_DURATION = 5000;
 
   const navigate = useNavigate();
+  const goTo = useAppNavigation();
   const location = useLocation();
   const isHome = location.pathname === '/';
 
   // ─── SPA page view tracking for GTM / GA4 ────────────────────
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).dataLayer) {
-      (window as any).dataLayer.push({
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({
         event: 'spa_page_view',
         page_path: location.pathname,
         page_title: location.pathname === '/' ? 'home' : location.pathname.replace(/\//g, '-').slice(1),
@@ -157,7 +167,7 @@ export default function App() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const menuItems = [
+  const menuItems: readonly MenuItem[] = [
     {
       title: "IOT Devices & Connectivity",
       subItems: [
@@ -211,7 +221,7 @@ export default function App() {
       ]
     },
     { title: "About Connectified", subItems: [], id: 'about', path: '/about' },
-    { title: "Shop", subItems: [], id: 'shop', path: 'external' },
+    { title: "Shop", subItems: [], id: 'shop', externalUrl: SHOP_URL },
     { title: "Contact Us", subItems: [], id: 'contact', path: '/contact' }
   ];
 
@@ -284,9 +294,9 @@ export default function App() {
     }
     requestAnimationFrame(raf);
 
-    lenis.on('scroll', (e: any) => {
+    lenis.on('scroll', (instance: Lenis) => {
       ScrollTrigger.update();
-      if (Math.abs(e.velocity) > 0.1) {
+      if (Math.abs(instance.velocity) > 0.1) {
         isProgrammaticScroll.current = false;
       }
     });
@@ -362,18 +372,14 @@ export default function App() {
     });
   };
 
+  const openExternal = (url: string): void => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const handleExplore = () => {
-    if (PILLARS[activeIndex].id === 'devices') {
-      navigate('/networking-hardware');
-    } else if (PILLARS[activeIndex].id === 'bpo') {
-      navigate('/bpo');
-    } else if (PILLARS[activeIndex].id === 'professional') {
-      navigate('/professional-services');
-    } else if (PILLARS[activeIndex].id === 'managed') {
-      navigate('/managed-services');
-    } else if (PILLARS[activeIndex].id === 'shop') {
-      window.open('https://shop.connectified.com.au', '_blank');
-    }
+    const target = PILLARS[activeIndex].ctaTarget;
+    if (target.kind === 'external') openExternal(target.url);
+    else navigate(target.path);
   };
 
   const PageWrap: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -460,10 +466,10 @@ export default function App() {
                         ) : (
                           <button 
                             onClick={() => {
-                              if (item.id === 'shop') {
-                                window.open('https://shop.connectified.com.au', '_blank');
-                              } else if ((item as any).path) {
-                                navigate((item as any).path);
+                              if (item.externalUrl) {
+                                openExternal(item.externalUrl);
+                              } else if (item.path) {
+                                navigate(item.path);
                               }
                               setIsMenuOpen(false);
                             }}
@@ -480,7 +486,7 @@ export default function App() {
                         )}
                         {item.subItems.length > 0 && (
                           <div className="flex flex-col pl-4 mb-1">
-                            {item.subItems.map((sub: any, sIdx) => (
+                            {item.subItems.map((sub, sIdx) => (
                               <div key={sIdx} className="flex flex-col">
                                 <button 
                                   onClick={() => {
@@ -509,9 +515,9 @@ export default function App() {
                                     exit={{ height: 0, opacity: 0 }}
                                     className="flex flex-col pl-4 border-l border-white/5 ml-4 my-0.5 overflow-hidden"
                                   >
-                                    {sub.nested.map((nested: any, nIdx: number) => (
+                                    {sub.nested.map((nested) => (
                                       <button
-                                        key={nIdx}
+                                        key={nested.path}
                                         onClick={() => { navigate(nested.path); setIsMenuOpen(false); }}
                                         className={`w-full text-left px-4 py-0.5 text-[8px] uppercase tracking-[0.1em] transition-colors ${
                                           theme === 'dark' ? 'text-white/20 hover:text-white' : 'text-black/20 hover:text-black'
@@ -623,16 +629,16 @@ export default function App() {
                       {PILLARS[activeIndex].cta} <ArrowRight className="w-4 h-4" />
                     </button>
 
-                    {(PILLARS[activeIndex] as any).secondaryCta && (
-                      <button 
-                        onClick={() => navigate((PILLARS[activeIndex] as any).secondaryCtaPage)}
+                    {PILLARS[activeIndex].secondaryCta && PILLARS[activeIndex].secondaryCtaPage && (
+                      <button
+                        onClick={() => navigate(PILLARS[activeIndex].secondaryCtaPage ?? '/')}
                         className={`w-full sm:w-auto px-6 py-3 md:px-8 md:py-4 border font-bold text-[10px] uppercase tracking-[0.15em] rounded-full flex items-center justify-center gap-3 transition-colors ${
                           theme === 'dark'
                             ? 'border-white/20 text-white hover:bg-white/5 hover:border-white/40'
                             : 'border-black/20 text-black hover:bg-black/5 hover:border-black/40'
                         }`}
                       >
-                        {(PILLARS[activeIndex] as any).secondaryCta} <ArrowRight className="w-4 h-4" />
+                        {PILLARS[activeIndex].secondaryCta} <ArrowRight className="w-4 h-4" />
                       </button>
                     )}
                   </div>
@@ -678,19 +684,19 @@ export default function App() {
           } />
 
           {/* DEVICES */}
-          <Route path="/devices" element={<PageWrap><DevicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/devices" element={<PageWrap><DevicesPage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
 
           {/* NETWORKING */}
-          <Route path="/networking-hardware" element={<PageWrap><NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/networking-software" element={<PageWrap><NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/networking-hardware" element={<PageWrap><NetworkingHardwarePage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/networking-software" element={<PageWrap><NetworkingSoftwarePage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
 
           {/* WEARABLES */}
-          <Route path="/wearables" element={<PageWrap><WearablesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/wearables/watch-guardian" element={<PageWrap><WatchGuardianPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/wearables/watch-guardian-health" element={<PageWrap><WatchGuardianHealthPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/wearables/watch-guardian-assist" element={<PageWrap><WatchGuardianAssistPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/wearables/watch-armour" element={<PageWrap><WatchArmourPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/wearables/q-view" element={<PageWrap><QViewPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/wearables" element={<PageWrap><WearablesPage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian" element={<PageWrap><WatchGuardianPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian-health" element={<PageWrap><WatchGuardianHealthPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/wearables/watch-guardian-assist" element={<PageWrap><WatchGuardianAssistPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/wearables/watch-armour" element={<PageWrap><WatchArmourPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/wearables/q-view" element={<PageWrap><QViewPage theme={theme} onBack={() => navigate('/wearables')} onNavigate={goTo} /></PageWrap>} />
 
           {/* WEARABLES SHORTCUT REDIRECTS */}
           <Route path="/watch-guardian" element={<Navigate to="/wearables/watch-guardian" replace />} />
@@ -707,12 +713,12 @@ export default function App() {
           <Route path="/bpo-landing" element={<PageWrap><BPOLanding theme={theme} onBack={() => navigate('/bpo')} /></PageWrap>} />
 
           {/* BPO */}
-          <Route path="/bpo" element={<PageWrap><BPOPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/bpo/cases" element={<PageWrap><BPOCaseStudiesPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/bpo/admin" element={<PageWrap><BPOOfficeAdminPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/bpo/hr" element={<PageWrap><BPOPayrollHRPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/bpo/accounting" element={<PageWrap><BPOAccountingPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/bpo/it" element={<PageWrap><BPOITDevPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/bpo" element={<PageWrap><BPOPage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/bpo/cases" element={<PageWrap><BPOCaseStudiesPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/bpo/admin" element={<PageWrap><BPOOfficeAdminPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/bpo/hr" element={<PageWrap><BPOPayrollHRPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/bpo/accounting" element={<PageWrap><BPOAccountingPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/bpo/it" element={<PageWrap><BPOITDevPage theme={theme} onBack={() => navigate('/bpo')} onNavigate={goTo} /></PageWrap>} />
 
           {/* BPO SHORTCUT & FLAT ROUTE ALIASES */}
           <Route path="/bpo-admin" element={<Navigate to="/bpo/admin" replace />} />
@@ -722,16 +728,16 @@ export default function App() {
           <Route path="/bpo-cases" element={<Navigate to="/bpo/cases" replace />} />
 
           {/* PROFESSIONAL SERVICES */}
-          <Route path="/professional-services" element={<PageWrap><ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/professional-services/cases" element={<PageWrap><ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => navigate('/professional-services')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/professional-services" element={<PageWrap><ProfessionalServicesPage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/professional-services/cases" element={<PageWrap><ProfessionalServicesCaseStudiesPage theme={theme} onBack={() => navigate('/professional-services')} onNavigate={goTo} /></PageWrap>} />
 
           {/* MANAGED SERVICES */}
-          <Route path="/managed-services" element={<PageWrap><ManagedServicesPage theme={theme} onBack={handleBackToHome} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/managed-services/support" element={<PageWrap><ManagedSupportDeskPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={navigate} /></PageWrap>} />
-          <Route path="/managed-services/cases" element={<PageWrap><ManagedServicesCaseStudiesPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/managed-services" element={<PageWrap><ManagedServicesPage theme={theme} onBack={handleBackToHome} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/managed-services/support" element={<PageWrap><ManagedSupportDeskPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={goTo} /></PageWrap>} />
+          <Route path="/managed-services/cases" element={<PageWrap><ManagedServicesCaseStudiesPage theme={theme} onBack={() => navigate('/managed-services')} onNavigate={goTo} /></PageWrap>} />
 
           {/* COMPANY */}
-          <Route path="/about" element={<PageWrap><AboutPage theme={theme} onNavigate={navigate} /></PageWrap>} />
+          <Route path="/about" element={<PageWrap><AboutPage theme={theme} onNavigate={goTo} /></PageWrap>} />
           <Route path="/contact" element={<PageWrap><ContactPage theme={theme} onBack={handleBackToHome} /></PageWrap>} />
 
           {/* SIM SERVICES */}

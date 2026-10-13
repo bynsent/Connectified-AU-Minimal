@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
+import type { FaqItemProps, StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 const ACCENT = '#f5a623';
 
@@ -12,7 +14,7 @@ function CWatermark({ className = '' }: { className?: string }) {
   );
 }
 
-function StatCounter({ num, suffix, label, theme }: { key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light' }) {
+function StatCounter({ num, suffix, label, theme }: StatCounterProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
       <div className="font-display text-4xl font-black leading-none mb-1">
@@ -32,7 +34,7 @@ function FadeUp({ children, delay = 0, className = '' }: { key?: React.Key; chil
   );
 }
 
-function FaqItem({ q, a, theme }: { key?: React.Key; q: string; a: string; theme: 'dark' | 'light' }) {
+function FaqItem({ q, a, theme }: FaqItemProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className={`border-b ${theme === 'dark' ? 'border-white/10' : 'border-black/10'}`}>
@@ -79,7 +81,7 @@ const faqs = [
   { q: 'How quickly can reporting be set up?', a: 'Custom dashboards and reporting templates are typically set up during the onboarding period — usually within the first 2–3 weeks. Most clients see their first management reports within the first full month of operation.' },
 ];
 
-interface BPOServicePageProps { onBack: () => void; onNavigate: (page: any) => void; theme: 'dark' | 'light'; }
+type BPOServicePageProps = PageProps;
 
 export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServicePageProps) {
   return (
@@ -283,13 +285,13 @@ export default function BPOAccountingPage({ onBack, onNavigate, theme }: BPOServ
           <div className="max-w-[1100px] mx-auto">
             <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5e6e82] mb-5">Other BPO Services</div>
             <div className="flex flex-wrap gap-3">
-              {[{ label: 'Office Administration', id: 'bpo-admin' }, { label: 'Payroll & HR', id: 'bpo-hr' }].map(link => (
+              {([{ label: 'Office Administration', id: 'bpo-admin' }, { label: 'Payroll & HR', id: 'bpo-hr' }] as const).map(link => (
                 <button key={link.id} onClick={() => onNavigate(link.id)} className={`flex items-center gap-2 px-4 py-2.5 bg-[#111820] border border-white/5 rounded-lg font-display text-xs font-bold uppercase tracking-wider transition-colors hover:text-[#f5a623] ${theme === 'dark' ? 'text-[#8a9bb0]' : 'text-gray-500'}`}>
                   {link.label} <ArrowRight className="w-3 h-3" />
                 </button>
               ))}
               <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg font-display text-xs font-bold uppercase tracking-wider border" style={{ backgroundColor: `${ACCENT}1A`, borderColor: `${ACCENT}33`, color: ACCENT }}>Accounting</button>
-              {[{ label: 'IT & Development', id: 'bpo-it' }, { label: 'Case Studies', id: 'bpo-cases' }].map(link => (
+              {([{ label: 'IT & Development', id: 'bpo-it' }, { label: 'Case Studies', id: 'bpo-cases' }] as const).map(link => (
                 <button key={link.id} onClick={() => onNavigate(link.id)} className={`flex items-center gap-2 px-4 py-2.5 bg-[#111820] border border-white/5 rounded-lg font-display text-xs font-bold uppercase tracking-wider transition-colors hover:text-[#f5a623] ${theme === 'dark' ? 'text-[#8a9bb0]' : 'text-gray-500'}`}>
                   {link.label} <ArrowRight className="w-3 h-3" />
                 </button>

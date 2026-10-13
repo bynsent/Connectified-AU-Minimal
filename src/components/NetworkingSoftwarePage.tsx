@@ -22,6 +22,8 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
+import type { PageProps } from '@/src/types/navigation';
+import type { Theme } from '@/src/types/theme';
 
 // ─── JSON-LD FAQ Schema ───────────────────────────────────────────
 const FAQ_SCHEMA = {
@@ -88,13 +90,7 @@ const FAQ_SCHEMA = {
 };
 
 // ─── Types ────────────────────────────────────────────────────────
-type Theme = 'dark' | 'light';
-
-interface Props {
-  theme: Theme;
-  onBack: () => void;
-  onNavigate: (page: string) => void;
-}
+type Props = PageProps;
 
 // ─── Sub-components ───────────────────────────────────────────────
 

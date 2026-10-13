@@ -20,13 +20,10 @@ variables:
   app_name: 'connectified-com-au'
   ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
     environment: prod
-    viteMondayApiToken: /api
   ${{ if eq(variables['Build.SourceBranchName'], 'uat') }}:
     environment: uat
-    viteMondayApiToken: /api
   ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
     environment: dev
-    viteMondayApiToken: /api
 
   dockerRegistryServiceConnection: 'scacr-$(project)-$(environment)'
   imageRepository: '$(app_name)'
@@ -56,8 +53,6 @@ stages:
           repository: $(imageRepository)
           containerRegistry: $(dockerRegistryServiceConnection)
           Dockerfile: $(dockerfilePath)
-          arguments: >
-            --build-arg VITE_VITE_MONDAY_API_TOKEN=$(viteMondayApiToken)
           tags: '$(imageTag)'
 
       - task: Docker@2

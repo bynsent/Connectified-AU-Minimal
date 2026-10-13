@@ -2,9 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useInView } from 'motion/react';
 import { ArrowLeft, ChevronRight, ArrowRight, Shield, Heart, User, Briefcase, Home, Activity } from 'lucide-react';
 import SEO from './SEO';
+import type { PageProps } from '@/src/types/navigation';
+import type { Theme } from '@/src/types/theme';
+import type { WearableCategoryFilter, WearableProduct } from '@/src/types/wearables';
 
 // ─── Types ────────────────────────────────────────────────────────
-type Category = 'all' | 'workplace' | 'healthcare' | 'agedcare' | 'personal';
+type Category = WearableCategoryFilter;
 
 // ─── C Watermark ──────────────────────────────────────────────────
 const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
@@ -16,8 +19,8 @@ const CWatermark: React.FC<{ className?: string }> = ({ className = '' }) => (
 
 // ─── Image placeholder ────────────────────────────────────────────
 const ImgPlaceholder: React.FC<{
-  label: string; resolution: string; aspect?: string; className?: string; 
-}> = ({ label, resolution, aspect = 'aspect-video', className = '' }) => (
+  label: string; resolution: string; theme: Theme; aspect?: string; className?: string;
+}> = ({ label, resolution, theme, aspect = 'aspect-video', className = '' }) => (
   <div className={`img-placeholder ${aspect} ${className}`} style={{ flexDirection: 'column', gap: 8 }}>
     <div style={{ fontSize: 28, opacity: 0.2 }}>🖼️</div>
     <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(20,172,212,0.5)', textAlign: 'center', padding: '0 12px' }}>{label}</div>
@@ -93,14 +96,14 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
 };
 
 // ─── Main component ───────────────────────────────────────────────
-interface WearablesPageProps { onBack: () => void; theme: 'dark' | 'light'; onNavigate: (page: any) => void; }
+type WearablesPageProps = PageProps;
 
 export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPageProps) {
   const [activeCategory, setActiveCategory] = useState<Category>('all');
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const products = [
+  const products: readonly WearableProduct[] = [
     {
       id: 'watch-guardian', pageId: 'watch-guardian', cat: 'workplace',
       name: "Watch Guardian", tagline: "Complete Workplace Safety Platform",
@@ -359,7 +362,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                   } ${theme === 'dark' ? 'bg-[#111820] border-white/5' : 'bg-gray-50 border-black/5'}`}
                   style={{ borderTop: `3px solid ${product.accent}` }}
                   whileHover={{ y: -3, boxShadow: `0 0 28px ${product.accent}22` }}
-                  onClick={() => onNavigate((product as any).pageId)}
+                  onClick={() => onNavigate(product.pageId)}
                 >
                   {product.spotlight ? (
                     <div className="grid grid-cols-1 md:grid-cols-2">
@@ -376,6 +379,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                             <ImgPlaceholder
                               label="Watch Guardian — Hero Image"
                               resolution="1600 × 900px · Product on wrist or studio shot"
+                              theme={theme}
                               aspect="" className="absolute inset-0 w-full h-full rounded-none opacity-70"
                             />
                             {/* Keep the animated rings as overlay */}
@@ -433,6 +437,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                           <ImgPlaceholder
                             label={`${product.name} — product photo`}
                             resolution="800 × 400px · Product on wrist or studio"
+                            theme={theme}
                             aspect="" className="h-full w-full rounded-xl"
                           />
                         )}
@@ -465,7 +470,7 @@ export default function WearablesPage({ onBack, theme, onNavigate }: WearablesPa
                         ))}
                       </div>
                       <button
-                        onClick={(e) => { e.stopPropagation(); onNavigate((product as any).pageId); }}
+                        onClick={(e) => { e.stopPropagation(); onNavigate(product.pageId); }}
                         className="mt-auto flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.08em] group-hover:gap-3 transition-all"
                         style={{ color: product.accent }}>
                         Explore {product.name} <ChevronRight className="w-4 h-4" />

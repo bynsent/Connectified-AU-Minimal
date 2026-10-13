@@ -2,27 +2,27 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Send, CheckCircle, ArrowLeft, FileText } from 'lucide-react';
 import SEO from './SEO';
+import { useSimSignup } from '@/src/hooks/useSimSignup';
+import type { SimSignupFormValues } from '@/src/types/forms';
+import type { Theme } from '@/src/types/theme';
+import { EMAIL_PATTERN, isValidEmail, sanitizePhoneInput } from '@/src/utils/validation';
 
 interface SIMSignupPageProps {
-  theme: 'dark' | 'light';
+  theme: Theme;
   onBack: () => void;
 }
-
-const BOARD_ID = 5028626358;
 
 export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
   const dk = theme === 'dark';
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<SimSignupFormValues>({
     fullName: '',
     company: '',
     email: '',
     phone: '',
     tosAgreed: false,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isSubmitting, isSubmitted, error, submit } = useSimSignup();
 
   const inputClass = `w-full px-4 py-3 rounded-xl border outline-none transition-colors text-sm ${
     dk
@@ -43,68 +43,13 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = e.target.value.replace(/[^\d+\s\-()]/g, '');
+    const cleaned = sanitizePhoneInput(e.target.value);
     setForm(prev => ({ ...prev, phone: cleaned }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-    if (!form.tosAgreed) {
-      setError('You must agree to the Terms of Service to proceed.');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setError(null);
-
-    const today = new Date().toISOString().split('T')[0];
-
-    const columnValues = JSON.stringify({
-      date_mm3g656w:    { date: today },
-      text_mm3gfhg4:    form.company,
-      text_mm3gmf5j:    form.email,
-      numeric_mm3g3vmg: form.phone.replace(/[^\d+]/g, ''),
-    });
-
-    const query = `
-      mutation {
-        create_item(
-          board_id: ${BOARD_ID},
-          item_name: ${JSON.stringify(form.fullName)},
-          column_values: ${JSON.stringify(columnValues)}
-        ) { id }
-      }
-    `;
-
-    try {
-      const res = await fetch('/api/monday', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      const data = await res.json();
-
-      if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API error:', JSON.stringify(data, null, 2));
-        setError('Something went wrong. Please try again or email admin@connectified.com.au');
-        setIsSubmitting(false);
-        return;
-      }
-
-      setIsSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again or email admin@connectified.com.au');
-    } finally {
-      setIsSubmitting(false);
-    }
+    await submit(form);
   };
 
   return (
@@ -184,15 +129,15 @@ export default function SIMSignupPage({ theme, onBack }: SIMSignupPageProps) {
                   <label className={labelClass}>Email Address <span className="text-[#14ACD4]">*</span></label>
                   <input required type="email" name="email" value={form.email}
                     onChange={handleChange} placeholder="jane@company.com.au"
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                    pattern={EMAIL_PATTERN.source}
                     className={`${inputClass} ${
-                      form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+                      form.email && !isValidEmail(form.email)
                         ? 'border-red-400 focus:border-red-400'
-                        : form.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+                        : form.email && isValidEmail(form.email)
                           ? 'border-green-400 focus:border-green-400'
                           : ''
                     }`} />
-                  {form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email) && (
+                  {form.email && !isValidEmail(form.email) && (
                     <p className="text-[10px] text-red-400 mt-1">Please enter a valid email address</p>
                   )}
                 </div>

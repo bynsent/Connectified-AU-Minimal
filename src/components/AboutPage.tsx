@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { 
+import type { NavigablePageProps, PageId } from '@/src/types/navigation';
+import {
   ArrowRight, 
   Target, 
   Eye, 
@@ -104,15 +105,12 @@ const SlideLeft: React.FC<{ children: React.ReactNode; delay?: number; className
   </motion.div>
 );
 
-interface AboutPageProps {
-  theme: 'dark' | 'light';
-  onNavigate: (page: any) => void;
-}
+type AboutPageProps = NavigablePageProps;
 
 const AboutPage: React.FC<AboutPageProps> = ({ theme, onNavigate }) => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const capabilities = [
+  const capabilities: ReadonlyArray<{ num: string; title: string; desc: string; link: PageId }> = [
     {
       num: '01', title: 'Networking Hardware',
       desc: 'Authorised reseller and managed services partner for Teltonika, Cradlepoint and Milesight — enterprise-grade routers, switches, 4G/5G solutions and IoT gateways.',

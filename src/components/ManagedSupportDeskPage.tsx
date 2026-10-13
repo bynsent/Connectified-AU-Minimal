@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Settings, MessageSquare, Users, Target, Rocket, Search, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
+import type { FaqItemProps, StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -33,9 +35,7 @@ function ImgPlaceholder({ label, hint, className = '', aspect }: {
   );
 }
 
-function StatCounter({ num, suffix, label, theme }: {
-  key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light';
-}) {
+function StatCounter({ num, suffix, label, theme }: StatCounterProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
@@ -59,7 +59,7 @@ function FadeUp({ children, delay = 0, className = '' }: {
   );
 }
 
-function FaqItem({ q, a, theme }: { key?: React.Key; q: string; a: string; theme: 'dark' | 'light' }) {
+function FaqItem({ q, a, theme }: FaqItemProps) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className={`rounded-xl overflow-hidden ${theme === 'dark' ? 'bg-[#16242F]' : 'bg-white border border-black/5 shadow-sm'}`}>
@@ -121,11 +121,7 @@ const whoCards = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-interface ManagedSupportDeskPageProps {
-  theme: 'dark' | 'light';
-  onBack: () => void;
-  onNavigate: (page: any) => void;
-}
+type ManagedSupportDeskPageProps = PageProps;
 
 const ManagedSupportDeskPage: React.FC<ManagedSupportDeskPageProps> = ({ theme, onBack, onNavigate }) => {
   return (

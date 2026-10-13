@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Building2, Watch, Radio, Stethoscope } from 'lucide-react';
 import SEO from './SEO';
+import type { StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -37,9 +39,7 @@ function ImgPlaceholder({ label, hint, className = '', aspect }: {
   );
 }
 
-function StatCounter({ num, suffix, label, theme }: {
-  key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light';
-}) {
+function StatCounter({ num, suffix, label, theme }: StatCounterProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
@@ -135,11 +135,7 @@ const allFilters = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-interface CaseStudyPageProps {
-  theme: 'dark' | 'light';
-  onBack: () => void;
-  onNavigate: (page: string) => void;
-}
+type CaseStudyPageProps = PageProps;
 
 const ProfessionalServicesCaseStudiesPage: React.FC<CaseStudyPageProps> = ({ theme, onBack, onNavigate }) => {
   const [filter, setFilter] = React.useState('all');

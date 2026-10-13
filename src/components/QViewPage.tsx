@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Bell, Mic, Activity, Phone, Wifi, User } from 'lucide-react';
 import SEO from './SEO';
+import type { ProductVariantLink } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 const ACCENT = '#f5c842';
 const ACCENT_BG = 'rgba(245,200,66,0.1)';
@@ -46,7 +48,7 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
   );
 };
 
-interface Props { theme: 'dark' | 'light'; onBack: () => void; onNavigate: (page: any) => void; }
+type Props = PageProps;
 
 export default function QViewPage({ theme, onBack, onNavigate }: Props) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -148,11 +150,11 @@ export default function QViewPage({ theme, onBack, onNavigate }: Props) {
           <motion.div className={`flex flex-wrap items-center gap-3 pt-8 border-t ${dk ? 'border-white/10' : 'border-black/10'}`}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.48 }}>
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Need more features?</span>
-            {[
+            {([
               { label: "WatchArmour", color: "#e85d26", page: 'watcharmour' },
               { label: "Watch Guardian Assist", color: "#9b7fe8", page: 'wg-assist' },
-            ].map((v, i) => (
-              <button key={i} onClick={() => onNavigate(v.page)}
+            ] satisfies readonly ProductVariantLink[]).map((v) => (
+              <button key={v.label} onClick={() => onNavigate(v.page)}
                 className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
                   dk ? 'bg-white/5 border-white/10 text-[#eef2f7]/55 hover:border-white/30' : 'bg-black/5 border-black/10 text-[#0b1118]/55'
                 }`}>

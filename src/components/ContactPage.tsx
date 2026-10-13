@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Phone, Mail, Send, CheckCircle2, Clock } from 'lucide-react';
+import { useContactEnquiry } from '@/src/hooks/useContactEnquiry';
+import type { ContactFormValues } from '@/src/types/forms';
+import type { Theme } from '@/src/types/theme';
+import { EMAIL_PATTERN, isValidEmail, sanitizePhoneInput } from '@/src/utils/validation';
 
 // ─── Shared components ────────────────────────────────────────────────────────
 
@@ -47,19 +51,15 @@ function ImgPlaceholder({
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const MONDAY_BOARD_ID = 5027978324;
-
 interface ContactPageProps {
-  theme: 'dark' | 'light';
+  theme: Theme;
   onBack: () => void;
 }
 
 const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
   const [selectedService, setSelectedService] = useState<string>('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const { isSubmitted, isSubmitting, error: submitError, submit, reset } = useContactEnquiry();
+  const [formData, setFormData] = useState<ContactFormValues>({
     firstName: '',
     lastName: '',
     jobTitle: '',
@@ -89,70 +89,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
       alert('Please select a service area');
       return;
     }
-
-    setIsSubmitting(true);
-    setSubmitError(null);
-
-    // Email format validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)) {
-      setSubmitError('Please enter a valid email address.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    const itemName = `${formData.firstName} ${formData.lastName}`;
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const phoneNumeric = formData.phone.replace(/[^\d+]/g, '');
-
-    const columnValues = JSON.stringify({
-      status:              { label: 'New' },
-      date_mm2mscyv:       { date: today },
-      text_mm2mz8bt:       selectedService,
-      text_mm2m5d5:        formData.jobTitle,
-      text_mm2mf7yg:       formData.company,
-      text_mm2myr13:       formData.email,
-      numeric_mm2me53n:    phoneNumeric,
-      text_mm2mhdp3:       formData.message,
-      text_mm2mp8zj:       formData.timeline,
-    });
-
-    const query = `
-      mutation {
-        create_item(
-          board_id: ${MONDAY_BOARD_ID},
-          item_name: ${JSON.stringify(itemName)},
-          column_values: ${JSON.stringify(columnValues)}
-        ) {
-          id
-        }
-      }
-    `;
-
-    try {
-      const res = await fetch('/api/monday', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      const data = await res.json();
-
-      if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API error:', data.errors);
-        setSubmitError('Something went wrong. Please try again or email us directly at admin@connectified.com.au');
-        setIsSubmitting(false);
-        return;
-      }
-
-      setIsSubmitted(true);
-    } catch (err) {
-      console.error('Submit error:', err);
-      setSubmitError('Something went wrong. Please try again or email us directly at admin@connectified.com.au');
-    } finally {
-      setIsSubmitting(false);
-    }
+    await submit({ ...formData, service: selectedService });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -333,16 +270,16 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder="jane@acme.com.au"
-                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+                        pattern={EMAIL_PATTERN.source}
                         className={`${inputClass} ${
-                          formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)
+                          formData.email && !isValidEmail(formData.email)
                             ? 'border-red-400 focus:border-red-400'
-                            : formData.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email)
+                            : formData.email && isValidEmail(formData.email)
                               ? 'border-green-400 focus:border-green-400'
                               : ''
                         }`}
                       />
-                      {formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(formData.email) && (
+                      {formData.email && !isValidEmail(formData.email) && (
                         <p className="text-[10px] text-red-400 font-medium">Please enter a valid email address (e.g. jane@acme.com.au)</p>
                       )}
                     </div>
@@ -354,8 +291,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
                         name="phone"
                         value={formData.phone}
                         onChange={(e) => {
-                          // Allow digits, +, spaces, hyphens, parentheses only
-                          const cleaned = e.target.value.replace(/[^\d+\s\-()]/g, '');
+                          const cleaned = sanitizePhoneInput(e.target.value);
                           setFormData(prev => ({ ...prev, phone: cleaned }));
                         }}
                         placeholder="+61 4XX XXX XXX"
@@ -423,7 +359,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ theme, onBack }) => {
                 <p className={`text-lg mb-10 leading-relaxed ${theme === 'dark' ? 'text-white/50' : 'text-black/50'}`}>
                   Thanks for getting in touch. We've received your enquiry and will respond within one Australian business day.
                 </p>
-                <button onClick={() => setIsSubmitted(false)}
+                <button onClick={reset}
                   className="px-8 py-4 border border-[#14ACD4] text-[#14ACD4] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#14ACD4] hover:text-white transition-colors">
                   Send Another Message
                 </button>

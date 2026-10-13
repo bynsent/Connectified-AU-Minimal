@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Quote, Plus } from 'lucide-react';
+import type { StatCounterProps } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 function CWatermark({ className = '' }: { className?: string }) {
   return (
@@ -10,7 +12,7 @@ function CWatermark({ className = '' }: { className?: string }) {
   );
 }
 
-function StatCounter({ num, suffix, label, theme }: { key?: React.Key; num: string; suffix?: string; label: string; theme: 'dark' | 'light' }) {
+function StatCounter({ num, suffix, label, theme }: StatCounterProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: 'easeOut' }}>
       <div className="font-display text-4xl font-black leading-none mb-1">
@@ -32,7 +34,7 @@ function FadeUp({ children, delay = 0, className = '' }: { key?: React.Key; chil
 
 type Category = 'all' | 'security' | 'telco' | 'admin' | 'ops';
 
-interface BPOCaseStudiesPageProps { onBack: () => void; theme: 'dark' | 'light'; onNavigate: (page: string) => void; }
+type BPOCaseStudiesPageProps = PageProps;
 
 const caseStudies = [
   {

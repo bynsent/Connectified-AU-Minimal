@@ -1,54 +1,39 @@
 /**
  * MondayForm.tsx
  * --------------
- * Reusable contact/lead capture form that posts directly to Monday.com.
- * Drop into any page that needs a lead form.
+ * Reusable contact/lead capture form. Submission goes through `useLeadEnquiry`
+ * (src/hooks) → leadEnquiryService → /api/monday (nginx reverse proxy).
  *
  * USAGE:
  *   import MondayForm from './MondayForm';
  *   <MondayForm
  *     theme={theme}
- *     boardId={5027978324}
+ *     boardId={WATCH_GUARDIAN_LEAD_BOARD_ID}
  *     serviceOptions={['Watch Guardian', 'Watch Guardian Health', 'Watch Guardian Assist']}
  *     defaultService="Watch Guardian"
  *   />
  *
  * BOARD SETUP:
- *   The target Monday board needs these columns:
- *     name (item name — built in)
- *     text  — Email
- *     text  — Phone
- *     text  — Country
- *     text  — Industry
- *     text  — Service
- *     text  — Comments
- *     status — Status (auto-set to "New")
- *     date   — Date Received (auto-set to today)
- *
+ *   Column ids default to DEFAULT_LEAD_FORM_COLUMN_IDS (src/config/monday.ts).
  *   Run this in Monday API playground to get column IDs:
  *     query { boards(ids: [BOARD_ID]) { columns { id title type } } }
  */
 
 import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
-
-const VITE_MONDAY_API_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjY0NTcwOTIxOSwiYWFpIjoxMSwidWlkIjo3NDM0MjQwMywiaWFkIjoiMjAyNi0wNC0xNFQyMjozNToxNS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MjYzOTE5MzAsInJnbiI6ImFwc2UyIn0.4qY0X8gjPXh2WaMmcmLtU3NaLl6reTlrYYFveRQSJUQ';
+import { DEFAULT_LEAD_FORM_COLUMN_IDS } from '@/src/config/monday';
+import { useLeadEnquiry } from '@/src/hooks/useLeadEnquiry';
+import type { LeadFormColumnIds, LeadFormValues, ServiceColumnType } from '@/src/types/forms';
+import type { MondayId } from '@/src/types/monday';
+import type { Theme } from '@/src/types/theme';
+import { EMAIL_PATTERN, isValidEmail, sanitizePhoneInput } from '@/src/utils/validation';
 
 interface MondayFormProps {
-  theme: 'dark' | 'light';
+  theme: Theme;
   /** Monday.com board ID to write leads to */
-  boardId: number;
+  boardId: MondayId;
   /** Column IDs mapping — must match your board's column IDs */
-  columnIds?: {
-    email?: string;
-    phone?: string;
-    country?: string;
-    industry?: string;
-    service?: string;
-    comments?: string;
-    status?: string;
-    date?: string;
-  };
+  columnIds?: Partial<LeadFormColumnIds>;
   /** Options for the Service dropdown */
   serviceOptions: string[];
   /** Pre-selected service value */
@@ -56,19 +41,8 @@ interface MondayFormProps {
   /** Accent colour for the submit button */
   accentColor?: string;
   /** Set to "dropdown" if the Service column is a Monday dropdown type (default: "text") */
-  serviceColumnType?: 'text' | 'dropdown';
+  serviceColumnType?: ServiceColumnType;
 }
-
-const DEFAULT_COLUMN_IDS = {
-  email:    'text_mm2v7xcv',
-  phone:    'numeric_mm2vzhat',
-  country:  'text_mm2v24dt',
-  industry: 'text_mm2v5stv',
-  service:  'dropdown_mm2v25n',
-  comments: 'text_mm2vghgy',
-  status:   'status',
-  date:     'date4',
-};
 
 export default function MondayForm({
   theme,
@@ -80,9 +54,8 @@ export default function MondayForm({
   serviceColumnType = 'text',
 }: MondayFormProps) {
   const dk = theme === 'dark';
-  const cols = { ...DEFAULT_COLUMN_IDS, ...columnIds };
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LeadFormValues>({
     name: '',
     email: '',
     phone: '',
@@ -91,9 +64,11 @@ export default function MondayForm({
     service: defaultService,
     comments: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isSubmitting, isSubmitted, error, submit } = useLeadEnquiry({
+    boardId,
+    columnIds: { ...DEFAULT_LEAD_FORM_COLUMN_IDS, ...columnIds },
+    serviceColumnType,
+  });
 
   const inputClass = `w-full px-4 py-3 rounded-xl border outline-none transition-colors text-sm ${
     dk
@@ -110,72 +85,13 @@ export default function MondayForm({
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleaned = e.target.value.replace(/[^\d+\s\-()]/g, '');
+    const cleaned = sanitizePhoneInput(e.target.value);
     setForm(prev => ({ ...prev, phone: cleaned }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-
-    // Email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) {
-      setError('Please enter a valid email address.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    const today = new Date().toISOString().split('T')[0];
-
-    const columnValues = JSON.stringify({
-      [cols.date]:     { date: today },
-      [cols.email]:    form.email,
-      [cols.phone]:    form.phone.replace(/[^\d+]/g, ''),
-      [cols.country]:  form.country,
-      [cols.industry]: form.industry,
-      [cols.service]:  serviceColumnType === 'dropdown'
-                         ? { labels: [form.service] }
-                         : form.service,
-      [cols.comments]: form.comments,
-    });
-
-    const query = `
-      mutation {
-        create_item(
-          board_id: ${boardId},
-          item_name: ${JSON.stringify(form.name)},
-          column_values: ${JSON.stringify(columnValues)}
-        ) { id }
-      }
-    `;
-
-    try {
-      const res = await fetch('https://api.monday.com/v2', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': VITE_MONDAY_API_TOKEN,
-          'API-Version': '2024-01',
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      const data = await res.json();
-
-      if (data.errors || !data.data?.create_item?.id) {
-        console.error('Monday API response:', JSON.stringify(data, null, 2));
-        setError('Something went wrong. Please try again or email admin@connectified.com.au');
-        setIsSubmitting(false);
-        return;
-      }
-
-      setIsSubmitted(true);
-    } catch {
-      setError('Something went wrong. Please try again or email admin@connectified.com.au');
-    } finally {
-      setIsSubmitting(false);
-    }
+    await submit(form);
   };
 
   if (isSubmitted) {
@@ -211,15 +127,15 @@ export default function MondayForm({
           <label className={labelClass}>Email Address <span style={{ color: accentColor }}>*</span></label>
           <input required type="email" name="email" value={form.email}
             onChange={handleChange} placeholder="jane@company.com.au"
-            pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+            pattern={EMAIL_PATTERN.source}
             className={`${inputClass} ${
-              form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+              form.email && !isValidEmail(form.email)
                 ? 'border-red-400 focus:border-red-400'
-                : form.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)
+                : form.email && isValidEmail(form.email)
                   ? 'border-green-400 focus:border-green-400'
                   : ''
             }`} />
-          {form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email) && (
+          {form.email && !isValidEmail(form.email) && (
             <p className="text-[10px] text-red-400 mt-1">Please enter a valid email address</p>
           )}
         </div>

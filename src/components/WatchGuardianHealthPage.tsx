@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ChevronRight, Shield, MapPin, Bell, Mic, Heart, Lock } from 'lucide-react';
 import SEO from './SEO';
+import type { ProductVariantLink } from '@/src/types/content';
+import type { PageProps } from '@/src/types/navigation';
 
 const ACCENT = '#2ecc8e';
 const ACCENT_BG = 'rgba(46,204,142,0.1)';
@@ -47,7 +49,7 @@ const FaqItem: React.FC<{ q: string; a: string; theme: string; index: number }> 
   );
 };
 
-interface Props { theme: 'dark' | 'light'; onBack: () => void; onNavigate: (page: string) => void; }
+type Props = PageProps;
 
 export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: Props) {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -96,7 +98,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
           <div className={`absolute inset-0 bg-gradient-to-b ${dk ? 'from-[#0b1118]/20 via-[#0b1118]/70 to-[#0b1118]' : 'from-white/20 via-white/60 to-white'}`} />
           <div className="grid-overlay" />
         </div>
-        <CWatermark className="watermark-c-hero hidden lg:block" style={{ color: ACCENT } as any} />
+        <CWatermark className="watermark-c-hero hidden lg:block" style={{ color: ACCENT }} />
 
         <div className="relative z-10 max-w-[1100px]">
           <motion.div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.14em] text-[#5e6e82] mb-5"
@@ -141,7 +143,7 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
             <button onClick={() => onNavigate('/wearables')}
               className={`inline-flex items-center gap-2 px-7 py-3.5 border font-display text-xs font-bold uppercase tracking-[0.12em] rounded-full transition-colors ${
                 dk ? 'border-white/15 text-white hover:text-[#2ecc8e]' : 'border-black/15 text-black'
-              }`} style={{ '--hover-border': ACCENT } as any}>
+              }`} style={{ '--hover-border': ACCENT } as React.CSSProperties}>
               All Wearables
             </button>
           </motion.div>
@@ -150,11 +152,11 @@ export default function WatchGuardianHealthPage({ theme, onBack, onNavigate }: P
           <motion.div className={`flex flex-wrap items-center gap-3 pt-8 border-t ${dk ? 'border-white/10' : 'border-black/10'}`}
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.48 }}>
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5e6e82]">Also in this series</span>
-            {[
+            {([
               { label: "Watch Guardian", color: "#14ACD4", page: '/wearables/watch-guardian' },
               { label: "Watch Guardian Assist", color: "#9b7fe8", page: '/wearables/watch-guardian-assist' },
-            ].map((v, i) => (
-              <button key={i} onClick={() => onNavigate(v.page)}
+            ] satisfies readonly ProductVariantLink[]).map((v) => (
+              <button key={v.label} onClick={() => onNavigate(v.page)}
                 className={`flex items-center gap-2 border rounded-md px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.06em] transition-colors ${
                   dk ? 'bg-white/5 border-white/10 text-[#eef2f7]/55 hover:border-white/30' : 'bg-black/5 border-black/10 text-[#0b1118]/55'
                 }`}>

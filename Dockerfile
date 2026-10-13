@@ -8,9 +8,6 @@ RUN npm install
 
 COPY . .
 
-ARG VITE_MONDAY_API_TOKEN
-ENV VITE_MONDAY_API_TOKEN=${VITE_MONDAY_API_TOKEN}
-
 RUN npm run build
 
 FROM nginx:stable-alpine AS production-stage
