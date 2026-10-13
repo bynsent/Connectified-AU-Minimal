@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import SIMSignupPage from './components/SIMSignupPage';
 import SIMTicketPage from './components/SIMTicketPage';
+import PinnaclePage from './components/PinnaclePage';
 import { SHOP_URL } from '@/src/config/constants';
 import { useAppNavigation } from '@/src/hooks/useAppNavigation';
 import type { HomePillar, MenuItem } from '@/src/types/navigation';
@@ -216,6 +217,7 @@ export default function App() {
       title: "SIM Services",
       id: 'sim',
       subItems: [
+        { label: "Pinnacle Fleet Dashboard", path: '/sim/pinnacle' },
         { label: "Sign Up", path: '/sim/signup' },
         { label: "Activation Request", path: '/sim/ticket' },
       ]
@@ -734,6 +736,7 @@ export default function App() {
           <Route path="/contact" element={<PageWrap><ContactPage theme={theme} onBack={handleBackToHome} /></PageWrap>} />
 
           {/* SIM SERVICES */}
+          <Route path="/sim/pinnacle" element={<PageWrap><PinnaclePage theme={theme} onBack={() => navigate('/sim/signup')} onNavigate={goTo} /></PageWrap>} />
           <Route path="/sim/signup" element={<PageWrap><SIMSignupPage theme={theme} onBack={() => navigate('/')} /></PageWrap>} />
           <Route path="/sim/ticket" element={<PageWrap><SIMTicketPage theme={theme} onBack={() => navigate('/')} /></PageWrap>} />
 
